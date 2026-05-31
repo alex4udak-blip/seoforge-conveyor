@@ -53,9 +53,16 @@ def generate(req: GenReq):
     except Exception as e:
         return JSONResponse(status_code=500, content={"ok":False,"error":str(e)})
 
-# отдаём сгенерированные сайты статикой
-if os.path.isdir("output"):
-    app.mount("/site", StaticFiles(directory="output"), name="site")
+# отдаём сгенерированные сайты через route (mount не видит папки созданные после старта)
+from fastapi.responses import FileResponse, PlainTextResponse
+@app.get("/site/{slug}")
+@app.get("/site/{slug}/{path:path}")
+def serve_site(slug: str, path: str = "index.html"):
+    base = os.path.abspath("output")
+    fp = os.path.abspath(os.path.join(base, slug, path or "index.html"))
+    if not fp.startswith(base) or not os.path.isfile(fp):
+        return PlainTextResponse("404", status_code=404)
+    return FileResponse(fp)
 
 if __name__=="__main__":
     import uvicorn
