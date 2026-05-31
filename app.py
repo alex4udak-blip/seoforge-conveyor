@@ -64,6 +64,57 @@ def network():
                     "url":f"/site/{s}/index.html"})
     return {"count":len(out),"network":out}
 
+@app.get("/metrics/{slug}")
+def site_metrics(slug: str):
+    """Проваливание вглубь по 1 сайту: страницы, vision-разбор+фиксы, история, заглушки SERP/Keitaro."""
+    import os as _os
+    d=f"output/{slug}"
+    if not _os.path.isdir(d): return JSONResponse(status_code=404, content={"error":"site not found"})
+    m=_load_net().get(slug,{})
+    pages=[]
+    for f in sorted(_os.listdir(d)):
+        if f.endswith(".html"):
+            pages.append({"page":f,"bytes":_os.path.getsize(_os.path.join(d,f))})
+    return {
+        "slug":slug,"brand":m.get("brand"),"geo":m.get("geo"),"domain":m.get("domain"),
+        "pages_count":len(pages),"pages":pages,
+        "vision":{"score":m.get("audit_score"),"breakdown":m.get("audit_scores"),"fixes":m.get("audit_fixes")},
+        "history":m.get("history",[]),
+        "serp":{"status":"not_wired","note":"подключить SERP-сканер (позиции по ключам)"},
+        "keitaro":{"status":"not_wired","note":"подключить Keitaro API (депы/клики/EPC)"},
+        "indexation":{"status":"not_wired","note":"GSC/Bing API"},
+    }
+
+@app.get("/dash/{slug}", response_class=HTMLResponse)
+def site_dashboard(slug: str):
+    """HTML страница глубокого анализа одного сайта сети."""
+    import os as _os
+    d=f"output/{slug}"
+    if not _os.path.isdir(d): return HTMLResponse("<h1>404 — сайта нет в сети</h1>", status_code=404)
+    m=_load_net().get(slug,{})
+    bd=m.get("audit_scores") or {}
+    rows=""
+    for k,v in bd.items():
+        sc=v.get("score") if isinstance(v,dict) else v
+        why=v.get("why","") if isinstance(v,dict) else ""
+        col="#00e5a0" if isinstance(sc,(int,float)) and sc>=70 else ("#f5b73d" if isinstance(sc,(int,float)) and sc>=50 else "#ff6b6b")
+        rows+=f'<tr><td>{k}</td><td style="color:{col};font-weight:700">{sc}</td><td style="opacity:.7">{why}</td></tr>'
+    pg=""
+    for f in sorted(_os.listdir(d)):
+        if f.endswith(".html"): pg+=f'<li><a href="/site/{slug}/{f}" target="_blank">{f}</a></li>'
+    fixes="".join(f"<li>{x}</li>" for x in (m.get("audit_fixes") or []))
+    return f"""<!doctype html><html><head><meta charset=utf-8><title>{slug} — анализ</title>
+<style>body{{font-family:system-ui;background:#0a0e1a;color:#eaf0ff;margin:0;padding:30px;max-width:900px;margin:auto}}
+a{{color:#22d3ee}}h1{{color:#00e5a0}}table{{width:100%;border-collapse:collapse;margin:14px 0}}td{{padding:8px;border-bottom:1px solid #ffffff14}}
+.box{{background:#121829;border:1px solid #ffffff14;border-radius:12px;padding:18px;margin:14px 0}}.big{{font-size:40px;font-weight:800;color:#00e5a0}}</style></head>
+<body><a href="/">← сеть</a><h1>{m.get('brand',slug)} <span style="opacity:.5">/{m.get('geo','?')}</span></h1>
+<div class="box"><div>vision-балл</div><div class="big">{m.get('audit_score','—')}</div></div>
+<div class="box"><h3>Разбор по критериям</h3><table>{rows or '<tr><td>нет аудита — POST /audit</td></tr>'}</table></div>
+<div class="box"><h3>Что чинить (приоритет)</h3><ol>{fixes or '<li>—</li>'}</ol></div>
+<div class="box"><h3>Страницы ({pg.count('<li>')})</h3><ul>{pg}</ul></div>
+<div class="box" style="opacity:.6"><h3>Метрики (в работе)</h3>SERP-позиции · Keitaro депы/EPC · индексация GSC — подключаются</div>
+</body></html>"""
+
 @app.post("/generate")
 def generate(req: GenReq):
     try:
