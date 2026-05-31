@@ -1,7 +1,9 @@
-FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
+FROM python:3.11-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+# chromium + все системные apt-зависимости (--with-deps ставит их сам)
+RUN python -m playwright install --with-deps chromium
 COPY . .
 ENV PORT=8000
 EXPOSE 8000
