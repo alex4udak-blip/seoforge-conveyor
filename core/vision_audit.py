@@ -24,9 +24,10 @@ with sync_playwright() as p:
     except Exception as e: print('warn',e)
     pg.screenshot(path='{path}',full_page=False); b.close()
 """
+    import sys
     venv="/Users/marsatim/Projects/SEO-Scanner-Pro/venv/bin/python"
-    py=venv if os.path.exists(venv) else "python3"
-    try: subprocess.run([py,"-c",code],timeout=60); return os.path.exists(path)
+    py=venv if os.path.exists(venv) else sys.executable  # на сервере = /opt/venv с playwright
+    try: subprocess.run([py,"-c",code],timeout=90); return os.path.exists(path)
     except Exception: return False
 
 def _b64(p): return base64.b64encode(open(p,"rb").read()).decode()
