@@ -35,6 +35,26 @@ def health(): return {"status":"ok","service":"SEOForge"}
 def sites():
     return {"sites":[os.path.basename(d) for d in glob.glob("output/*") if os.path.isdir(d) and not d.endswith("assets")]}
 
+class AuditReq(BaseModel):
+    slug: str
+    geo: str = "in"
+    keyword: str = "online casino"
+    competitors: list = []
+
+@app.post("/audit")
+def audit_site(req: AuditReq):
+    """Умная vision-оценка сгенерированного сайта по рубрике + сравнение с конкурентами."""
+    try:
+        from core.vision_audit import audit, weighted
+        base=os.environ.get("SELF_URL","http://localhost:8000")
+        our=f"{base}/site/{req.slug}/index.html"
+        res=audit(our, req.competitors, req.geo, req.keyword)
+        if "scores" in res:
+            res["weighted_recomputed"]=weighted(res["scores"])
+        return res
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"ok":False,"error":str(e)})
+
 @app.post("/generate")
 def generate(req: GenReq):
     try:
