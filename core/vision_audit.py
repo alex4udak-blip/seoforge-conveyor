@@ -19,7 +19,7 @@ def _shot(url, path):
     code=f"""
 from playwright.sync_api import sync_playwright
 with sync_playwright() as p:
-    b=p.chromium.launch(); pg=b.new_page(viewport={{'width':1000,'height':1400}},device_scale_factor=1)
+    b=p.chromium.launch(); pg=b.new_page(viewport={{'width':1000,'height':1400}})
     try: pg.goto('{url}',wait_until='networkidle',timeout=30000); pg.wait_for_timeout(2500)
     except Exception as e: print('warn',e)
     pg.screenshot(path='{path}',full_page=False); b.close()
