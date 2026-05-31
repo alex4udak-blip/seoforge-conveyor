@@ -164,6 +164,26 @@ def audit_site(req: AuditReq):
     except Exception as e:
         return JSONResponse(status_code=500, content={"ok":False,"error":str(e)})
 
+class ScoreReq(BaseModel):
+    slug: str; brand: str=""; geo: str=""; weighted_total: float=0
+    scores: dict={}; fixes: list=[]
+
+@app.post("/score")
+def write_score(req: ScoreReq):
+    """Записать готовый vision-балл в реестр сети (vision гоняется внешне — локальный playwright vs живой прод-URL,
+    т.к. Saturn не пересобирает образ с playwright). Так панель сети наполняется реальными оценками."""
+    net=_load_net()
+    cur=net.get(req.slug,{})
+    hist=cur.get("history",[])
+    if cur.get("audit_score") is not None:
+        hist=hist+[{"score":cur.get("audit_score")}]
+    net[req.slug]={**cur,
+        "brand":req.brand or cur.get("brand"),"geo":req.geo or cur.get("geo"),
+        "audit_score":req.weighted_total,"audit_scores":req.scores,"audit_fixes":req.fixes,
+        "history":hist[-20:]}
+    _save_net(net)
+    return {"ok":True,"slug":req.slug,"score":req.weighted_total}
+
 @app.get("/site/{slug}")
 @app.get("/site/{slug}/{path:path}")
 def serve_site(slug: str, path: str="index.html"):
