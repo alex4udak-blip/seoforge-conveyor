@@ -27,6 +27,23 @@ class AuditReq(BaseModel):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/debug")
+def debug():
+    """Ground-truth из контейнера: какой python, есть ли playwright, стартует ли chromium."""
+    import sys, subprocess, shutil
+    info={"executable":sys.executable,"version":sys.version.split()[0]}
+    try:
+        import playwright; info["playwright_import"]="OK "+getattr(playwright,"__version__","?")
+    except Exception as e: info["playwright_import"]="FAIL: "+str(e)[:120]
+    # запуск через тот же python что и _shot
+    code="from playwright.sync_api import sync_playwright\nwith sync_playwright() as p:\n b=p.chromium.launch(args=['--no-sandbox']); b.close(); print('LAUNCH_OK')"
+    try:
+        r=subprocess.run([sys.executable,"-c",code],capture_output=True,text=True,timeout=60)
+        info["chromium_launch"]=(r.stdout.strip() or "")+" | err:"+(r.stderr or "")[:200]
+    except Exception as e: info["chromium_launch"]="EXC: "+str(e)[:150]
+    info["chromium_bin"]=shutil.which("chromium") or shutil.which("chromium-browser") or "not-in-PATH"
+    return info
+
 @app.get("/sites")
 def sites(): return {"sites":_site_slugs()}
 
