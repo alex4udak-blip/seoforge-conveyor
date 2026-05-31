@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+CHECKPOINT.md
+BUGS_NEXT.md
+MASTER_PLAN.md
+output/
