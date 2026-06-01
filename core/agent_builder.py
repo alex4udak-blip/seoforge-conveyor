@@ -10,6 +10,31 @@ from core.footprint import mutate
 
 def _h(seed, k): return int(hashlib.sha256(f"{seed}:{k}".encode()).hexdigest(), 16)
 
+# вариативные фирменные фразы — у каждого домена свои (анти текст-футпринт)
+def phrase(domain, kind, **kw):
+    i = _h(domain, kind)
+    if kind == "bonus":
+        forms = [
+            "200% up to {bonus} + 250 Free Spins",
+            "Welcome package: {bonus} across first 3 deposits",
+            "Get {bonus} bonus plus 200 spins on signup",
+            "Double your first deposit up to {bonus}",
+            "{bonus} welcome offer + free spins bundle",
+            "New players: claim {bonus} + spin rewards",
+        ]
+        return forms[i % len(forms)].format(**kw)
+    if kind == "winners":
+        forms = [
+            "{wc} players won today · {cur}{amt} paid this week",
+            "{cur}{amt} in winnings paid out · {wc} winners this week",
+            "Join {wc}+ winners — {cur}{amt} cashed out recently",
+            "This week: {cur}{amt} paid to {wc} lucky players",
+            "{wc} recent wins · fast {cur} payouts every day",
+        ]
+        wc = 1000 + (i % 900); amt = f"{1 + i % 9}.{i % 9}M"
+        return forms[i % len(forms)].format(wc=wc, cur=kw.get("cur", "$"), amt=amt)
+    return ""
+
 def _schema(brand, keyword, domain, geo, content):
     g = [
         {"@type": "Organization", "name": brand, "url": f"https://{domain}/"},
@@ -85,7 +110,7 @@ def build(brand, keyword, geo, domain, plan, content, assets=None):
     blocks_html = "".join(_block_html(domain, i, b, content.get(b, {})) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
     # hero зависит от layout — разный первый экран
-    hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")))
+    hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{_html.escape(brand)} — {_html.escape(keyword.title())} {g}</title>
@@ -107,9 +132,9 @@ h1{{font-size:30px}}h2,.h2{{color:var(--accent);font-size:21px;margin-top:8px}}h
 </body></html>"""
     return mutate(html, domain)   # анти-footprint пост-процессор
 
-def _hero(layout, brand, h1, maxbonus, cur, pays, g, lead):
+def _hero(layout, brand, h1, maxbonus, cur, pays, g, lead, domain=""):
     b = _html.escape(brand)
-    bonus = f'<div class="hb">200% up to {maxbonus} + 250 Free Spins · {pays}</div>'
+    bonus = f'<div class="hb">{phrase(domain or brand, "bonus", bonus=maxbonus)} · {pays}</div>'
     cta = '<a class="cta" href="/go/">Claim Bonus Now</a>'
     if layout == "review-first":
         return f'<header class="hero"><div class="wrap"><span>Expert Review</span><h1>{h1}</h1><p class="lead">{lead}</p>{cta}{bonus}</div></header>'

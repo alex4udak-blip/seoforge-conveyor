@@ -59,11 +59,16 @@ def _body_top(p, geo, maxbonus, cur, pays, navhtml, meta):
     b = html.escape(p['brand']); g = geo.upper()
     h1 = html.escape(p['keyword'].title()) + f" — {b} {g}"
     paystr = ", ".join(pays[:3]) or "Fast payouts"
-    promo = f'<div class="promo-bar">LIMITED: {b} gives 200% up to {maxbonus} + 250 Free Spins — TODAY ONLY</div>'
+    from core.agent_builder import phrase as _phr
+    promo = f'<div class="promo-bar">LIMITED: {_phr(p["domain"],"bonus",bonus=maxbonus)} — TODAY ONLY</div>'
     header = f'<header class="top"><div class="topin"><span class="brandmark">{b}</span><nav class="nav">{navhtml}</nav></div></header>'
-    trust = '<div class="trust"><span>Licensed</span><span>SSL Secure</span><span>24h Payouts</span><span>'+("Verified for "+g)+'</span></div>'
-    winners = f'<div class="winners"><b id="wc">1,247</b> players won today · {cur}4.2M paid out this week</div>'
-    bonus = f'<div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">200% up to {maxbonus}</span><span class="hbsub">+ 250 Free Spins · {paystr}</span></div>'
+    _tb=[["Licensed","SSL Secure","24h Payouts"],["Verified Operator","Encrypted","Fast Cashout"],
+         ["Regulated","Secure Play","Instant Withdrawals"],["Certified","256-bit SSL","Same-day Payouts"],
+         ["Trusted Brand","Protected","Quick Payouts"]]
+    _ti=_vh(p["domain"],"trustbadges")%len(_tb)
+    trust='<div class="trust">'+"".join(f'<span>{x}</span>' for x in _tb[_ti])+f'<span>{g} Approved</span></div>'
+    winners = f'<div class="winners">{_phr(p["domain"],"winners",cur=cur)}</div>'
+    bonus = f'<div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">{_phr(p["domain"],"bonus",bonus=maxbonus)}</span><span class="hbsub">{paystr}</span></div>'
     cta = '<a class="btn" href="/go/">Claim Bonus Now</a>'
     lic = '<div class="licenses"><span>Curacao Licensed</span><span>MGA Certified</span><span>eCOGRA Tested</span><span>SSL 256-bit</span><span>18+ Responsible</span></div>'
     v = _vh(p["domain"], "bodytop") % 5

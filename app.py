@@ -45,17 +45,31 @@ def domains_check(brand: str):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
+def _load_network_html():
+    sites = []
+    for slug in _site_slugs():
+        fp = os.path.abspath(os.path.join("output", slug, "index.html"))
+        if os.path.isfile(fp):
+            m = _load_net().get(slug, {})
+            sites.append({"slug": slug, "html": open(fp, encoding="utf-8", errors="ignore").read(),
+                          "ip": m.get("cf_ip"), "ns": m.get("ns"), "deployed_date": m.get("deployed_date")})
+    return sites
+
 @app.get("/footprint")
 def footprint_scan():
-    """Footprint-анализатор: насколько сайты сети структурно похожи (риск склейки/бана Google)."""
+    """Структурная похожесть тег-скелетов (1 из 6 сигналов)."""
     try:
         from core.footprint import analyze
-        sites = []
-        for slug in _site_slugs():
-            fp = os.path.abspath(os.path.join("output", slug, "index.html"))
-            if os.path.isfile(fp):
-                sites.append({"slug": slug, "html": open(fp, encoding="utf-8", errors="ignore").read()})
-        return analyze(sites)
+        return analyze([{"slug": s["slug"], "html": s["html"]} for s in _load_network_html()])
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
+@app.get("/footprint-audit")
+def footprint_audit_ep():
+    """ПРАВИЛЬНЫЙ аудит сети по 6 векторам Google (IP/tracking/перелинковка/текст/NS/даты)."""
+    try:
+        from core.footprint_audit import audit
+        return audit(_load_network_html())
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
