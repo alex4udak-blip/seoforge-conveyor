@@ -88,10 +88,71 @@ def nc_set_cf_nameservers(domain, name_servers):
     return _nc_call("namecheap.domains.dns.setCustom",
                     {"SLD": sld, "TLD": tld, "Nameservers": ",".join(name_servers)})
 
+# ---------- Hetzner Cloud (1 общий сервер на МНОГО сайтов — экономия) ----------
+HC = "https://api.hetzner.cloud/v1"
+SHARED_SERVER_NAME = "seoforge-web-1"  # один сервер, на нём все сайты (nginx vhost на домен)
+
+def _hc_req(method, path, body=None):
+    tok = os.environ.get("HETZNER_API_TOKEN", "")
+    if not tok:
+        return {"skipped": "no HETZNER_API_TOKEN"}
+    data = json.dumps(body).encode() if body is not None else None
+    req = urllib.request.Request(HC + path, data=data, method=method,
+        headers={"Authorization": "Bearer " + tok, "Content-Type": "application/json"})
+    try:
+        return json.loads(urllib.request.urlopen(req, timeout=40).read())
+    except urllib.error.HTTPError as e:
+        return {"error": e.read().decode()[:300]}
+
+def ht_server_ip(name=SHARED_SERVER_NAME):
+    """IP существующего общего сервера (None если нет — значит надо создать 1 раз)."""
+    r = _hc_req("GET", f"/servers?name={name}")
+    ss = (r or {}).get("servers", [])
+    if ss:
+        return ss[0].get("public_net", {}).get("ipv4", {}).get("ip")
+    return None
+
+# cloud-init: ставит nginx, готовит /var/www/<domain> и общий vhost-каталог
+_CLOUD_INIT = """#cloud-config
+packages: [nginx]
+runcmd:
+  - mkdir -p /var/www/_sites
+  - rm -f /etc/nginx/sites-enabled/default
+  - bash -c 'cat > /etc/nginx/sites-available/seoforge <<EOF
+server {
+  listen 80 default_server;
+  root /var/www/_sites/\\$http_host;
+  index index.html;
+  location / { try_files \\$uri \\$uri/ /index.html; }
+}
+EOF'
+  - ln -sf /etc/nginx/sites-available/seoforge /etc/nginx/sites-enabled/seoforge
+  - systemctl enable nginx && systemctl restart nginx
+"""
+
+def ht_create_shared_server(server_type="cx23", location="nbg1", image="ubuntu-24.04", ssh_keys=None):
+    """Создаёт ОДИН общий сервер (если ещё нет). Возвращает {ip, created|exists}."""
+    ip = ht_server_ip()
+    if ip:
+        return {"ip": ip, "status": "exists"}
+    body = {"name": SHARED_SERVER_NAME, "server_type": server_type, "location": location,
+            "image": image, "user_data": _CLOUD_INIT, "start_after_create": True}
+    if ssh_keys:
+        body["ssh_keys"] = ssh_keys
+    r = _hc_req("POST", "/servers", body)
+    if r.get("server"):
+        return {"ip": r["server"].get("public_net", {}).get("ipv4", {}).get("ip"), "status": "created",
+                "id": r["server"]["id"]}
+    return {"status": "error", "raw": r}
+
 # ---------- Оркестратор ----------
-def provision(domain, server_ip, buy=False):
-    """домен (опц. покупка) → CF zone → NS у регистратора → A проксированная → SSL. Возвращает отчёт."""
+def provision(domain, server_ip=None, buy=False):
+    """домен (опц. покупка) → CF zone → NS у регистратора → A проксированная → SSL. Возвращает отчёт.
+    server_ip=None → берём IP общего Hetzner-сервера (1 сервер на много сайтов)."""
+    server_ip = server_ip or ht_server_ip()
     report = {"domain": domain, "server_ip": server_ip, "steps": {}}
+    if not server_ip:
+        report["steps"]["server"] = "нет общего сервера — создай ht_create_shared_server() или передай IP (напр. Saturn)"
     if buy:
         report["steps"]["buy"] = nc_register(domain)
     zone = cf_add_zone(domain)
