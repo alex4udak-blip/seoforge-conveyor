@@ -50,23 +50,36 @@ def sites(): return {"sites":_site_slugs()}
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     net=_load_net(); slugs=_site_slugs()
-    cards=""
-    for s in slugs:
-        m=net.get(s,{}); score=m.get("audit_score","—"); geo=m.get("geo","?"); brand=m.get("brand",s)
+    cards=""; tot=0; cnt=0
+    for s in sorted(slugs, key=lambda x:-(net.get(x,{}).get("audit_score") or 0)):
+        m=net.get(s,{}); score=m.get("audit_score","—"); geo=str(m.get("geo") or "?"); brand=str(m.get("brand") or s)
+        if isinstance(score,(int,float)): tot+=score; cnt+=1
         color="#00e5a0" if isinstance(score,(int,float)) and score>=70 else ("#f5b73d" if isinstance(score,(int,float)) and score>=50 else "#888")
-        cards+=f'''<div class="card"><div class="ch"><b>{brand}</b><span class="geo">{geo.upper()}</span></div>
-        <a class="vis" href="/site/{s}/index.html" target="_blank">открыть сайт →</a>
-        <div class="score" style="color:{color}">vision: {score}</div></div>'''
+        build=m.get("build","")
+        badge=f'<span class="bd">{build}</span>' if build in ("building","error") else ""
+        cards+=f'''<a class="card" href="/dash/{s}">
+        <div class="ch"><b>{brand}</b><span class="geo">{geo.upper()}</span></div>
+        <div class="score" style="color:{color}">vision: {score}</div>{badge}
+        <div class="sub">анализ вглубь →</div></a>'''
+    avg=round(tot/cnt,1) if cnt else "—"
     return f"""<!doctype html><html><head><meta charset=utf-8><title>SEOForge — панель сети</title>
+<meta name=viewport content="width=device-width,initial-scale=1">
 <style>body{{font-family:system-ui;background:#0a0e1a;color:#eaf0ff;margin:0;padding:30px}}
-h1{{color:#00e5a0}}.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:20px}}
-.card{{background:#121829;border:1px solid #ffffff14;border-radius:14px;padding:16px}}.ch{{display:flex;justify-content:space-between;align-items:center}}
-.geo{{background:#00e5a022;color:#00e5a0;padding:2px 8px;border-radius:6px;font-size:12px}}.vis{{color:#22d3ee;font-size:13px;text-decoration:none}}
-.score{{margin-top:8px;font-weight:700}}code{{background:#1a2030;padding:2px 6px;border-radius:4px}}.ep{{opacity:.7;font-size:13px;line-height:1.8}}</style></head>
+a{{text-decoration:none;color:inherit}}h1{{color:#00e5a0;margin-bottom:4px}}
+.stats{{display:flex;gap:24px;margin:16px 0}}.stat{{background:#121829;border:1px solid #ffffff14;border-radius:12px;padding:12px 20px}}
+.stat b{{font-size:26px;color:#00e5a0}}.stat span{{opacity:.6;font-size:12px;display:block}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:14px}}
+.card{{background:#121829;border:1px solid #ffffff14;border-radius:14px;padding:16px;display:block;transition:.15s}}
+.card:hover{{border-color:#00e5a055;transform:translateY(-2px)}}.ch{{display:flex;justify-content:space-between;align-items:center}}
+.geo{{background:#00e5a022;color:#00e5a0;padding:2px 8px;border-radius:6px;font-size:12px}}
+.score{{margin-top:10px;font-weight:700;font-size:18px}}.sub{{color:#22d3ee;font-size:12px;margin-top:8px}}
+.bd{{font-size:11px;color:#f5b73d}}code{{background:#1a2030;padding:2px 6px;border-radius:4px;font-size:12px}}.ep{{opacity:.6;font-size:12px;line-height:1.8;margin-top:10px}}</style></head>
 <body><h1>🔥 SEOForge — панель управления сетью</h1>
-<p>Генератор + vision-оценка + деплой + метрики. Сеть гембл-SEO сайтов на Hetzner/Saturn.</p>
-<div class="ep">API: <code>POST /generate</code> · <code>POST /audit</code> · <code>GET /network</code> · <code>GET /sites</code> · <code>GET /health</code></div>
-<h2>Сеть сайтов ({len(slugs)})</h2><div class="grid">{cards or '<p>пока пусто — POST /generate</p>'}</div>
+<p style="opacity:.7">Единый интерфейс: генерация + vision-оценка + метрики. Гембл-SEO сеть на Hetzner/Saturn.</p>
+<div class="stats"><div class="stat"><b>{len(slugs)}</b><span>сайтов в сети</span></div>
+<div class="stat"><b>{avg}</b><span>средний vision</span></div></div>
+<div class="grid">{cards or '<p>пока пусто — POST /generate</p>'}</div>
+<div class="ep">API: <code>/network</code> · <code>/metrics/&#123;slug&#125;</code> · <code>/dash/&#123;slug&#125;</code> · <code>POST /generate</code> · <code>POST /score</code></div>
 </body></html>"""
 
 @app.get("/network")
