@@ -27,6 +27,15 @@ class AuditReq(BaseModel):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/suggest")
+def suggest_ideas(geo: str=None, seed: int=0):
+    """Авто-предложения для не-сеошника: готовые бренды, домены, гео, ключи из базы знаний."""
+    try:
+        from core.suggest import suggest
+        return suggest(geo, seed)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
 @app.get("/recon")
 def recon_serp(keyword: str, geo: str="in", n: int=10):
     """Разведка конкурентов: топ органики по ключу+гео + классификация footprint (наша разработка)."""

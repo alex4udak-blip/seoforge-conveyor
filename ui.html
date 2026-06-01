@@ -108,16 +108,23 @@ td{padding:11px 10px;border-top:1px solid var(--line);font-size:13.5px;vertical-
     <div class="grid" id="grid"></div>
   </div>
   <div class="panel" id="create">
-    <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Новый сайт в сеть</h2>
-    <div class="form">
-      <div class="row"><div><label>Домен (slug)</label><input id="c_dom" placeholder="luckyspin-in"></div>
-      <div><label>Бренд</label><input id="c_brand" placeholder="LuckySpin"></div></div>
-      <div class="row"><div><label>Гео</label><select id="c_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select></div>
-      <div><label>Режим</label><select id="c_mode"><option value="brand">Бренд (14 страниц)</option><option value="showcase">Витрина</option></select></div></div>
-      <button class="btn" id="genbtn" onclick="doGen()"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Сгенерировать</button>
-      <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Сборка идёт в фоне ~60-90с. Прогресс виден в реальном времени на вкладке «Обзор».</div>
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z"/></svg>Готовые идеи — софт подобрал под спрос</h2>
+    <div class="sub" style="margin-bottom:14px">Не знаешь что вводить — просто выбери карточку. Бренд, домен и гео уже подобраны под горячий спрос. Или жми «Случайная идея».</div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+      <button class="btn sec" onclick="rollIdeas()"><svg class="ic" viewBox="0 0 24 24"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7"/></svg>Случайная идея</button>
+      <select id="i_geo" onchange="loadIdeas()" style="max-width:200px"><option value="">Все гео</option></select>
     </div>
-    <div id="c_prog"></div>
+    <div class="grid" id="ideas"></div>
+    <h2 style="margin-top:28px"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Параметры сайта</h2>
+    <div class="form">
+      <div class="row"><div><label>Бренд</label><input id="c_brand" placeholder="выбери идею выше ↑"></div>
+      <div><label>Домен (slug)</label><input id="c_dom" placeholder="заполнится автоматически"></div></div>
+      <div class="row"><div><label>Гео</label><select id="c_geo"></select></div>
+      <div><label>Тип сайта</label><select id="c_mode"></select></div></div>
+      <div id="c_modedesc" class="note"></div>
+      <button class="btn" id="genbtn" onclick="doGen()"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Сгенерировать сайт</button>
+      <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Сборка в фоне ~60-90с — прогресс в «Обзор».</div>
+    </div>
   </div>
   <div class="panel" id="metrics">
     <h2><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Глубокий анализ сайта</h2>
@@ -131,9 +138,11 @@ td{padding:11px 10px;border-top:1px solid var(--line);font-size:13.5px;vertical-
   </div>
   <div class="panel" id="recon">
     <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведка выдачи конкурентов <span class="sub">— наша разработка</span></h2>
-    <div class="form" style="max-width:640px">
+    <div class="form" style="max-width:680px">
       <div class="row"><div><label>Ключевой запрос</label><input id="r_kw" placeholder="online casino india"></div>
-      <div style="max-width:120px"><label>Гео</label><select id="r_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select></div></div>
+      <div style="max-width:130px"><label>Гео</label><select id="r_geo" onchange="rkwHints()"></select></div></div>
+      <label>Подсказки запросов (клик — подставит):</label>
+      <div id="r_hints" style="display:flex;gap:8px;flex-wrap:wrap"></div>
       <button class="btn" id="rbtn" onclick="doRecon()"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведать топ выдачи</button>
       <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Живой топ органики + классификация footprint: бренд-казино vs афилейт-обзорники — куда бить.</div>
     </div>
@@ -230,7 +239,50 @@ async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)
 function toast(m){const t=document.createElement('div');t.className='toast';
   t.innerHTML='<svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'+m;document.body.appendChild(t);
   setTimeout(()=>{t.style.opacity='0';t.style.transition='.4s';setTimeout(()=>t.remove(),400);},2600);}
+// ===== АВТО-ПРЕДЛОЖЕНИЯ (софт сам предлагает) =====
+let SUG=null, seed=0;
+async function loadSuggest(){
+  SUG=await api('/suggest?geo='+(($('#i_geo').value)||'')+'&seed='+seed);
+  // гео-селекты заполняем из базы
+  const geoOpts=SUG.geos.map(g=>`<option value="${g.code}">${g.flag} ${g.name}</option>`).join('');
+  if($('#c_geo').options.length===0)$('#c_geo').innerHTML=geoOpts;
+  if($('#i_geo').options.length<=1)$('#i_geo').innerHTML='<option value="">Все гео</option>'+geoOpts;
+  if($('#r_geo').options.length===0)$('#r_geo').innerHTML=geoOpts;
+  // типы сайтов
+  if($('#c_mode').options.length===0)$('#c_mode').innerHTML=SUG.site_types.map(t=>`<option value="${t.mode}">${t.name}</option>`).join('');
+  modeDesc();
+  renderIdeas();
+}
+function renderIdeas(){
+  $('#ideas').innerHTML=SUG.ideas.map((x,i)=>`<div class="card" onclick="pickIdea(${i})">
+    <div class="ch"><b>${x.brand}</b><span class="geo">${x.geo}</span></div>
+    <div style="color:var(--mut);font-size:12.5px;margin-top:8px">домен: <b style="color:var(--tx)">${x.domain}</b></div>
+    <div style="color:var(--mut);font-size:12.5px;margin-top:4px">${x.reason}</div>
+    <div class="go">Выбрать эту идею <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--acc2)"><path d="M20 6L9 17l-5-5"/></svg></div></div>`).join('');
+}
+function pickIdea(i){const x=SUG.ideas[i];
+  $('#c_brand').value=x.brand;$('#c_dom').value=x.domain;$('#c_geo').value=x.geo;
+  toast('Идея подставлена: '+x.brand+' / '+x.geo.toUpperCase());
+  $('#c_brand').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function rollIdeas(){seed=Math.floor(Math.random()*900)+1;loadSuggest();}
+function loadIdeas(){seed=0;loadSuggest();}
+function modeDesc(){const m=$('#c_mode').value;const t=(SUG.site_types||[]).find(x=>x.mode===m);
+  $('#c_modedesc').innerHTML=t?`<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>${t.desc}`:'';}
+// подсказки запросов для разведки
+async function rkwHints(){const g=$('#r_geo').value;const d=await api('/suggest?geo='+g);
+  $('#r_hints').innerHTML=d.keywords.map(k=>`<span class="pill" style="cursor:pointer" onclick="$('#r_kw').value='${k.kw}';toast('Запрос подставлен')">${k.kw}<span style="color:var(--mut);font-size:10px">${k.type}</span></span>`).join('');}
+
+// хук: при переключении на «Создать»/«Разведка» — подгрузить предложения
+const _navClick=document.querySelectorAll('#nav button');
+_navClick.forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.p==='create'){if(!SUG)loadSuggest();}
+  if(b.dataset.p==='recon'){if($('#r_geo').options.length===0){loadSuggest().then(rkwHints);}else rkwHints();}
+}));
+document.getElementById('c_mode')&&($('#c_mode').onchange=modeDesc);
+
 // realtime loop
 tick();setInterval(tick,4000);
+loadSuggest();
 </script>
 </body></html>
