@@ -1,10 +1,9 @@
-"""КУРИРУЕМЫЙ БАНК изображений (не стоковая рулетка!).
+"""БАНК изображений: Runware (УНИКАЛЬНАЯ генерация под бренд) → fallback курируемый Unsplash.
 
-Проблема: LoremFlickr по тегу выдавал мусор (мерседес вместо казино).
-Решение: конкретные ПРОВЕРЕННЫЕ URL качественных гембл-фото (Unsplash, отобраны вручную).
-Каждое фото проверено что оно реально про казино/игры. Выбор по хешу домена — у каждого свои, стабильно.
+Приоритет: если есть RUNWARE_API_KEY — генерим уникальный казино-визуал под бренд+тему
+(решает footprint — у каждого сайта своя картинка). Иначе — проверенные Unsplash-фото (не сток-рулетка).
 """
-import hashlib
+import hashlib, os
 
 # проверенные фото казино/гембла (Unsplash photo-id, реальные качественные фото)
 HERO = [
@@ -33,9 +32,36 @@ def _pick(pool, domain, key):
 def _url(photo_id, w, h):
     return f"https://images.unsplash.com/photo-{photo_id}?w={w}&h={h}&fit=crop&q=80"
 
-def hero_img(domain, w=1000, h=360):
+_RW_CACHE = {}
+def _runware(prompt, w, h, key):
+    """Генерация уникальной картинки Runware. Кэш по prompt чтоб не дёргать дважды."""
+    if prompt in _RW_CACHE:
+        return _RW_CACHE[prompt]
+    try:
+        import sys
+        sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        os.environ.setdefault("RUNWARE_API_KEY", key)
+        from core.image_agent import gen_image
+        url, _ = gen_image(prompt, w, h)
+        if url:
+            _RW_CACHE[prompt] = url
+        return url
+    except Exception:
+        return None
+
+def hero_img(domain, w=1000, h=440, brand="", vibe="casino"):
+    key = os.environ.get("RUNWARE_API_KEY", "")
+    if key:
+        prompt = f"{vibe} online casino hero banner, {brand}, cinematic premium, dark vibrant, no text, no watermark"
+        u = _runware(prompt, ((w+63)//64)*64, ((h+63)//64)*64, key)
+        if u: return u
     return _url(_pick(HERO, domain, "hero"), w, h)
 
-def game_img(game, domain, w=400, h=260):
+def game_img(game, domain, w=400, h=260, key=None):
+    key = key or os.environ.get("RUNWARE_API_KEY", "")
+    if key:
+        prompt = f"{game} casino game screen, vibrant exciting, mobile, no text, no watermark"
+        u = _runware(prompt, 512, 384, key)
+        if u: return u
     pool = GAME_CAT.get(game.lower(), SLOTS)
     return _url(_pick(pool, domain, f"game_{game}"), w, h)

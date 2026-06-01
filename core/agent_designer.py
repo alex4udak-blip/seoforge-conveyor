@@ -51,17 +51,20 @@ def design_system(brand, geo, niche="casino", recon=None, seed=None):
         return _preset(brand, geo, niche, seed)
     comp = ""
     if recon and recon.get("results"):
-        comp = f"Competitors look generic WordPress. Make it look MORE professional and modern."
-    prompt = f"""You are a senior web designer for a gambling brand "{brand}" ({niche}, geo {geo.upper()}).
+        comp = "Competitors are generic WordPress. Make it look MORE professional and modern than them."
+    prompt = f"""You are a world-class web designer for gambling brand "{brand}" ({niche}, geo {geo.upper()}).
 {comp}
-Design a UNIQUE modern design system (mobile-first, like top 2026 casino sites). Return STRICT JSON:
-{{"name":"theme-name","bg":"#hex dark","surface":"#hex","accent":"#hex bright","accent2":"#hex",
-"text":"#hex light","muted":"#hex","font_head":"'Font',sans-serif","font_body":"'Font',sans-serif",
-"radius":"Npx","vibe":"short style description",
-"animations":[pick 4-5 ONLY from this list: count-up,pulse-cta,shimmer-bonus,shimmer-gold,glow-hover,glow-pulse,hover-lift,scale-hover,fade-up,slide-in,slide-reveal,reveal-scroll,card-reveal-stagger,flip-cards,multiplier-bounce,bounce-cta,blink-live,ticker-winners,gradient-shift,zoom-in],
-"hero_style":"one of: split-image|centered-bold|gradient-overlay|card-stack",
+Design a UNIQUE, modern, MOBILE-FIRST design (like top 2026 casino/crash sites — think dribbble quality).
+You have FULL creative freedom. Write your OWN custom CSS animations that fit THIS brand's vibe.
+
+Return STRICT JSON:
+{{"name":"theme-name","bg":"#hex dark bg","surface":"#hex card bg","accent":"#hex bright","accent2":"#hex secondary",
+"text":"#hex light","muted":"#hex","font_head":"'GoogleFont',sans-serif","font_body":"'GoogleFont',sans-serif","radius":"Npx",
+"vibe":"short style description",
+"custom_css":"YOUR OWN CSS: @keyframes + classes for animations/effects unique to this brand. Use var(--acc),var(--surface),var(--bg). Target classes: .btn .hero .hb .cc .gt .b .winners b. Be creative — glows, shimmers, reveals, themed motion (e.g. plane trail for aviator, gold sparkle for luxury). Mobile-safe (no heavy effects). ~15-30 lines.",
+"hero_style":"split-image|centered-bold|gradient-overlay|card-stack",
 "layout_density":"airy|compact"}}
-Pick fonts that fit the vibe. Colors must be tasteful and professional, NOT default black+white."""
+Fonts must fit the vibe (use real Google Fonts). Colors tasteful & professional, NOT default black+white."""
     try:
         body = json.dumps({"model": MODEL, "max_tokens": 1200,
                            "messages": [{"role": "user", "content": prompt}]}).encode()
@@ -73,12 +76,11 @@ Pick fonts that fit the vibe. Colors must be tasteful and professional, NOT defa
         txt = re.sub(r"^```(?:json)?\s*|\s*```$", "", txt.strip())
         s = txt.find("{"); e = txt.rfind("}") + 1
         ds = json.loads(txt[s:e]); ds["source"] = "sonnet"
-        # фильтр: только известные анимации (Sonnet может придумать свои) + гарантия базовых
-        from core.css_engine import ANIM_CSS
-        valid = [a for a in ds.get("animations", []) if a in ANIM_CSS]
-        if len(valid) < 3:
-            valid = list(dict.fromkeys(valid + ANIM_SETS[_h(seed, "anim") % len(ANIM_SETS)]))
-        ds["animations"] = valid
+        # дизайнер пишет СВОЙ css (custom_css) — не ограничиваем его моим списком.
+        # базовая защита: если custom_css пустой/битый — fallback на пресетные анимации.
+        cc = ds.get("custom_css", "")
+        if not cc or "{" not in cc:
+            ds["animations"] = ANIM_SETS[_h(seed, "anim") % len(ANIM_SETS)]
         return ds
     except Exception as ex:
         p = _preset(brand, geo, niche, seed); p["design_error"] = str(ex)[:80]

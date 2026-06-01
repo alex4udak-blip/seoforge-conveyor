@@ -51,7 +51,14 @@ def build_css(ds):
     rad = ds.get("radius", "16px")
     airy = ds.get("layout_density", "airy") == "airy"
     pad = "26px" if airy else "18px"
-    anims = "".join(ANIM_CSS.get(a, "") for a in ds.get("animations", []))
+    # CSS-анимации: приоритет — СВОЙ css дизайнера (custom_css), иначе пресетные из карты
+    cc = ds.get("custom_css", "")
+    if cc and "{" in cc:
+        # санитизация: убрать попытки закрыть style/инъекции, оставить чистый CSS
+        cc = cc.replace("</style", "").replace("<script", "").replace("</", "")
+        anims = "\n/* designer custom CSS */\n" + cc
+    else:
+        anims = "".join(ANIM_CSS.get(a, "") for a in ds.get("animations", []))
     return f"""
 :root{{--bg:{bg};--surface:{surf};--acc:{acc};--acc2:{acc2};--tx:{tx};--mut:{mut};--rad:{rad}}}
 *{{box-sizing:border-box;margin:0;padding:0}}
