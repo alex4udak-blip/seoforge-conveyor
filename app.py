@@ -128,18 +128,43 @@ a{{color:#22d3ee}}h1{{color:#00e5a0}}table{{width:100%;border-collapse:collapse;
 <div class="box" style="opacity:.6"><h3>Метрики (в работе)</h3>SERP-позиции · Keitaro депы/EPC · индексация GSC — подключаются</div>
 </body></html>"""
 
+def _set_stage(slug, stage, pct, **extra):
+    net=_load_net(); cur=net.get(slug,{})
+    net[slug]={**cur,"build":"building","stage":stage,"progress":pct,**extra}; _save_net(net)
+
 def _build_job(req: "GenReq", slug: str):
-    """Фоновая сборка сайта (картинки Runware медленные → не держим HTTP-ответ, иначе CF 524)."""
+    """Фоновая сборка сайта со стадиями прогресса (для realtime-UI)."""
     try:
+        _set_stage(slug,"Подготовка изображений",15,brand=req.brand,geo=req.geo,domain=req.domain)
         if not os.path.exists(f"output/assets/{req.geo}/hero.jpg"):
             try:
                 from build_assets import build as build_assets; build_assets(req.geo)
             except Exception as e: print("assets warn:", e)
+        _set_stage(slug,"Генерация контента и страниц",55,brand=req.brand,geo=req.geo,domain=req.domain)
         from site_builder import build_site
         outdir,n=build_site(req.domain, req.brand, req.geo, req.mode)
-        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":n,"build":"done"}; _save_net(net)
+        _set_stage(slug,"Финализация (sitemap, schema)",90,brand=req.brand,geo=req.geo,domain=req.domain,pages=n)
+        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":n,"build":"done","stage":"Готово","progress":100}; _save_net(net)
     except Exception as e:
-        net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error: "+str(e)[:120]}; _save_net(net)
+        net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error","stage":"Ошибка: "+str(e)[:100],"progress":0}; _save_net(net)
+
+@app.get("/status")
+def status():
+    """Лёгкий поллинг всей сети для realtime-UI: статус сборки + балл каждого сайта."""
+    net=_load_net(); out=[]
+    for s in _site_slugs():
+        m=net.get(s,{})
+        out.append({"slug":s,"brand":m.get("brand"),"geo":m.get("geo"),
+                    "build":m.get("build","done"),"stage":m.get("stage"),"progress":m.get("progress"),
+                    "audit_score":m.get("audit_score")})
+    # плюс сайты ещё в сборке (папки может не быть)
+    seen={o["slug"] for o in out}
+    for s,m in net.items():
+        if s not in seen and m.get("build")=="building":
+            out.append({"slug":s,"brand":m.get("brand"),"geo":m.get("geo"),
+                        "build":"building","stage":m.get("stage"),"progress":m.get("progress"),"audit_score":None})
+    sc=[o["audit_score"] for o in out if o.get("audit_score")]
+    return {"count":len(out),"avg":round(sum(sc)/len(sc),1) if sc else None,"sites":out}
 
 @app.post("/generate")
 def generate(req: GenReq, sync: bool=False):

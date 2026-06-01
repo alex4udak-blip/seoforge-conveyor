@@ -1,177 +1,236 @@
 <!doctype html>
-<html lang="ru"><head>
+<html lang="ru" data-theme="dark"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SEOForge — конвейер SEO-сети</title>
 <style>
-:root{--bg:#0a0e1a;--card:#121829;--line:#ffffff14;--acc:#00e5a0;--cy:#22d3ee;--am:#f5b73d;--rd:#ff6b6b;--tx:#eaf0ff}
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:var(--tx);margin:0}
-.top{display:flex;align-items:center;gap:16px;padding:16px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0a0e1aee;backdrop-filter:blur(8px);z-index:10}
-.top h1{font-size:18px;margin:0;color:var(--acc)}.top .sub{opacity:.5;font-size:12px}
-.tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
-.tab{padding:8px 14px;border-radius:10px;cursor:pointer;font-size:14px;background:transparent;border:1px solid var(--line);color:var(--tx)}
-.tab.on{background:var(--acc);color:#062018;font-weight:700;border-color:var(--acc)}
-.wrap{padding:24px 28px;max-width:1200px;margin:0 auto}
-.panel{display:none}.panel.on{display:block}
-.stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 22px;min-width:130px}
-.stat b{font-size:30px;color:var(--acc);display:block}.stat span{opacity:.6;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:.15s;text-decoration:none;color:inherit;display:block}
-.card:hover{border-color:#00e5a055;transform:translateY(-2px)}
-.ch{display:flex;justify-content:space-between;align-items:center}.ch b{font-size:16px}
-.geo{background:#00e5a022;color:var(--acc);padding:2px 9px;border-radius:6px;font-size:12px;text-transform:uppercase}
-.score{margin-top:12px;font-size:22px;font-weight:800}.sub{color:var(--cy);font-size:12px;margin-top:8px}
-h2{font-size:16px;margin:24px 0 12px;color:var(--acc)}
-.form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:560px}
-label{display:block;font-size:13px;opacity:.7;margin:12px 0 5px}
-input,select{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:#0d1424;color:var(--tx);font-size:14px}
-.btn{margin-top:18px;padding:12px 22px;border:none;border-radius:10px;background:var(--acc);color:#062018;font-weight:700;font-size:15px;cursor:pointer}
-.btn:hover{filter:brightness(1.1)}.btn.sec{background:transparent;border:1px solid var(--cy);color:var(--cy)}
-.out{margin-top:16px;background:#0d1424;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13px;white-space:pre-wrap;font-family:ui-monospace,monospace;max-height:340px;overflow:auto}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
-td,th{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}th{opacity:.6;font-weight:600;font-size:12px}
-.tag{padding:2px 8px;border-radius:6px;font-size:11px}
-.t-brand{background:#8e2de233;color:#c8a2ff}.t-aff{background:#f7971e33;color:#ffd27a}.t-other{background:#ffffff14;color:#aab}
-.bar{height:8px;border-radius:5px;background:#0d1424;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#00e5a0,#22d3ee)}
-.muted{opacity:.55;font-size:13px}.crit td:first-child{opacity:.7}
-.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;margin:2px}
-.note{font-size:12px;opacity:.55;margin-top:8px}
+:root[data-theme="dark"]{--bg:#0a0e16;--bg2:#0f1420;--card:#141a28;--card2:#1a2132;--line:#ffffff12;--tx:#e8edf7;--mut:#8b97ad;--acc:#3ddc97;--acc2:#22d3ee;--am:#f5b73d;--rd:#ff6b6b;--vio:#a78bfa;--sh:0 4px 24px #00000040}
+:root[data-theme="light"]{--bg:#f4f6fb;--bg2:#eaeef6;--card:#ffffff;--card2:#f7f9fd;--line:#0a142010;--tx:#16202e;--mut:#5a6b82;--acc:#0f9d6b;--acc2:#0891b2;--am:#c98a16;--rd:#dc4646;--vio:#7c5cd6;--sh:0 4px 20px #16202e14}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;transition:background .3s,color .3s}
+svg{display:block}.ic{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* topbar */
+.top{display:flex;align-items:center;gap:14px;padding:14px 26px;background:var(--bg2);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;color:var(--tx)}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#04140d}
+.logo .mark svg{width:18px;height:18px;stroke:#04140d}
+.logo small{color:var(--mut);font-weight:500;font-size:11px;margin-left:2px}
+.nav{display:flex;gap:4px;margin-left:18px}
+.nav button{display:flex;align-items:center;gap:7px;padding:9px 14px;border:none;background:transparent;color:var(--mut);border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:500;font-family:inherit;transition:.15s}
+.nav button:hover{background:var(--card);color:var(--tx)}
+.nav button.on{background:var(--acc);color:#04140d;font-weight:600}
+.nav button.on .ic{stroke:#04140d}
+.right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.live{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)}
+.live .dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 0 var(--acc);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #3ddc9788}70%{box-shadow:0 0 0 7px #3ddc9700}100%{box-shadow:0 0 0 0 #3ddc9700}}
+.tgl{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx);cursor:pointer;display:grid;place-items:center}
+.tgl:hover{border-color:var(--acc)}
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding:26px}
+.panel{display:none;animation:fade .35s ease}.panel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:15px;font-weight:600;margin:26px 0 14px;display:flex;align-items:center;gap:8px}h2 .ic{stroke:var(--acc)}
+.sub{color:var(--mut);font-size:13px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--sh)}
+.stat .lbl{display:flex;align-items:center;gap:7px;color:var(--mut);font-size:12px;font-weight:500}.stat .lbl .ic{width:15px;height:15px}
+.stat b{font-size:32px;font-weight:700;display:block;margin-top:8px;letter-spacing:-.5px}
+.stat .delta{font-size:11px;color:var(--acc)}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:15px;margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;transition:.18s;text-decoration:none;color:inherit;display:block;box-shadow:var(--sh);position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);border-color:var(--acc)}
+.card .ch{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .ch b{font-size:15.5px;font-weight:600}
+.geo{background:var(--card2);color:var(--acc);padding:3px 10px;border-radius:7px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.ring{display:flex;align-items:center;gap:14px;margin-top:14px}
+.ring svg{width:54px;height:54px;transform:rotate(-90deg)}
+.ring .val{font-size:24px;font-weight:700}.ring .of{font-size:12px;color:var(--mut)}
+.go{display:flex;align-items:center;gap:5px;color:var(--acc2);font-size:12.5px;font-weight:500;margin-top:14px}
+/* progress card */
+.pcard{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:18px;box-shadow:var(--sh);grid-column:1/-1}
+.pbar{height:8px;border-radius:6px;background:var(--card2);overflow:hidden;margin-top:12px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:6px;transition:width .6s ease;position:relative}
+.pbar i::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff35,transparent);animation:sh 1.4s infinite}
+@keyframes sh{to{transform:translateX(200%)}}
+.pstage{display:flex;align-items:center;gap:8px;color:var(--am);font-size:13px;margin-top:10px}
+.spin{width:15px;height:15px;border:2px solid var(--am);border-top-color:transparent;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+/* form */
+.form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;max-width:600px;box-shadow:var(--sh)}
+label{display:block;font-size:12.5px;color:var(--mut);font-weight:500;margin:14px 0 6px}
+input,select{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:var(--bg2);color:var(--tx);font-size:14px;font-family:inherit;transition:.15s}
+input:focus,select:focus{outline:none;border-color:var(--acc)}
+.row{display:flex;gap:12px}.row>div{flex:1}
+.btn{margin-top:20px;padding:13px 24px;border:none;border-radius:11px;background:var(--acc);color:#04140d;font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn .ic{stroke:#04140d}
+.btn.sec{background:transparent;border:1px solid var(--acc2);color:var(--acc2)}.btn.sec .ic{stroke:var(--acc2)}
+.btn:disabled{opacity:.5;cursor:wait}
+.note{font-size:12px;color:var(--mut);margin-top:10px;display:flex;gap:6px;align-items:flex-start}.note .ic{width:14px;height:14px;flex-shrink:0;margin-top:2px;stroke:var(--mut)}
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:8px}
+th{text-align:left;font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px}
+td{padding:11px 10px;border-top:1px solid var(--line);font-size:13.5px;vertical-align:top}
+.tag{padding:3px 9px;border-radius:7px;font-size:11px;font-weight:600;white-space:nowrap}
+.t-brand{background:#a78bfa22;color:var(--vio)}.t-aff{background:#f5b73d22;color:var(--am)}.t-other{background:var(--card2);color:var(--mut)}
+.verdict{background:linear-gradient(135deg,#3ddc9714,#22d3ee10);border:1px solid #3ddc9733;border-radius:13px;padding:15px 18px;margin:8px 0 4px;display:flex;gap:10px;align-items:flex-start}
+.verdict .ic{stroke:var(--acc);flex-shrink:0;margin-top:1px}
+.crit-bar{height:6px;border-radius:4px;background:var(--card2);overflow:hidden;margin-top:5px;width:120px}.crit-bar i{display:block;height:100%;border-radius:4px;transition:width .8s ease}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;margin:3px 4px 3px 0;border:1px solid var(--line)}
+.pill.ok{background:#3ddc9714;color:var(--acc);border-color:#3ddc9733}
+.pill .ic{width:13px;height:13px}
+.empty{text-align:center;padding:50px 20px;color:var(--mut)}
+.skel{background:linear-gradient(90deg,var(--card),var(--card2),var(--card));background-size:200% 100%;animation:sk 1.3s infinite;border-radius:12px}
+@keyframes sk{to{background-position:-200% 0}}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--acc);border-radius:12px;padding:14px 18px;box-shadow:var(--sh);display:flex;gap:10px;align-items:center;animation:slidein .3s ease;z-index:50}
+@keyframes slidein{from{transform:translateX(120%)}to{transform:none}}
+.toast .ic{stroke:var(--acc)}
 </style></head>
 <body>
 <div class="top">
-  <h1>🔥 SEOForge</h1><span class="sub">конвейер SEO-сети · gambling</span>
-  <div class="tabs">
-    <button class="tab on" data-p="overview">Обзор сети</button>
-    <button class="tab" data-p="create">Создать сайт</button>
-    <button class="tab" data-p="metrics">Метрики</button>
-    <button class="tab" data-p="recon">Разведка конкурентов</button>
+  <div class="logo"><span class="mark"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/></svg></span>SEOForge<small>SEO-сеть</small></div>
+  <nav class="nav" id="nav">
+    <button class="on" data-p="overview"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Обзор</button>
+    <button data-p="create"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Создать</button>
+    <button data-p="metrics"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Метрики</button>
+    <button data-p="recon"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведка</button>
+  </nav>
+  <div class="right">
+    <span class="live"><span class="dot"></span>live</span>
+    <button class="tgl" id="theme" title="Тема"><svg class="ic" viewBox="0 0 24 24" id="themeic"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
   </div>
 </div>
 <div class="wrap">
-
-<!-- ОБЗОР -->
-<div class="panel on" id="overview">
-  <div class="stats" id="stats"></div>
-  <div class="grid" id="grid"></div>
-</div>
-
-<!-- СОЗДАТЬ -->
-<div class="panel" id="create">
-  <h2>Новый сайт в сеть</h2>
-  <div class="form">
-    <label>Домен (slug)</label><input id="c_dom" placeholder="luckyspin-in">
-    <label>Бренд</label><input id="c_brand" placeholder="LuckySpin">
-    <label>Гео</label><select id="c_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select>
-    <label>Режим</label><select id="c_mode"><option value="brand">brand (бренд, 14 стр)</option><option value="showcase">showcase (витрина)</option></select>
-    <button class="btn" onclick="doGen()">⚙ Сгенерировать</button>
-    <div class="note">Сборка идёт в фоне ~60-90с (картинки + контент). Потом появится в Обзоре, оцени во вкладке Метрики.</div>
-    <div class="out" id="c_out" style="display:none"></div>
+  <div class="panel on" id="overview">
+    <div class="stats" id="stats"></div>
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/></svg>Сайты сети</h2>
+    <div class="grid" id="grid"></div>
   </div>
-</div>
-
-<!-- МЕТРИКИ -->
-<div class="panel" id="metrics">
-  <h2>Глубокий анализ сайта</h2>
-  <div class="form" style="max-width:760px">
-    <label>Сайт сети</label><select id="m_slug"></select>
-    <label>Ключ для vision-аудита</label><input id="m_kw" placeholder="online casino india">
-    <div style="display:flex;gap:10px">
-      <button class="btn" onclick="loadMetrics()">📊 Показать метрики</button>
-      <button class="btn sec" onclick="doAudit()">👁 Запустить vision-аудит</button>
+  <div class="panel" id="create">
+    <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Новый сайт в сеть</h2>
+    <div class="form">
+      <div class="row"><div><label>Домен (slug)</label><input id="c_dom" placeholder="luckyspin-in"></div>
+      <div><label>Бренд</label><input id="c_brand" placeholder="LuckySpin"></div></div>
+      <div class="row"><div><label>Гео</label><select id="c_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select></div>
+      <div><label>Режим</label><select id="c_mode"><option value="brand">Бренд (14 страниц)</option><option value="showcase">Витрина</option></select></div></div>
+      <button class="btn" id="genbtn" onclick="doGen()"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Сгенерировать</button>
+      <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Сборка идёт в фоне ~60-90с. Прогресс виден в реальном времени на вкладке «Обзор».</div>
     </div>
-    <div class="note">vision-аудит гоняется на сервере; если playwright недоступен — оценка пишется через CLI seoforge.py локально.</div>
+    <div id="c_prog"></div>
   </div>
-  <div id="m_body"></div>
-</div>
-
-<!-- РАЗВЕДКА -->
-<div class="panel" id="recon">
-  <h2>Разведка выдачи конкурентов <span class="muted">(наша разработка)</span></h2>
-  <div class="form" style="max-width:620px">
-    <label>Ключевой запрос</label><input id="r_kw" placeholder="online casino india">
-    <label>Гео</label><select id="r_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select>
-    <button class="btn" onclick="doRecon()">🔍 Разведать топ выдачи</button>
-    <div class="note">Тянем живой топ органики и классифицируем footprint: бренд-казино vs афилейт-обзорники → куда бить.</div>
+  <div class="panel" id="metrics">
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Глубокий анализ сайта</h2>
+    <div class="form" style="max-width:780px">
+      <div class="row"><div><label>Сайт сети</label><select id="m_slug"></select></div>
+      <div><label>Ключ для vision-аудита</label><input id="m_kw" placeholder="online casino india"></div></div>
+      <div style="display:flex;gap:10px"><button class="btn" onclick="loadMetrics()"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Показать метрики</button>
+      <button class="btn sec" onclick="doAudit()"><svg class="ic" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Vision-аудит</button></div>
+    </div>
+    <div id="m_body"></div>
   </div>
-  <div id="r_body"></div>
-</div>
-
+  <div class="panel" id="recon">
+    <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведка выдачи конкурентов <span class="sub">— наша разработка</span></h2>
+    <div class="form" style="max-width:640px">
+      <div class="row"><div><label>Ключевой запрос</label><input id="r_kw" placeholder="online casino india"></div>
+      <div style="max-width:120px"><label>Гео</label><select id="r_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select></div></div>
+      <button class="btn" id="rbtn" onclick="doRecon()"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведать топ выдачи</button>
+      <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Живой топ органики + классификация footprint: бренд-казино vs афилейт-обзорники — куда бить.</div>
+    </div>
+    <div id="r_body"></div>
+  </div>
 </div>
 <script>
-const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
-$$('.tab').forEach(t=>t.onclick=()=>{
-  $$('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
-  $$('.panel').forEach(p=>p.classList.remove('on'));$('#'+t.dataset.p).classList.add('on');
-  if(t.dataset.p==='overview')loadOverview();
-  if(t.dataset.p==='metrics')fillSlugs();
-});
-async function j(u,o){const r=await fetch(u,o);return r.json();}
-
-async function loadOverview(){
-  const d=await j('/network');
-  const sc=d.network.filter(s=>s.audit_score).map(s=>s.audit_score);
-  const avg=sc.length?(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(1):'—';
-  $('#stats').innerHTML=`<div class="stat"><b>${d.count}</b><span>сайтов в сети</span></div>
-    <div class="stat"><b>${avg}</b><span>средний vision</span></div>
-    <div class="stat"><b>${sc.filter(x=>x>=70).length}</b><span>🟢 ≥70 баллов</span></div>`;
-  $('#grid').innerHTML=d.network.sort((a,b)=>(b.audit_score||0)-(a.audit_score||0)).map(s=>{
-    const v=s.audit_score, col=v>=70?'var(--acc)':v>=50?'var(--am)':'#888';
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),api=async(u,o)=>(await fetch(u,o)).json();
+const col=v=>v>=70?'var(--acc)':v>=50?'var(--am)':'var(--rd)';
+// theme
+const root=document.documentElement;
+$('#theme').onclick=()=>{const t=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=t;localStorage.seoTheme=t;
+  $('#themeic').innerHTML=t==='dark'?'<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>':'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/>';};
+if(localStorage.seoTheme){root.dataset.theme=localStorage.seoTheme;$('#theme').click();$('#theme').click();}
+// nav
+$$('#nav button').forEach(b=>b.onclick=()=>{$$('#nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  $$('.panel').forEach(p=>p.classList.remove('on'));$('#'+b.dataset.p).classList.add('on');
+  if(b.dataset.p==='metrics')fillSlugs();});
+// donut ring svg
+function ring(v){const r=24,c=2*Math.PI*r,off=c*(1-(v||0)/100);
+  return `<svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="${r}" stroke="var(--card2)" stroke-width="5" fill="none"/>
+    <circle cx="27" cy="27" r="${r}" stroke="${col(v)}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset 1s ease"/></svg>`;}
+// REALTIME overview poll
+let firstLoad=true;
+async function tick(){
+  const d=await api('/status').catch(()=>null);if(!d)return;
+  $('#stats').innerHTML=`
+   <div class="stat"><span class="lbl"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/></svg>Сайтов в сети</span><b>${d.count}</b></div>
+   <div class="stat"><span class="lbl"><svg class="ic" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Средний vision</span><b style="color:${d.avg?col(d.avg):'var(--mut)'}">${d.avg??'—'}</b></div>
+   <div class="stat"><span class="lbl"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Качество ≥70</span><b style="color:var(--acc)">${d.sites.filter(s=>s.audit_score>=70).length}</b></div>
+   <div class="stat"><span class="lbl"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>В сборке</span><b style="color:var(--am)">${d.sites.filter(s=>s.build==='building').length}</b></div>`;
+  const sorted=d.sites.sort((a,b)=>(b.audit_score||0)-(a.audit_score||0));
+  $('#grid').innerHTML=sorted.map(s=>{
+    if(s.build==='building'){return `<div class="pcard"><div class="ch"><b>${s.brand||s.slug} <span class="geo">${s.geo||''}</span></b></div>
+      <div class="pstage"><span class="spin"></span>${s.stage||'Сборка...'}</div>
+      <div class="pbar"><i style="width:${s.progress||10}%"></i></div></div>`;}
+    const v=s.audit_score;
     return `<a class="card" href="/dash/${s.slug}"><div class="ch"><b>${s.brand||s.slug}</b><span class="geo">${s.geo||'?'}</span></div>
-      <div class="score" style="color:${col}">${v??'—'}<span style="font-size:13px;opacity:.5"> /100</span></div>
-      <div class="sub">анализ вглубь →</div></a>`;}).join('')||'<p class="muted">сеть пуста — создай сайт</p>';
+      <div class="ring">${ring(v)}<div><div class="val" style="color:${v?col(v):'var(--mut)'}">${v??'—'}<span class="of"> /100</span></div></div></div>
+      <div class="go">Анализ вглубь <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--acc2)"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></a>`;}).join('')
+      ||'<div class="empty">Сеть пуста — создай первый сайт во вкладке «Создать»</div>';
+  firstLoad=false;
 }
-async function fillSlugs(){
-  const d=await j('/network');
-  $('#m_slug').innerHTML=d.network.map(s=>`<option value="${s.slug}" data-geo="${s.geo||'in'}">${s.brand||s.slug} (${s.geo||'?'})</option>`).join('');
-}
+async function fillSlugs(){const d=await api('/status');
+  $('#m_slug').innerHTML=d.sites.filter(s=>s.build!=='building').map(s=>`<option value="${s.slug}" data-geo="${s.geo||'in'}">${s.brand||s.slug} (${s.geo||'?'})</option>`).join('');}
 async function doGen(){
   const b={domain:$('#c_dom').value,brand:$('#c_brand').value,geo:$('#c_geo').value,mode:$('#c_mode').value};
-  $('#c_out').style.display='block';$('#c_out').textContent='Запускаю генерацию...';
-  const r=await j('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
-  $('#c_out').textContent=JSON.stringify(r,null,2)+'\n\n✅ сборка в фоне — проверь вкладку Обзор через ~90с';
+  if(!b.domain||!b.brand){toast('Заполни домен и бренд');return;}
+  const btn=$('#genbtn');btn.disabled=true;
+  await api('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+  toast('Сборка запущена — смотри прогресс в «Обзор»');btn.disabled=false;
+  $$('#nav button')[0].click();
 }
-async function loadMetrics(){
-  const slug=$('#m_slug').value;if(!slug)return;
-  const d=await j('/metrics/'+slug);
-  const v=d.vision||{},bd=v.breakdown||{};
-  let rows='';for(const k in bd){const o=bd[k],s=o.score??o;const col=s>=70?'var(--acc)':s>=50?'var(--am)':'var(--rd)';
-    rows+=`<tr><td>${k}</td><td style="color:${col};font-weight:700">${s}</td><td class="muted">${o.why||''}</td></tr>`;}
-  const fixes=(v.fixes||[]).map(f=>`<li>${f}</li>`).join('');
-  $('#m_body').innerHTML=`<div class="stats"><div class="stat"><b>${v.score??'—'}</b><span>vision-балл</span></div>
-    <div class="stat"><b>${d.pages_count||0}</b><span>страниц</span></div>
-    <div class="stat"><b>${((d.uptime||{}).total_bytes/1024|0)||0}</b><span>КБ контента</span></div></div>
-    <h2>Разбор по критериям</h2><table><tr><th>критерий</th><th>балл</th><th>почему</th></tr>${rows||'<tr><td class="muted">аудит ещё не запускался</td></tr>'}</table>
-    <h2>Что чинить (приоритет)</h2><ol>${fixes||'<li class="muted">—</li>'}</ol>
-    <h2>Источники метрик</h2>
-    <p><span class="pill" style="background:#00e5a022;color:var(--acc)">✅ vision</span>
-    <span class="pill t-other">SERP-позиции — в работе</span>
-    <span class="pill t-other">Keitaro депы — в работе</span>
-    <span class="pill t-other">GSC индексация — в работе</span></p>
-    <p><a class="btn sec" href="/site/${slug}/index.html" target="_blank" style="text-decoration:none">🌐 открыть сайт</a></p>`;
+async function loadMetrics(){const slug=$('#m_slug').value;if(!slug)return;
+  $('#m_body').innerHTML='<div class="skel" style="height:120px;margin-top:16px"></div>';
+  const d=await api('/metrics/'+slug);const v=d.vision||{},bd=v.breakdown||{};
+  let rows='';for(const k in bd){const o=bd[k],s=o.score??o;
+    rows+=`<tr><td style="text-transform:capitalize">${k.replace(/_/g,' ')}</td><td><b style="color:${col(s)}">${s}</b><div class="crit-bar"><i style="width:${s}%;background:${col(s)}"></i></div></td><td class="sub">${o.why||''}</td></tr>`;}
+  const fixes=(v.fixes||[]).map(f=>`<li style="margin:6px 0">${f}</li>`).join('');
+  $('#m_body').innerHTML=`<div class="stats" style="margin-top:18px">
+    <div class="stat"><span class="lbl">Vision-балл</span><b style="color:${v.score?col(v.score):'var(--mut)'}">${v.score??'—'}</b></div>
+    <div class="stat"><span class="lbl">Страниц</span><b>${d.pages_count||0}</b></div>
+    <div class="stat"><span class="lbl">Контент</span><b>${((d.uptime||{}).total_bytes/1024|0)||0}<span style="font-size:14px;color:var(--mut)"> КБ</span></b></div></div>
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Разбор по критериям</h2>
+    <table><tr><th>Критерий</th><th>Балл</th><th>Почему</th></tr>${rows||'<tr><td class="sub" colspan=3>Vision-аудит ещё не запускался</td></tr>'}</table>
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg>Что чинить (приоритет)</h2><ol style="padding-left:18px">${fixes||'<li class="sub">—</li>'}</ol>
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Источники метрик</h2>
+    <div><span class="pill ok"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>vision</span>
+    <span class="pill">SERP-позиции — скоро</span><span class="pill">Keitaro депы — скоро</span><span class="pill">GSC индексация — скоро</span></div>
+    <div style="margin-top:18px"><a class="btn sec" href="/site/${slug}/index.html" target="_blank"><svg class="ic" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>Открыть сайт</a></div>`;
 }
-async function doAudit(){
-  const slug=$('#m_slug').value,kw=$('#m_kw').value||'online casino';
-  const geo=$('#m_slug').selectedOptions[0].dataset.geo;
-  $('#m_body').innerHTML='<p class="muted">⏳ запускаю vision-аудит (скриншот + анализ по рубрике)...</p>';
-  const r=await j('/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug,geo,keyword:kw})});
-  if(r.scores){setTimeout(loadMetrics,500);} else {$('#m_body').innerHTML='<div class="out">'+JSON.stringify(r,null,2)+'\n\nℹ если playwright на сервере недоступен — запусти локально: python3 seoforge.py audit '+slug+' '+geo+' "'+kw+'"</div>';}
+async function doAudit(){const slug=$('#m_slug').value,kw=$('#m_kw').value||'online casino',geo=$('#m_slug').selectedOptions[0].dataset.geo;
+  $('#m_body').innerHTML='<div class="pstage" style="margin-top:18px"><span class="spin"></span>Скриншот + анализ по рубрике...</div>';
+  const r=await api('/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug,geo,keyword:kw})});
+  if(r.scores){toast('Аудит готов: '+r.weighted_total+'/100');loadMetrics();}
+  else $('#m_body').innerHTML=`<div class="verdict"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><div>Vision на сервере недоступен (нет playwright). Запусти локально:<br><code>python3 seoforge.py audit ${slug} ${geo} "${kw}"</code></div></div>`;
 }
-async function doRecon(){
-  const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)return;
-  $('#r_body').innerHTML='<p class="muted">🔍 тяну живой топ выдачи...</p>';
-  const d=await j('/recon?keyword='+encodeURIComponent(kw)+'&geo='+geo+'&n=10');
-  if(d.error){$('#r_body').innerHTML='<div class="out">'+d.error+'</div>';return;}
+async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw){toast('Введи запрос');return;}
+  const btn=$('#rbtn');btn.disabled=true;
+  $('#r_body').innerHTML='<div class="pstage" style="margin-top:18px"><span class="spin"></span>Тяну живой топ выдачи...</div>';
+  const d=await api('/recon?keyword='+encodeURIComponent(kw)+'&geo='+geo+'&n=10');btn.disabled=false;
+  if(d.error){$('#r_body').innerHTML='<div class="verdict">'+d.error+'</div>';return;}
   const c=d.classified||{};
   const rows=d.results.map(x=>{const t=x.type==='brand-casino'?'t-brand':x.type==='affiliate'?'t-aff':'t-other';
-    return `<tr><td>${x.pos}</td><td><b>${x.domain}</b><div class="muted" style="font-size:12px">${x.title}</div></td><td><span class="tag ${t}">${x.type||'?'}</span></td></tr>`;}).join('');
-  $('#r_body').innerHTML=`<div class="stats">
-    <div class="stat"><b>${c.brand_casino||0}</b><span>бренд-казино</span></div>
-    <div class="stat"><b>${c.affiliate||0}</b><span>афилейт-обзорники</span></div>
-    <div class="stat"><b>${c.other||0}</b><span>прочее</span></div></div>
-    <p style="background:#00e5a012;border:1px solid #00e5a033;border-radius:10px;padding:12px"><b>Вердикт:</b> ${c.verdict||''}</p>
-    <h2>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
-    <table><tr><th>#</th><th>домен</th><th>тип</th></tr>${rows}</table>`;
+    return `<tr><td><b>${x.pos}</b></td><td><b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div></td><td><span class="tag ${t}">${x.type}</span></td></tr>`;}).join('');
+  $('#r_body').innerHTML=`<div class="stats" style="margin-top:18px">
+    <div class="stat"><span class="lbl">Бренд-казино</span><b style="color:var(--vio)">${c.brand_casino||0}</b></div>
+    <div class="stat"><span class="lbl">Афилейты</span><b style="color:var(--am)">${c.affiliate||0}</b></div>
+    <div class="stat"><span class="lbl">Прочее</span><b style="color:var(--mut)">${c.other||0}</b></div></div>
+    <div class="verdict"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg><div><b>Вердикт:</b> ${c.verdict||''}</div></div>
+    <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
+    <table><tr><th>#</th><th>Домен</th><th>Тип</th></tr>${rows}</table>`;
 }
-loadOverview();
+function toast(m){const t=document.createElement('div');t.className='toast';
+  t.innerHTML='<svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'+m;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='.4s';setTimeout(()=>t.remove(),400);},2600);}
+// realtime loop
+tick();setInterval(tick,4000);
 </script>
 </body></html>
