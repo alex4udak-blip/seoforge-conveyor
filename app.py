@@ -253,13 +253,9 @@ def _set_stage(slug, stage, pct, **extra):
 def _build_job(req: "GenReq", slug: str):
     """Фоновая сборка сайта со стадиями прогресса (для realtime-UI)."""
     try:
-        _set_stage(slug,"Подготовка изображений",15,brand=req.brand,geo=req.geo,domain=req.domain)
-        if not os.path.exists(f"output/assets/{req.geo}/hero.jpg"):
-            try:
-                from build_assets import build as build_assets; build_assets(req.geo)
-            except Exception as e: print("assets warn:", e)
+        # фото теперь из LoremFlickr прямо в HTML (Runware build_assets убран — он висел и блокировал сборку)
         # АГЕНТНЫЙ v2: разведка → план(Claude) → контент(Claude пассажи) → уник.вёрстка + визуал
-        _set_stage(slug,"Разведка конкурентов",40,brand=req.brand,geo=req.geo,domain=req.domain)
+        _set_stage(slug,"Разведка конкурентов",30,brand=req.brand,geo=req.geo,domain=req.domain)
         from core.recon import serp
         from core.agent_architect import plan_structure
         from core.agent_copywriter import write_content
