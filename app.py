@@ -27,6 +27,15 @@ class AuditReq(BaseModel):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/botview")
+def botview_endpoint(domain: str):
+    """Вскрытие клоаки конкурента: Google-view (translate.goog) vs user-view → детект клоаки."""
+    try:
+        from core.recon import botview
+        return botview(domain)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
 @app.get("/suggest")
 def suggest_ideas(geo: str=None, seed: int=0):
     """Авто-предложения для не-сеошника: готовые бренды, домены, гео, ключи из базы знаний."""

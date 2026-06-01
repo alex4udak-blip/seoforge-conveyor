@@ -53,6 +53,39 @@ def serp(keyword, geo="in", n=10, classify_deep=True):
     return {"keyword": keyword, "geo": geo, "count": len(out),
             "results": out, "related": rel[:12], "classified": _footprint(out)}
 
+def botview(domain):
+    """Вскрытие клоаки конкурента: контент через translate.goog (Google IP) vs обычный заход.
+    Разница = клоака (сайт показывает Google одно, юзеру другое). Метод Димы/affiliate.fm."""
+    domain = domain.replace("https://","").replace("http://","").split("/")[0].replace("www.","")
+    tg = domain.replace("-","--").replace(".","-") + ".translate.goog"
+    google_view = user_view = ""; err=[]
+    try:
+        google_view = _fetch(f"https://{tg}/?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en", timeout=20)
+    except Exception as e: err.append("google-view:"+str(e)[:60])
+    try:
+        user_view = _fetch(f"https://{domain}/", timeout=15)
+    except Exception as e: err.append("user-view:"+str(e)[:60])
+    def feats(h):
+        h=h.lower()
+        return {
+            "len": len(h),
+            "casino_words": len(re.findall(r'\b(casino|bet|bonus|deposit|slot|aviator|jackpot|spin)\b', h)),
+            "ref_links": sum(h.count(m) for m in REF_MARKERS),
+            "has_gambling": any(w in h for w in ("casino","bonus","deposit","betting","slot")),
+        }
+    gf, uf = feats(google_view), feats(user_view)
+    # детект клоаки: Google видит гембл, юзер — нет (или наоборот), либо сильная разница объёма
+    cloaked = False; why=[]
+    if gf["has_gambling"] != uf["has_gambling"]:
+        cloaked=True; why.append("гембл-контент виден Google, но НЕ юзеру (или наоборот)")
+    if gf["casino_words"] and uf["len"] and abs(gf["casino_words"]-uf["casino_words"]) > max(20, gf["casino_words"]*0.5):
+        cloaked=True; why.append(f"разное число казино-слов: Google={gf['casino_words']} vs юзер={uf['casino_words']}")
+    if uf["len"] and gf["len"] and (max(gf["len"],uf["len"])/max(1,min(gf["len"],uf["len"])) > 3):
+        cloaked=True; why.append(f"разный объём страницы: Google={gf['len']}b vs юзер={uf['len']}b")
+    return {"domain":domain,"google_view":gf,"user_view":uf,
+            "cloaked":cloaked,"why":why or (["клоака не обнаружена — сайт отдаёт одинаково"] if not err else []),
+            "errors":err}
+
 def autocomplete(keyword, geo="in"):
     """Google autocomplete = long-tail/PAA-семантика без API-ключа. Для FAQ/страниц генератора."""
     try:
