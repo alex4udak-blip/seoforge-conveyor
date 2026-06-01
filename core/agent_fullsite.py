@@ -45,8 +45,9 @@ REQUIREMENTS — make it look like a REAL top-tier 2026 casino site (better than
 - Sticky HEADER with brand logo-text + nav.
 - HERO IS CRITICAL: the hero_image URL MUST be visibly rendered as a full-bleed background of the hero
   section (e.g. <section class="hero" style="background-image:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),url('HERO_IMAGE_URL');background-size:cover;background-position:center">).
-  A plain dark hero with NO image = FAILURE. The image must show through behind the H1. Add a dark
-  gradient overlay so white text stays readable. Use the EXACT hero_image URL from the data.
+  A plain dark hero with NO image = FAILURE. The image must show through behind the H1. Use a LIGHT
+  gradient overlay (e.g. rgba(0,0,0,.30) to rgba(0,0,0,.55)) — strong enough for text legibility but
+  the image MUST stay clearly visible, not hidden. Use the EXACT hero_image URL from the data.
 - Big H1, bonus badge, prominent CTA in the hero. Full width, real layout — NOT a narrow centered column.
 - GAMES grid above-the-fold-ish: render each game_images URL as a real <img> card with the game name.
   These visuals MUST appear — a text-only page = FAILURE.
@@ -57,8 +58,12 @@ REQUIREMENTS — make it look like a REAL top-tier 2026 casino site (better than
   amount there (it already appears in the hero; repeating it looks broken).
 - Footer.
 - Micro-animations (count-up, hover lift, shimmer on bonus) — write your own CSS @keyframes.
-- RICH palette: a primary brand color + a SECONDARY accent + gradients — NOT one single accent on black
-  everywhere (monotone = amateur). Dark premium base but with visual variety. Good fonts (Google Fonts link).
+- RICH but HARMONIOUS palette: a primary brand color + a SECONDARY accent that COMPLEMENTS it (analogous
+  or warm-pairing, e.g. orange+gold+deep-red, or purple+magenta). The secondary must NOT clash (NO random
+  teal/turquoise next to orange). Use gradients. NOT one single accent on black everywhere (monotone = amateur).
+  Dark premium base with visual variety. Good fonts (Google Fonts link).
+- NO emoji anywhere (no 🎁 gift, no icons-as-emoji). Use clean inline SVG or CSS shapes only. Emoji = amateur.
+- Readable mobile body text: font-size >=15px, line-height >=1.6.
 - MOBILE-FIRST: must look great on 390px AND desktop. Use grid/flex, responsive.
 Output ONLY the full HTML from <!doctype html> to </html>. No explanation, no markdown fences."""
     def _gen(extra=""):
