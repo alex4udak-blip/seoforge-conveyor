@@ -19,7 +19,32 @@ def wayback_snaps(domain):
     except Exception:
         return None, None
 
-def verdict(price, backlinks, first_year, cur_year=2026):
+OPR_KEY = os.environ.get("OPR_KEY", "")
+
+def openpagerank(domains):
+    """Реальный DR (0-10) через OpenPageRank API (база Common Crawl). Батч до 100. Нужен OPR_KEY."""
+    if not OPR_KEY or not domains:
+        return {}
+    out = {}
+    # API принимает до 100 доменов за запрос
+    for i in range(0, len(domains), 100):
+        chunk = domains[i:i+100]
+        q = "&".join(f"domains[]={urllib.parse.quote(d)}" for d in chunk)
+        try:
+            req = urllib.request.Request(
+                "https://openpagerank.com/api/v1.0/getPageRank?" + q,
+                headers={"API-OPR": OPR_KEY, "User-Agent": UA})
+            data = json.loads(urllib.request.urlopen(req, timeout=20).read().decode())
+            for row in data.get("response", []):
+                out[row.get("domain")] = {
+                    "dr": row.get("page_rank_decimal"),   # 0-10
+                    "rank": row.get("rank"),
+                }
+        except Exception as e:
+            out["_error"] = str(e)[:80]
+    return out
+
+def verdict(price, backlinks, first_year, cur_year=2026, dr=None):
     """ТОЧНЫЙ вывод по возрасту (Wayback) + беки. Ключ: беки физически невозможны без возраста.
     Естественный темп ~ до нескольких тысяч беков/год. Превышение = накрутка."""
     if not first_year:
@@ -28,15 +53,24 @@ def verdict(price, backlinks, first_year, cur_year=2026):
             return "СПАМ-беки", f"{backlinks:,} беков, но домена НЕТ в веб-архиве — накрутка/спам-ферма"
         return "свежий домен", f"нет истории, {backlinks} беков — свежак под расходник"
     age = max(cur_year - first_year, 0)
-    # макс. правдоподобных беков для возраста (грубо ~3000/год органически для гембла)
+    drtxt = f", DR {dr}" if dr is not None else ""
+    # DR от OpenPageRank = НАСТОЯЩИЙ сигнал авторитета (если есть ключ)
+    if dr is not None:
+        if dr >= 4 and age >= 3:
+            return "РЕАЛЬНЫЙ ТРАСТ", f"DR {dr}/10, {age}г — подтверждённый авторитет (OpenPageRank)"
+        if dr <= 1 and backlinks > 5000:
+            return "СПАМ-беки", f"{backlinks:,} беков, но DR {dr}/10 — авторитета НЕТ, накрутка"
+        if dr >= 3:
+            return "траст средний", f"DR {dr}/10, {age}г{drtxt} — рабочий авторитет"
+    # fallback по возрасту (без OPR-ключа)
     plausible = max(age, 1) * 3000
     if backlinks > plausible * 3:
-        return "СПАМ-беки", f"{backlinks:,} беков за {age}г — невозможно органически (накрутка)"
+        return "СПАМ-беки", f"{backlinks:,} беков за {age}г — невозможно органически (накрутка){drtxt}"
     if age >= 8:
-        return "РЕАЛЬНЫЙ ТРАСТ", f"живой {age} лет в архиве, {backlinks} беков в норме — возрастной траст"
+        return "РЕАЛЬНЫЙ ТРАСТ", f"живой {age} лет, {backlinks} беков в норме{drtxt}"
     if age >= 3:
-        return "траст средний", f"{age} лет, {backlinks} беков правдоподобно — рабочий траст"
-    return "честный молодой", f"{age}г, {backlinks} беков без накрутки — чистый расходник"
+        return "траст средний", f"{age} лет, {backlinks} беков правдоподобно{drtxt}"
+    return "честный молодой", f"{age}г, {backlinks} беков без накрутки{drtxt}"
 
 def _load(path):
     try:
@@ -47,24 +81,30 @@ def _load(path):
 def list_domains(sort="backlinks", max_price=None, min_backlinks=0, only_trust=False, limit=60):
     rows = _load(BASE)
     enr = {r["domain"]: r for r in _load(ENRICHED)}
-    out = []
+    # фильтр-предпросмотр чтобы знать каким доменам тянуть DR
+    cand = []
     for r in rows:
         try:
             price = float(r.get("price") or 0); bl = int(r.get("backlinks") or 0)
         except Exception:
             continue
-        e = enr.get(r["domain"], {})
-        wb = e.get("wb_year")
-        fy = int(wb) if wb and str(wb).isdigit() and wb not in ("0",) else None
-        vlabel, vwhy = verdict(price, bl, fy)
-        is_trust = "ТРАСТ" in vlabel
-        snaps = None
         if max_price and price > max_price: continue
         if bl < min_backlinks: continue
+        cand.append((r["domain"], price, bl))
+    # батч DR для топ-limit кандидатов (OpenPageRank, если есть ключ)
+    dr_map = openpagerank([c[0] for c in cand[:limit]]) if OPR_KEY else {}
+    out = []
+    for domain, price, bl in cand:
+        e = enr.get(domain, {})
+        wb = e.get("wb_year")
+        fy = int(wb) if wb and str(wb).isdigit() and wb not in ("0",) else None
+        dr = (dr_map.get(domain) or {}).get("dr")
+        vlabel, vwhy = verdict(price, bl, fy, dr=dr)
+        is_trust = "ТРАСТ" in vlabel
         if only_trust and not is_trust: continue
         out.append({
-            "domain": r["domain"], "price": price, "backlinks": bl,
-            "wb_year": fy, "snaps": snaps,
+            "domain": domain, "price": price, "backlinks": bl,
+            "wb_year": fy, "dr": dr,
             "is_trust": is_trust, "verdict": vlabel, "why": vwhy,
         })
     keymap = {"backlinks": lambda x: -x["backlinks"], "price": lambda x: x["price"],

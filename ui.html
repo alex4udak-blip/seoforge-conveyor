@@ -334,14 +334,15 @@ async function loadDomains(mode){
   const vcol=v=>v.indexOf('ТРАСТ')>=0?'t-brand':v.indexOf('СПАМ')>=0?'t-aff':v.indexOf('свежий')>=0?'t-other':'t-other';
   const vstyle=v=>v.indexOf('ТРАСТ')>=0?'background:#a78bfa22;color:var(--vio)':v.indexOf('СПАМ')>=0?'background:#ff6b6b22;color:var(--rd)':'background:#22d3ee18;color:var(--acc2)';
   const rows=d.domains.map(x=>{
-    return `<tr><td><b>${x.domain}</b><div class="sub" style="font-size:11px">${x.why||''}</div></td><td>$${x.price.toFixed(0)}</td><td>${x.backlinks.toLocaleString()}</td><td>${x.snaps??'—'}</td><td>${x.wb_year||'—'}</td><td><span class="tag" style="${vstyle(x.verdict)}">${x.verdict}</span></td></tr>`;}).join('');
+    const drcell=x.dr!=null?`<b style="color:${x.dr>=4?'var(--acc)':x.dr>=2?'var(--am)':'var(--rd)'}">${x.dr}</b>/10`:'<span class="sub">—</span>';
+    return `<tr><td><b>${x.domain}</b><div class="sub" style="font-size:11px">${x.why||''}</div></td><td>$${x.price.toFixed(0)}</td><td>${x.backlinks.toLocaleString()}</td><td>${drcell}</td><td>${x.wb_year||'—'}</td><td><span class="tag" style="${vstyle(x.verdict)}">${x.verdict}</span></td></tr>`;}).join('');
   $('#d_body').innerHTML=`<div class="stats" style="margin-top:16px">
     <div class="stat"><span class="lbl">Всего в базе</span><b>${d.stats.total}</b></div>
     <div class="stat"><span class="lbl">Реальные трасты</span><b style="color:var(--vio)">${d.stats.trusts}</b></div>
     <div class="stat"><span class="lbl">Спам-беки</span><b style="color:var(--rd)">${d.stats.spam||0}</b></div>
     <div class="stat"><span class="lbl">Дешёвые (&le;$35)</span><b style="color:var(--acc2)">${d.stats.cheap}</b></div></div>
     <div class="sub" style="margin-bottom:6px">Вердикт по соотношению беклинки/история Wayback: много беков + мало снапшотов = накрутка, не траст.</div>
-    <table><tr><th>Домен / вердикт</th><th>Цена</th><th>Беклинки</th><th>Снапшотов</th><th>С года</th><th>Класс</th></tr>${rows}</table>`;
+    <table><tr><th>Домен / вердикт</th><th>Цена</th><th>Беклинки</th><th>DR (авторитет)</th><th>С года</th><th>Класс</th></tr>${rows}</table>`;
 }
 async function checkBrand(){const b=$('#d_brand').value;if(!b){toast('Введи бренд');return;}
   $('#d_body').innerHTML='<div class="pstage" style="margin-top:16px"><span class="spin"></span>Проверяю в Dynadot...</div>';
