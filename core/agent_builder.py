@@ -21,19 +21,26 @@ def _payments_html(geo):
             out.append(f'<span class="pay badge">{_html.escape(p)}</span>')
     return '<div class="pays">' + "".join(out) + '</div>'
 
+# маппинг игр на фото-теги для реальных фото (LoremFlickr — настоящие фотографии Flickr)
+GAME_PHOTO_TAG = {
+    "aviator": "airplane,sky", "jetx": "airplane", "spaceman": "astronaut",
+    "teen patti": "playing-cards", "andar bahar": "playing-cards", "crazy time": "casino-wheel",
+    "fortune tiger": "tiger", "slots": "slot-machine", "live": "casino-dealer",
+    "book of dead": "egypt,pyramid", "starburst": "neon", "color game": "colorful",
+}
+def _photo(tags, domain, key, w=600, h=400):
+    """Реальное фото по теме (LoremFlickr Flickr). seed по домену+ключу — стабильно, но у каждого своё."""
+    seed = _h(domain, key) % 100000
+    return f"https://loremflickr.com/{w}/{h}/{tags}?lock={seed}"
+
 def _games_html(geo, domain):
-    """Картинки игр из пула (если есть) + локальные хиты."""
+    """РЕАЛЬНЫЕ фото игр (LoremFlickr по теме игры) — настоящие фотографии, не ИИ/заглушки."""
     hot = GEO_FLAVOR.get(geo, {}).get("hot", ["Aviator", "Slots", "Live"])[:6]
-    base = os.path.join(os.path.dirname(__file__), "..", "output", "assets", geo)
     out = []
     for g in hot:
-        slug = g.lower().replace(" ", "_")
-        img = f"/site/{domain}/assets/game_{slug}.jpg"
-        local = os.path.join(base, f"game_{slug}.jpg")
-        if os.path.exists(local):
-            out.append(f'<figure class="gt"><img src="assets/game_{slug}.jpg" alt="{_html.escape(g)}" loading="lazy"><figcaption>{_html.escape(g)}</figcaption></figure>')
-        else:
-            out.append(f'<figure class="gt no"><figcaption>{_html.escape(g)}</figcaption></figure>')
+        tag = GAME_PHOTO_TAG.get(g.lower(), "casino,gambling")
+        url = _photo(tag, domain, f"game_{g}", 400, 260)
+        out.append(f'<figure class="gt"><img src="{url}" alt="{_html.escape(g)}" loading="lazy"><figcaption>{_html.escape(g)}</figcaption></figure>')
     return '<div class="games">' + "".join(out) + '</div>'
 
 def _toplist_html(geo, cur, maxbonus):
@@ -161,10 +168,10 @@ def build(brand, keyword, geo, domain, plan, content, assets=None):
     blocks_html = "".join(_block_html(domain, i, b, content.get(b, {}), geo, cur, maxbonus) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
     # hero зависит от layout — разный первый экран
-    # hero-картинка из пула гео (если есть)
-    hero_img = ""
-    if os.path.exists(os.path.join(os.path.dirname(__file__), "..", "output", "assets", geo, "hero.jpg")):
-        hero_img = '<img class="hbg" src="assets/hero.jpg" alt="' + _html.escape(brand) + '" loading="eager">'
+    # hero — РЕАЛЬНОЕ фото казино (LoremFlickr), тема варьируется по домену
+    _hero_tags = ["casino,luxury", "casino,neon", "las-vegas,casino", "poker,casino", "slot-machine,casino"]
+    _ht = _hero_tags[_h(domain, "herophoto") % len(_hero_tags)]
+    hero_img = f'<img class="hbg" src="{_photo(_ht, domain, "hero", 1000, 360)}" alt="{_html.escape(brand)}" loading="eager">'
     hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain, hero_img)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
