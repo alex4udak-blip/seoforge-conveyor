@@ -33,18 +33,19 @@ def _url(photo_id, w, h):
     return f"https://images.unsplash.com/photo-{photo_id}?w={w}&h={h}&fit=crop&q=80"
 
 _RW_CACHE = {}
-def _runware(prompt, w, h, key):
+def _runware(prompt, w, h, key, model="runware:101@1"):
     """Генерация уникальной картинки Runware. Кэш по prompt чтоб не дёргать дважды."""
-    if prompt in _RW_CACHE:
-        return _RW_CACHE[prompt]
+    ck = f"{model}:{prompt}"
+    if ck in _RW_CACHE:
+        return _RW_CACHE[ck]
     try:
         import sys
         sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         os.environ.setdefault("RUNWARE_API_KEY", key)
         from core.image_agent import gen_image
-        url, _ = gen_image(prompt, w, h)
+        url, _ = gen_image(prompt, w, h, model=model)
         if url:
-            _RW_CACHE[prompt] = url
+            _RW_CACHE[ck] = url
         return url
     except Exception:
         return None
@@ -80,7 +81,10 @@ def hero_img(domain, w=1000, h=440, brand="", vibe="casino"):
                   f"high-key dramatic studio lighting, clean crisp detail, premium gambling brand hero banner, "
                   f"8k, photorealistic, NOT dark, NOT muddy, NO blur, no people faces, "
                   f"no text, no letters, no words, no logo, no watermark")
-        u = _runware(prompt, ((w+63)//64)*64, ((h+63)//64)*64, key)
+        # Flux Pro Ultra (4MP, резкий) на фикс.размере 3136x1344 (~21:9) — для чёткого hero
+        u = _runware(prompt, 3136, 1344, key, model="bfl:2@2")
+        if u: return u
+        u = _runware(prompt, ((w+63)//64)*64, ((h+63)//64)*64, key)  # fallback Flux Dev
         if u: return u
     return _url(_pick(HERO, domain, "hero"), w, h)
 
