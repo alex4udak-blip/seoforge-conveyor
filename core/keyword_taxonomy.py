@@ -18,11 +18,15 @@ KW_TYPES={
    "sections":["how_to_play","strategy","predictor_myth","best_crash_sites","demo","faq"],
    "intent":"стратегия/как играть → лить на казино с краш-игрой. Горячо в IN/BD/BR"},
 }
-GEO_FLAVOR={  # локальная специфика (из созвонов)
- "in":{"sport":"cricket","pay":["UPI","Paytm"],"hot":["Aviator","Teen Patti","Andar Bahar"]},
- "bd":{"sport":"cricket","pay":["bKash","Nagad","Rocket"],"hot":["Aviator","Crazy Time"]},
- "br":{"sport":"football","pay":["Pix"],"hot":["Aviator","Fortune Tiger","Spaceman"]},
- "uk":{"sport":"football","pay":["card","PayPal"],"hot":["Book of Dead","Starburst"]},
+GEO_FLAVOR={  # локальная специфика (из созвонов) — валюта/платежи/игры/спорт под каждое гео
+ "in":{"sport":"cricket","cur":"₹","cur_code":"INR","bonus":"₹30,000","pay":["UPI","Paytm","PhonePe"],"hot":["Aviator","Teen Patti","Andar Bahar"]},
+ "bd":{"sport":"cricket","cur":"৳","cur_code":"BDT","bonus":"৳50,000","pay":["bKash","Nagad","Rocket"],"hot":["Aviator","Crazy Time"]},
+ "br":{"sport":"football","cur":"R$","cur_code":"BRL","bonus":"R$5.000","pay":["Pix","Boleto"],"hot":["Aviator","Fortune Tiger","Spaceman"]},
+ "ng":{"sport":"football","cur":"₦","cur_code":"NGN","bonus":"₦500,000","pay":["Flutterwave","Paystack","OPay","bank transfer"],"hot":["Aviator","Spin","Slots"]},
+ "pk":{"sport":"cricket","cur":"₨","cur_code":"PKR","bonus":"₨100,000","pay":["JazzCash","Easypaisa","bank transfer"],"hot":["Aviator","Crash"]},
+ "ke":{"sport":"football","cur":"KSh","cur_code":"KES","bonus":"KSh50,000","pay":["M-Pesa","Airtel Money"],"hot":["Aviator","Spin"]},
+ "ph":{"sport":"basketball","cur":"₱","cur_code":"PHP","bonus":"₱25,000","pay":["GCash","Maya","GrabPay"],"hot":["Color Game","Slots","Jili"]},
+ "uk":{"sport":"football","cur":"£","cur_code":"GBP","bonus":"£500","pay":["Visa","PayPal","Apple Pay"],"hot":["Book of Dead","Starburst"]},
 }
 def detect_type(kw):
     k=kw.lower()

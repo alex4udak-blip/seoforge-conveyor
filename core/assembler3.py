@@ -35,9 +35,12 @@ def full_schema(p, content):
 
 def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
     p=plan; pal=p["palette"]; fh,fb=p["fonts"]; secs=content.get("sections",{})
-    geo=p["geo"]; pays=list(dict.fromkeys(GEO_FLAVOR.get(geo,{}).get("pay",[])+["Visa","Mastercard","Skrill","Neteller","Bitcoin","PayPal","GPay"]))
+    geo=p["geo"]; _fl=GEO_FLAVOR.get(geo,{})
+    # локальные платежи гео ПЕРВЫМИ, потом международные
+    pays=list(dict.fromkeys(_fl.get("pay",[])+["Visa","Mastercard","Skrill","Neteller","Bitcoin"]))
+    cur=_fl.get("cur","$"); maxbonus=_fl.get("bonus","5,000")   # валюта и сумма бонуса под гео
     brands=real_casino_brands(geo,5)
-    bonuses=["100% up to ₹20,000 + 200 FS","Welcome Pack ₹15,000","150% First Deposit","Cashback 20% Weekly","No-Wager ₹5,000"]
+    bonuses=[f"100% up to {maxbonus} + 200 FS",f"Welcome Pack {cur}15,000","150% First Deposit","Cashback 20% Weekly",f"No-Wager {cur}5,000"]
     rates=["9.8","9.5","9.3","9.1","8.9"]; stars=["★★★★★","★★★★★","★★★★☆","★★★★☆","★★★★☆"]
 
     # nav
@@ -88,7 +91,7 @@ def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
             hot=GEO_FLAVOR.get(geo,{}).get("hot",["Aviator","Slots","Live"])
             gi=game_imgs or {}
             _bb=html.escape(p["brand"])
-            tiles="".join((f'<div class="gtile"><img src="{gi[g]}" alt="{html.escape(g)} at {_bb} {geo.upper()}" loading="lazy"><span>{html.escape(g)}</span></div>' if gi.get(g) else f'<div class="gtile"><div class="gicon">🎮</div><span>{html.escape(g)}</span></div>') for g in hot[:6])
+            tiles="".join((f'<div class="gtile"><img src="{gi[g]}" alt="{html.escape(g)} at {_bb} {geo.upper()}" loading="lazy"><span>{html.escape(g)}</span></div>' if gi.get(g) else f'<div class="gtile"><div class="gicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M7 12h2M8 11v2M15 11h.01M18 13h.01"/></svg></div><span>{html.escape(g)}</span></div>') for g in hot[:6])
             inner=f'<p>{html.escape(secs.get(s,""))}</p><div class="ggrid">{tiles}</div>'
         else:
             inner=f'<p>{html.escape(secs.get(s,""))}</p>'
@@ -174,13 +177,13 @@ footer{{padding:30px 0;opacity:.6;font-size:13px;border-top:1px solid #ffffff14}
 .sticky{{position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:var(--acc);color:#0a0a0a;text-align:center;padding:16px;border-radius:14px;font-weight:800;text-decoration:none;box-shadow:0 8px 30px #0009;font-size:17px}}
 @media(min-width:760px){{.sticky{{left:auto;right:24px;bottom:24px;padding:14px 30px}}}}
 </style></head><body>
-<div class="promo-bar">🔥 LIMITED: {p["brand"]} gives 200% up to ₹30,000 + 250 Free Spins — TODAY ONLY</div>
+<div class="promo-bar">LIMITED: {p["brand"]} gives 200% up to {maxbonus} + 250 Free Spins — TODAY ONLY</div>
 <header class="top"><div class="topin"><span class="brandmark">{html.escape(p['brand'])}</span><nav class="nav">{navhtml}</nav></div></header>
-<div class="hero"><div class="wrap"><h1>{html.escape(p['keyword'].title())} — {html.escape(p['brand'])} {geo.upper()}</h1><p>{html.escape(content.get('meta_description','')[:120])}</p><div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">200% up to ₹30,000</span><span class="hbsub">+ 250 Free Spins · {", ".join(pays[:3]) or "Fast payouts"}</span></div>
-<a class="btn" href="/go/">Claim Bonus Now →</a>
-<div class="trust"><span>🛡️ Licensed</span><span>🔒 SSL Secure</span><span>⚡ 24h Payouts</span><span>✅ {("Verified for "+geo.upper())}</span></div>
-<div class="winners">🟢 <b id="wc">1,247</b> players won today · ₹4.2 Cr paid out this week</div></div></div>
-<div class="licenses"><span>🏛️ Curacao Licensed</span><span>🛡️ MGA Certified</span><span>✅ eCOGRA Tested</span><span>🔒 SSL 256-bit</span><span>🔞 18+ Responsible</span></div>
+<div class="hero"><div class="wrap"><h1>{html.escape(p['keyword'].title())} — {html.escape(p['brand'])} {geo.upper()}</h1><p>{html.escape(content.get('meta_description','')[:120])}</p><div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">200% up to {maxbonus}</span><span class="hbsub">+ 250 Free Spins · {", ".join(pays[:3]) or "Fast payouts"}</span></div>
+<a class="btn" href="/go/">Claim Bonus Now</a>
+<div class="trust"><span>Licensed</span><span>SSL Secure</span><span>24h Payouts</span><span>{("Verified for "+geo.upper())}</span></div>
+<div class="winners"><b id="wc">1,247</b> players won today · {cur}4.2M paid out this week</div></div></div>
+<div class="licenses"><span>Curacao Licensed</span><span>MGA Certified</span><span>eCOGRA Tested</span><span>SSL 256-bit</span><span>18+ Responsible</span></div>
 {''.join(blocks)}
 <section class="sec"><div class="wrap"><h3>Accepted Payments</h3><div class="pays">{paysrow}</div></div></section>
 <footer><div class="wrap">© 2026 {html.escape(p['brand'])} · 18+ · Play responsibly · {geo.upper()}</div></footer>
