@@ -1,9 +1,9 @@
-FROM python:3.11-slim
+# MCR Playwright образ: python + chromium + ВСЕ системные либы уже вшиты.
+# apt в билд-окружении Saturn заблокирован, поэтому НИКАКИХ apt/--with-deps. Только pip (PyPI доступен).
+FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-# chromium + все системные apt-зависимости (--with-deps ставит их сам)
-RUN python -m playwright install --with-deps chromium
 COPY . .
 ENV PORT=8000
 EXPOSE 8000
