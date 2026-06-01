@@ -21,6 +21,25 @@ def save_scan(geo, keyword, results, ts):
                   (ts, geo, keyword.lower(), r["domain"], r.get("pos"), r.get("type")))
     c.commit(); c.close()
 
+def scan_and_signal(geo, keywords):
+    """Сканит ключи (serp+save) и ранжирует по churn — где выдача мясорубка = точка входа брендоджека.
+    Первый прогон строит базу (churn нет), последующие — детектят динамику. Кормится кроном."""
+    from core.recon import serp
+    import time as _t
+    out = []
+    for kw in keywords:
+        try:
+            r = serp(kw, geo, n=10, classify_deep=False)
+            res = r.get("top") or r.get("results") or []
+            save_scan(geo, kw, [{"domain": x.get("domain", ""), "pos": i+1} for i, x in enumerate(res)], int(_t.time()))
+            dyn = dynamics(geo, kw)
+            out.append({"keyword": kw, "geo": geo, "churn": dyn.get("churn", 0),
+                        "verdict": dyn.get("verdict", ""), "scans": dyn.get("scans", 1)})
+        except Exception as e:
+            out.append({"keyword": kw, "geo": geo, "err": str(e)[:60]})
+    out.sort(key=lambda x: x.get("churn", 0), reverse=True)
+    return out
+
 def dynamics(geo, keyword):
     """Динамика выдачи: сколько срезов, движение позиций, новые/выпавшие домены между последними двумя."""
     c=_conn()
