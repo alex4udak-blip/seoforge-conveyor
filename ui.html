@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEOForge — конвейер SEO-сети</title>
+<style>
+:root{--bg:#0a0e1a;--card:#121829;--line:#ffffff14;--acc:#00e5a0;--cy:#22d3ee;--am:#f5b73d;--rd:#ff6b6b;--tx:#eaf0ff}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto;background:var(--bg);color:var(--tx);margin:0}
+.top{display:flex;align-items:center;gap:16px;padding:16px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0a0e1aee;backdrop-filter:blur(8px);z-index:10}
+.top h1{font-size:18px;margin:0;color:var(--acc)}.top .sub{opacity:.5;font-size:12px}
+.tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.tab{padding:8px 14px;border-radius:10px;cursor:pointer;font-size:14px;background:transparent;border:1px solid var(--line);color:var(--tx)}
+.tab.on{background:var(--acc);color:#062018;font-weight:700;border-color:var(--acc)}
+.wrap{padding:24px 28px;max-width:1200px;margin:0 auto}
+.panel{display:none}.panel.on{display:block}
+.stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 22px;min-width:130px}
+.stat b{font-size:30px;color:var(--acc);display:block}.stat span{opacity:.6;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:.15s;text-decoration:none;color:inherit;display:block}
+.card:hover{border-color:#00e5a055;transform:translateY(-2px)}
+.ch{display:flex;justify-content:space-between;align-items:center}.ch b{font-size:16px}
+.geo{background:#00e5a022;color:var(--acc);padding:2px 9px;border-radius:6px;font-size:12px;text-transform:uppercase}
+.score{margin-top:12px;font-size:22px;font-weight:800}.sub{color:var(--cy);font-size:12px;margin-top:8px}
+h2{font-size:16px;margin:24px 0 12px;color:var(--acc)}
+.form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:560px}
+label{display:block;font-size:13px;opacity:.7;margin:12px 0 5px}
+input,select{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:#0d1424;color:var(--tx);font-size:14px}
+.btn{margin-top:18px;padding:12px 22px;border:none;border-radius:10px;background:var(--acc);color:#062018;font-weight:700;font-size:15px;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}.btn.sec{background:transparent;border:1px solid var(--cy);color:var(--cy)}
+.out{margin-top:16px;background:#0d1424;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13px;white-space:pre-wrap;font-family:ui-monospace,monospace;max-height:340px;overflow:auto}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+td,th{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}th{opacity:.6;font-weight:600;font-size:12px}
+.tag{padding:2px 8px;border-radius:6px;font-size:11px}
+.t-brand{background:#8e2de233;color:#c8a2ff}.t-aff{background:#f7971e33;color:#ffd27a}.t-other{background:#ffffff14;color:#aab}
+.bar{height:8px;border-radius:5px;background:#0d1424;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#00e5a0,#22d3ee)}
+.muted{opacity:.55;font-size:13px}.crit td:first-child{opacity:.7}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;margin:2px}
+.note{font-size:12px;opacity:.55;margin-top:8px}
+</style></head>
+<body>
+<div class="top">
+  <h1>🔥 SEOForge</h1><span class="sub">конвейер SEO-сети · gambling</span>
+  <div class="tabs">
+    <button class="tab on" data-p="overview">Обзор сети</button>
+    <button class="tab" data-p="create">Создать сайт</button>
+    <button class="tab" data-p="metrics">Метрики</button>
+    <button class="tab" data-p="recon">Разведка конкурентов</button>
+  </div>
+</div>
+<div class="wrap">
+
+<!-- ОБЗОР -->
+<div class="panel on" id="overview">
+  <div class="stats" id="stats"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- СОЗДАТЬ -->
+<div class="panel" id="create">
+  <h2>Новый сайт в сеть</h2>
+  <div class="form">
+    <label>Домен (slug)</label><input id="c_dom" placeholder="luckyspin-in">
+    <label>Бренд</label><input id="c_brand" placeholder="LuckySpin">
+    <label>Гео</label><select id="c_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select>
+    <label>Режим</label><select id="c_mode"><option value="brand">brand (бренд, 14 стр)</option><option value="showcase">showcase (витрина)</option></select>
+    <button class="btn" onclick="doGen()">⚙ Сгенерировать</button>
+    <div class="note">Сборка идёт в фоне ~60-90с (картинки + контент). Потом появится в Обзоре, оцени во вкладке Метрики.</div>
+    <div class="out" id="c_out" style="display:none"></div>
+  </div>
+</div>
+
+<!-- МЕТРИКИ -->
+<div class="panel" id="metrics">
+  <h2>Глубокий анализ сайта</h2>
+  <div class="form" style="max-width:760px">
+    <label>Сайт сети</label><select id="m_slug"></select>
+    <label>Ключ для vision-аудита</label><input id="m_kw" placeholder="online casino india">
+    <div style="display:flex;gap:10px">
+      <button class="btn" onclick="loadMetrics()">📊 Показать метрики</button>
+      <button class="btn sec" onclick="doAudit()">👁 Запустить vision-аудит</button>
+    </div>
+    <div class="note">vision-аудит гоняется на сервере; если playwright недоступен — оценка пишется через CLI seoforge.py локально.</div>
+  </div>
+  <div id="m_body"></div>
+</div>
+
+<!-- РАЗВЕДКА -->
+<div class="panel" id="recon">
+  <h2>Разведка выдачи конкурентов <span class="muted">(наша разработка)</span></h2>
+  <div class="form" style="max-width:620px">
+    <label>Ключевой запрос</label><input id="r_kw" placeholder="online casino india">
+    <label>Гео</label><select id="r_geo"><option>in</option><option>bd</option><option>br</option><option>ng</option><option>uk</option><option>pk</option><option>ke</option><option>ph</option></select>
+    <button class="btn" onclick="doRecon()">🔍 Разведать топ выдачи</button>
+    <div class="note">Тянем живой топ органики и классифицируем footprint: бренд-казино vs афилейт-обзорники → куда бить.</div>
+  </div>
+  <div id="r_body"></div>
+</div>
+
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+$$('.tab').forEach(t=>t.onclick=()=>{
+  $$('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  $$('.panel').forEach(p=>p.classList.remove('on'));$('#'+t.dataset.p).classList.add('on');
+  if(t.dataset.p==='overview')loadOverview();
+  if(t.dataset.p==='metrics')fillSlugs();
+});
+async function j(u,o){const r=await fetch(u,o);return r.json();}
+
+async function loadOverview(){
+  const d=await j('/network');
+  const sc=d.network.filter(s=>s.audit_score).map(s=>s.audit_score);
+  const avg=sc.length?(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(1):'—';
+  $('#stats').innerHTML=`<div class="stat"><b>${d.count}</b><span>сайтов в сети</span></div>
+    <div class="stat"><b>${avg}</b><span>средний vision</span></div>
+    <div class="stat"><b>${sc.filter(x=>x>=70).length}</b><span>🟢 ≥70 баллов</span></div>`;
+  $('#grid').innerHTML=d.network.sort((a,b)=>(b.audit_score||0)-(a.audit_score||0)).map(s=>{
+    const v=s.audit_score, col=v>=70?'var(--acc)':v>=50?'var(--am)':'#888';
+    return `<a class="card" href="/dash/${s.slug}"><div class="ch"><b>${s.brand||s.slug}</b><span class="geo">${s.geo||'?'}</span></div>
+      <div class="score" style="color:${col}">${v??'—'}<span style="font-size:13px;opacity:.5"> /100</span></div>
+      <div class="sub">анализ вглубь →</div></a>`;}).join('')||'<p class="muted">сеть пуста — создай сайт</p>';
+}
+async function fillSlugs(){
+  const d=await j('/network');
+  $('#m_slug').innerHTML=d.network.map(s=>`<option value="${s.slug}" data-geo="${s.geo||'in'}">${s.brand||s.slug} (${s.geo||'?'})</option>`).join('');
+}
+async function doGen(){
+  const b={domain:$('#c_dom').value,brand:$('#c_brand').value,geo:$('#c_geo').value,mode:$('#c_mode').value};
+  $('#c_out').style.display='block';$('#c_out').textContent='Запускаю генерацию...';
+  const r=await j('/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+  $('#c_out').textContent=JSON.stringify(r,null,2)+'\n\n✅ сборка в фоне — проверь вкладку Обзор через ~90с';
+}
+async function loadMetrics(){
+  const slug=$('#m_slug').value;if(!slug)return;
+  const d=await j('/metrics/'+slug);
+  const v=d.vision||{},bd=v.breakdown||{};
+  let rows='';for(const k in bd){const o=bd[k],s=o.score??o;const col=s>=70?'var(--acc)':s>=50?'var(--am)':'var(--rd)';
+    rows+=`<tr><td>${k}</td><td style="color:${col};font-weight:700">${s}</td><td class="muted">${o.why||''}</td></tr>`;}
+  const fixes=(v.fixes||[]).map(f=>`<li>${f}</li>`).join('');
+  $('#m_body').innerHTML=`<div class="stats"><div class="stat"><b>${v.score??'—'}</b><span>vision-балл</span></div>
+    <div class="stat"><b>${d.pages_count||0}</b><span>страниц</span></div>
+    <div class="stat"><b>${((d.uptime||{}).total_bytes/1024|0)||0}</b><span>КБ контента</span></div></div>
+    <h2>Разбор по критериям</h2><table><tr><th>критерий</th><th>балл</th><th>почему</th></tr>${rows||'<tr><td class="muted">аудит ещё не запускался</td></tr>'}</table>
+    <h2>Что чинить (приоритет)</h2><ol>${fixes||'<li class="muted">—</li>'}</ol>
+    <h2>Источники метрик</h2>
+    <p><span class="pill" style="background:#00e5a022;color:var(--acc)">✅ vision</span>
+    <span class="pill t-other">SERP-позиции — в работе</span>
+    <span class="pill t-other">Keitaro депы — в работе</span>
+    <span class="pill t-other">GSC индексация — в работе</span></p>
+    <p><a class="btn sec" href="/site/${slug}/index.html" target="_blank" style="text-decoration:none">🌐 открыть сайт</a></p>`;
+}
+async function doAudit(){
+  const slug=$('#m_slug').value,kw=$('#m_kw').value||'online casino';
+  const geo=$('#m_slug').selectedOptions[0].dataset.geo;
+  $('#m_body').innerHTML='<p class="muted">⏳ запускаю vision-аудит (скриншот + анализ по рубрике)...</p>';
+  const r=await j('/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug,geo,keyword:kw})});
+  if(r.scores){setTimeout(loadMetrics,500);} else {$('#m_body').innerHTML='<div class="out">'+JSON.stringify(r,null,2)+'\n\nℹ если playwright на сервере недоступен — запусти локально: python3 seoforge.py audit '+slug+' '+geo+' "'+kw+'"</div>';}
+}
+async function doRecon(){
+  const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)return;
+  $('#r_body').innerHTML='<p class="muted">🔍 тяну живой топ выдачи...</p>';
+  const d=await j('/recon?keyword='+encodeURIComponent(kw)+'&geo='+geo+'&n=10');
+  if(d.error){$('#r_body').innerHTML='<div class="out">'+d.error+'</div>';return;}
+  const c=d.classified||{};
+  const rows=d.results.map(x=>{const t=x.type==='brand-casino'?'t-brand':x.type==='affiliate'?'t-aff':'t-other';
+    return `<tr><td>${x.pos}</td><td><b>${x.domain}</b><div class="muted" style="font-size:12px">${x.title}</div></td><td><span class="tag ${t}">${x.type||'?'}</span></td></tr>`;}).join('');
+  $('#r_body').innerHTML=`<div class="stats">
+    <div class="stat"><b>${c.brand_casino||0}</b><span>бренд-казино</span></div>
+    <div class="stat"><b>${c.affiliate||0}</b><span>афилейт-обзорники</span></div>
+    <div class="stat"><b>${c.other||0}</b><span>прочее</span></div></div>
+    <p style="background:#00e5a012;border:1px solid #00e5a033;border-radius:10px;padding:12px"><b>Вердикт:</b> ${c.verdict||''}</p>
+    <h2>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
+    <table><tr><th>#</th><th>домен</th><th>тип</th></tr>${rows}</table>`;
+}
+loadOverview();
+</script>
+</body></html>
