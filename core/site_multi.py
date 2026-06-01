@@ -23,12 +23,6 @@ PAGES = [
     {"slug": "responsible", "nav": "18+ Safety","role": "RESPONSIBLE GAMING & ABOUT — 18+, licensing, safety, self-exclusion, about us"},
 ]
 
-def _nav_html(active):
-    items = "".join(
-        f'<a href="{p["slug"]}.html"{" aria-current=\"page\"" if p["slug"]==active else ""}>{p["nav"]}</a>'
-        for p in PAGES)
-    return items
-
 def _build_page(page, ctx):
     """Sonnet пишет ОДНУ страницу с общей навигацией + своей темой."""
     nav_links = " | ".join(f'{p["nav"]}=>{p["slug"]}.html' for p in PAGES)
