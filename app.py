@@ -258,11 +258,31 @@ def _build_job(req: "GenReq", slug: str):
             try:
                 from build_assets import build as build_assets; build_assets(req.geo)
             except Exception as e: print("assets warn:", e)
-        _set_stage(slug,"Генерация контента и страниц",55,brand=req.brand,geo=req.geo,domain=req.domain)
-        from site_builder import build_site
-        outdir,n=build_site(req.domain, req.brand, req.geo, req.mode)
-        _set_stage(slug,"Финализация (sitemap, schema)",90,brand=req.brand,geo=req.geo,domain=req.domain,pages=n)
-        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":n,"build":"done","stage":"Готово","progress":100}; _save_net(net)
+        # АГЕНТНЫЙ v2: разведка → план(Claude) → контент(Claude пассажи) → уник.вёрстка + визуал
+        _set_stage(slug,"Разведка конкурентов",40,brand=req.brand,geo=req.geo,domain=req.domain)
+        from core.recon import serp
+        from core.agent_architect import plan_structure
+        from core.agent_copywriter import write_content
+        from core.agent_builder import build as agent_build
+        kw = req.brand + " casino " + req.geo
+        recon = serp(kw, req.geo, n=6, classify_deep=False)
+        _set_stage(slug,"Агент проектирует структуру",55,brand=req.brand,geo=req.geo,domain=req.domain)
+        plan = plan_structure(kw, req.geo, recon=recon, seed=slug)
+        _set_stage(slug,"Агент пишет контент (AI-выдача)",70,brand=req.brand,geo=req.geo,domain=req.domain)
+        content = write_content(req.brand, kw, req.geo, plan)
+        _set_stage(slug,"Уникальная вёрстка + визуал",88,brand=req.brand,geo=req.geo,domain=req.domain)
+        html = agent_build(req.brand, kw, req.geo, slug, plan, content)
+        os.makedirs(f"output/{slug}", exist_ok=True)
+        open(f"output/{slug}/index.html","w",encoding="utf-8").write(html)
+        # копируем ассеты гео в сайт (для относительных путей картинок)
+        import shutil
+        sa=f"output/{slug}/assets"; ap=f"output/assets/{req.geo}"
+        if os.path.isdir(ap):
+            os.makedirs(sa, exist_ok=True)
+            for f in os.listdir(ap):
+                try: shutil.copy(f"{ap}/{f}", f"{sa}/{f}")
+                except: pass
+        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":1,"build":"done","stage":"Готово","progress":100,"layout":plan.get("layout"),"engine":"agent-v2"}; _save_net(net)
     except Exception as e:
         net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error","stage":"Ошибка: "+str(e)[:100],"progress":0}; _save_net(net)
 
