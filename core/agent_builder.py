@@ -152,7 +152,7 @@ LAYOUT_CSS = {
 def build(brand, keyword, geo, domain, plan, content, assets=None, design=None):
     fl = GEO_FLAVOR.get(geo, {})
     cur = fl.get("cur", "$"); maxbonus = fl.get("bonus", "5,000")
-    pays = ", ".join(fl.get("pay", ["UPI"])[:3])
+    pays = ", ".join(fl.get("pay", ["Visa","Mastercard"])[:3])
     layout = plan.get("layout", "toplist-first")
     blocks = plan.get("blocks", [])
     g = geo.upper()

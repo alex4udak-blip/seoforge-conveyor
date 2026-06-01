@@ -49,6 +49,10 @@ HARD REQUIREMENTS:
 - Page-appropriate hero: on index use {ctx['hero']} as a full-bleed CSS background with a LIGHT dark overlay (rgba .30-.55) so the image stays visible. Other pages: a slimmer header band.
 - Render the relevant images as real <img> (games grid on Games page, payment logos on Payments page, casino logos in toplist on Home/Review). No garbled/duplicate images.
 - ONE primary CTA in the hero (not 4 competing buttons). Secondary CTAs lower on the page are fine.
+- STICKY BOTTOM CTA BAR: a position:fixed bar pinned to the bottom of the viewport that STAYS visible while
+  scrolling (does NOT scroll away), containing a short bonus claim button (e.g. localized "Claim Bonus") as
+  <a href="/go/">. Add bottom padding to the body so the fixed bar never covers the footer content. On mobile
+  it must look like a native app bottom CTA, full-width, high-contrast.
 - Footer with: © {ctx['brand']} · 18+ · Play Responsibly · {ctx['geo']} + the nav links repeated.
 - Rich but HARMONIOUS palette (primary + complementary accent, NO clashing teal-on-orange). NO emoji — inline SVG/CSS only.
 - MOBILE-FIRST (great at 390px AND desktop), body font-size>=15px line-height>=1.6, own CSS @keyframes micro-animations.
@@ -72,6 +76,14 @@ Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, n
     # страж языка: не-RU гео + кириллица = брак
     if ctx['geocode'] not in ("ru",) and len(re.findall(r"[А-Яа-яЁё]", html)) > 5:
         return None
+    # ГЕО-СТРАЖ: чужая валюта/платёжки/гео-слова (напр. ₹/India на BR) = брак
+    try:
+        from core.geo_check import check as _geocheck
+        gc = _geocheck(html, ctx['geocode'])
+        if not gc["ok"]:
+            return None  # caller получит неполный набор → перегенерит/fallback
+    except Exception:
+        pass
     return mutate(html, ctx['domain'])
 
 def build_multisite(brand, keyword, geo, domain, plan, content, images=None):
@@ -85,7 +97,7 @@ def build_multisite(brand, keyword, geo, domain, plan, content, images=None):
         "brand": brand, "keyword": keyword, "geo": geo.upper(), "geocode": geo,
         "lang": GEO_LANG.get(geo, "English"),
         "cur": fl.get("cur", "$"), "maxbonus": fl.get("bonus", "5,000"),
-        "pays": ", ".join(fl.get("pay", ["UPI"])[:4]), "hot": ", ".join(fl.get("hot", ["Aviator"])[:4]),
+        "pays": ", ".join(fl.get("pay", ["Visa","Mastercard"])[:4]), "hot": ", ".join(fl.get("hot", ["Slots","Roulette"])[:4]),
         "hero": images.get("hero", ""), "games": images.get("games", {}),
         "pays_logos": images.get("pays", {}), "casinos": images.get("casinos", []),
         "domain": domain,

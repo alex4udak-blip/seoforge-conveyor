@@ -15,8 +15,8 @@ MODEL = "claude-sonnet-4-5"
 def build_fullsite(brand, keyword, geo, domain, plan, content, images=None):
     fl = GEO_FLAVOR.get(geo, {})
     cur = fl.get("cur", "$"); maxbonus = fl.get("bonus", "5,000")
-    pays = fl.get("pay", ["UPI", "Visa"])[:4]
-    hot = fl.get("hot", ["Aviator", "Slots"])[:4]
+    pays = fl.get("pay", ["Visa", "Mastercard"])[:4]
+    hot = fl.get("hot", ["Slots", "Roulette"])[:4]
     images = images or {}
     hero = images.get("hero", "")
     games_imgs = images.get("games", {})  # {game: url}
