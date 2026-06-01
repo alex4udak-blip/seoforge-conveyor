@@ -11,12 +11,12 @@ from core.keyword_taxonomy import GEO_FLAVOR
 GEO_MARKERS = {
     "in": {"cur": "₹", "pay": ["UPI", "Paytm", "PhonePe"], "words": ["India", "Indian", "rupee"]},
     "bd": {"cur": "৳", "pay": ["bKash", "Nagad", "Rocket"], "words": ["Bangladesh", "Bangladeshi", "taka"]},
-    "br": {"cur": "R$", "pay": ["Pix", "Boleto"], "words": ["Brasil", "Brazil", "brasileiro", "real"]},
+    "br": {"cur": "R$", "pay": ["Pix", "Boleto"], "words": ["Brasil", "brasileiro", "brasileira"]},
     "ng": {"cur": "₦", "pay": ["Flutterwave", "Paystack", "OPay"], "words": ["Nigeria", "Nigerian", "naira"]},
     "pk": {"cur": "₨", "pay": ["JazzCash", "Easypaisa"], "words": ["Pakistan", "Pakistani"]},
     "ke": {"cur": "KSh", "pay": ["M-Pesa", "Airtel Money"], "words": ["Kenya", "Kenyan", "shilling"]},
     "ph": {"cur": "₱", "pay": ["GCash", "Maya", "GrabPay"], "words": ["Philippines", "Filipino", "peso"]},
-    "uk": {"cur": "£", "pay": ["PayPal", "Apple Pay"], "words": ["United Kingdom", "British"]},
+    "uk": {"cur": "£", "pay": [], "words": ["United Kingdom", "British"]},
 }
 
 def check(html, geo):

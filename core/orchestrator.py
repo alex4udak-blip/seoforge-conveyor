@@ -54,8 +54,10 @@ def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None):
     # 5. GENERATE (multipage)
     from core.site_multi import build_multisite
     pages = build_multisite(brand, keyword, geo, host, plan, content, images)
-    if not pages:
-        _log(job, "GENERATE", "fail")
+    if not pages or "index" not in pages or len(pages) < 5:
+        _log(job, "GENERATE", "fail", got=len(pages or {}), have_index=bool(pages and "index" in pages),
+             note="не деплою битый набор (нет index или <5 стр)")
+        job["pages_partial"] = list((pages or {}).keys())
         return job
     _log(job, "GENERATE", "ok", pages=len(pages))
 
