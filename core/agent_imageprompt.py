@@ -33,7 +33,11 @@ def image_prompt(kind, brand="", game="", geo="", text="", seed=""):
         cat = "an elegant casino card table with rich felt and warm spotlight, cards softly motion-blurred so no suit is readable, a live-dealer atmosphere"
     elif any(k in g for k in ("roulette", "crazy time", "wheel", "dream catcher")):
         cat = "a vivid spinning wheel in motion with bright bokeh lights and dynamic blur, game-show energy"
-    elif any(k in g for k in ("slot", "fortune", "tiger", "book", "starburst", "fruit", "777", "jili", "color game")):
+    elif "tiger" in g:
+        cat = "a majestic golden tiger with Chinese fortune symbols, gold coins and red-and-gold ornaments, vibrant lucky atmosphere"
+    elif "book" in g or "egypt" in g:
+        cat = "an ancient Egyptian golden book and hieroglyphs with warm torch light and treasure, adventure-slot mood"
+    elif any(k in g for k in ("slot", "fortune", "starburst", "fruit", "777", "jili", "color game")):
         cat = "glowing slot-machine reels with vibrant themed symbols (fruits, gems, lucky 7s) lit by neon, a jackpot feel"
     else:
         cat = "a luxurious premium casino floor scene with varied tasteful detail"
