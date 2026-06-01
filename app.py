@@ -97,6 +97,7 @@ def site_metrics(slug: str):
         "pages_count":len(pages),"pages":pages,
         "vision":{"score":m.get("audit_score"),"breakdown":m.get("audit_scores"),"fixes":m.get("audit_fixes")},
         "history":m.get("history",[]),
+        "uptime":{"status":"live","pages_served":len(pages),"total_bytes":sum(p["bytes"] for p in pages)},
         "serp":{"status":"not_wired","note":"подключить SERP-сканер (позиции по ключам)"},
         "keitaro":{"status":"not_wired","note":"подключить Keitaro API (депы/клики/EPC)"},
         "indexation":{"status":"not_wired","note":"GSC/Bing API"},
