@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Completo do LuckyJet - Análise Expert | LuckyJet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #f39c12;
+            --accent-dark: #d68910;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+            color: var(--primary);
+            background: var(--light);
+        }
+
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .hero-slim {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .hero-slim h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-slim p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.6s ease 0.1s backwards;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            padding: 4rem 1rem;
+        }
+
+        .section:nth-child(even) {
+            background: var(--white);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .rating-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .rating-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .overall-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .rating-items {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .rating-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating-label {
+            font-weight: 600;
+            color: var(--primary);
+            flex: 0 0 150px;
+        }
+
+        .rating-bar {
+            flex: 1;
+            height: 12px;
+            background: var(--light);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+            border-radius: 6px;
+            transition: width 1s ease;
+            animation: fillBar 1.5s ease;
+        }
+
+        .rating-value {
+            font-weight: 700;
+            color: var(--accent);
+            flex: 0 0 40px;
+            text-align: right;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .pros-card, .cons-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .pros-card {
+            border-top: 4px solid var(--success);
+        }
+
+        .cons-card {
+            border-top: 4px solid var(--danger);
+        }
+
+        .pros-cons h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .pros-cons ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pros-cons li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .pros-cons li svg {
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .verdict-box {
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(243, 156, 18, 0.3);
+            animation: fadeInUp 0.6s ease;
+            margin-bottom: 3rem;
+        }
+
+        .verdict-box h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .verdict-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .who-for {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .who-for {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .who-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .who-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        }
+
+        .who-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .who-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--accent-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .games-showcase {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .games-showcase {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .game-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-card-content {
+            padding: 1rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .game-card-content h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 3rem 1rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-nav a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            opacity: 1;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .hero-slim h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .rating-number {
+                font-size: 3rem;
+            }
+
+            .rating-label {
+                flex: 0 0 100px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                    <circle cx="12" cy="14" r="3"/>
+                </svg>
+                LuckyJet
+            </a>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="bonuses.html">Bônus</a>
+                <a href="games.html">Jogos</a>
+                <a href="payments.html">Pagamentos</a>
+                <a href="review.html" class="active">Review</a>
+                <a href="app.html">App</a>
+                <a href="responsible.html">18+ Segurança</a>
+            </nav>
+        </div><section class="g"></section>
+    </header>
+
+    <div class="hero-slim">
+        <h1>Review Completo LuckyJet</h1>
+        <p>Análise expert e avaliação detalhada</p>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="rating-card">
+                <div class="rating-header">
+                    <div class="overall-rating">
+                        <div class="rating-number">4.6</div>
+                        <div>
+                            <div class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star" style="opacity: 0.6;">★</span>
+                            </div><section class="g"></section>
+                            <p style="margin-top: 0.5rem; font-size: 1.1rem; font-weight: 600;">Excelente</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray); max-width: 600px; margin: 0 auto;">Baseado em análise abrangente de jogos, bônus, pagamentos e experiência do usuário</p>
+                </div><section class="g"></section>
+
+                <div class="rating-items">
+                    <div class="rating-item">
+                        <span class="rating-label">Variedade de Jogos</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 92%;"></div>
+                        </div>
+                        <span class="rating-value">9.2</span>
+                    </div><aside class="s"></aside>
+                    <div class="rating-item">
+                        <span class="rating-label">Bônus e Promoções</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 88%;"></div>
+                        </div>
+                        <span class="rating-value">8.8</span>
+                    </div><figure class="f"><span></span></figure>
+                    <div class="rating-item">
+                        <span class="rating-label">Pagamentos</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 95%;"></div>
+                        </div>
+                        <span class="rating-value">9.5</span>
+                    </div><div class="x"><span></span></div>
+                    <div class="rating-item">
+                        <span class="rating-label">Suporte ao Cliente</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 85%;"></div>
+                        </div>
+                        <span class="rating-value">8.5</span>
+                    </div><div class="d"><i></i><i></i></div>
+                    <div class="rating-item">
+                        <span class="rating-label">App Mobile</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 90%;"></div>
+                        </div>
+                        <span class="rating-value">9.0</span>
+                    </div><aside class="s"></aside>
+                    <div class="rating-item">
+                        <span class="rating-label">Segurança</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 94%;"></div>
+                        </div>
+                        <span class="rating-value">9.4</span>
+                    </div><aside class="s"></aside>
+                </div>
+            </div>
+        </div><figure class="f"><span></span></figure>
+    </section><aside class="s"></aside>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Pontos Fortes e Fracos</h2>
+            <div class="pros-cons">
+                <div class="pros-card">
+                    <h3>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#27ae60"/>
+                            <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Prós
+                    </h3>
+                    <ul>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Bônus de boas-vindas generoso de até R$5.000 para novos jogadores brasileiros</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Depósitos e saques instantâneos via Pix, método preferido dos brasileiros</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Jogos crash populares: Aviator, Fortune Tiger e Spaceman disponíveis</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Interface mobile-first otimizada para smartphones e tablets</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Suporte ao cliente em português 24/7 via chat ao vivo</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#27ae60">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Criptografia SSL e medidas de jogo responsável implementadas</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cons-card">
+                    <h3>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#e74c3c"/>
+                            <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Contras
+                    </h3>
+                    <ul>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e74c3c">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            <span>Requisitos de apostas nos bônus podem ser altos para alguns jogadores</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e74c3c">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            <span>Seleção de jogos de mesa ainda está em expansão</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e74c3c">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            <span>Aplicativo nativo ainda não disponível para iOS</span>
+                        </li>
+                        <li>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e74c3c">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                            <span>Programa de fidelidade poderia oferecer mais recompensas</span>
+                        </li>
+                    </ul>
+                </div>
+            </div><aside class="s"></aside>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h3 class="section-title">Jogos em Destaque</h2>
+            <div class="games-showcase">
+                <div class="game-card">
+                    <img src="https://im.runware.ai/image/os/a06dlim3/ws/3/ii/97957c24-0fa5-4505-9b62-7bf6ff88b388.jpg" alt="Aviator">
+                    <div class="game-card-content">
+                        <h4>Aviator</h4>
+                    </div>
+                </div><aside class="s"></aside>
+                <div class="game-card">
+                    <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/5683496c-0ab0-42df-b312-20eb7c680e56.jpg" alt="Fortune Tiger">
+                    <div class="game-card-content">
+                        <h4>Fortune Tiger</h4>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://im.runware.ai/image/os/a02d21/ws/3/ii/6eb5402b-2b31-4501-8f98-870163cf5ff1.jpg" alt="Spaceman">
+                    <div class="game-card-content">
+                        <h4>Spaceman</h4>
+                    </div><figure class="f"><span></span></figure>
+                </div>
+            </div>
+        </div><aside class="s"></aside>
+    </section><aside class="s"></aside>
+
+    <section class="section">
+        <div class="container">
+            <div class="verdict-box">
+                <h3>Veredicto Final</h3>
+                <p>O LuckyJet se destaca como uma opção sólida para jogadores brasileiros que buscam uma experiência de cassino online moderna e confiável. Com integração perfeita do Pix, bônus generosos de até R$5.000 e uma seleção crescente de jogos populares como Aviator e Fortune Tiger, a plataforma atende bem às necessidades do mercado brasileiro. A interface mobile-first e o suporte em português 24/7 são pontos fortes adicionais. Embora existam áreas para melhoria, como a expansão do catálogo de jogos de mesa, o LuckyJet oferece uma experiência geral positiva que justifica sua classificação de 4.6 estrelas.</p>
+                <a href="/go/" class="cta-button">Começar a Jogar Agora</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Para Quem é o LuckyJet?</h2>
+            <div class="who-for">
+                <div class="who-card">
+                    <h4>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="#f39c12" stroke-width="2"/>
+                            <path d="M12 6v6l4 2" stroke="#f39c12" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Iniciantes
+                    </h4>
+                    <p>Interface intuitiva e bônus de boas-vindas generoso tornam o LuckyJet ideal para quem está começando no mundo dos cassinos online. O suporte em português ajuda iniciantes a navegar com confiança.</p>
+                </div><section class="g"></section>
+
+                <div class="who-card">
+                    <h4>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="#f39c12"/>
+                        </svg>
+                        Fãs de Crash Games
+                    </h4>
+                    <p>Se você adora a adrenalina do Aviator, Fortune Tiger ou Spaceman, o LuckyJet oferece todos esses títulos populares em uma plataforma otimizada com saques rápidos via Pix.</p>
+                </div>
+
+                <div class="who-card">
+                    <h4>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <rect x="4" y="4" width="16" height="16" rx="2" stroke="#f39c12" stroke-width="2"/>
+                            <path d="M4 8h16M8 4v16" stroke="#f39c12" stroke-width="2"/>
+                        </svg>
+                        Jogadores Mobile
+                    </h4>
+                    <p>A plataforma mobile-first do LuckyJet garante experiência perfeita em smartphones e tablets, permitindo jogar seus games favoritos em qualquer lugar com internet.</p>
+                </div>
+
+                <div class="who-card">
+                    <h4>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="#f39c12"/>
+                        </svg>
+                        Quem Busca Pagamentos Rápidos
+                    </h4>
+                    <p>Com Pix integrado e processamento de saques em minutos, o LuckyJet é perfeito para jogadores brasileiros que valorizam transações rápidas e convenientes.</p>
+                </div><aside class="s"></aside>
+            </div>
+        </div>
+    </section><div class="x"><span></span></div><section class="g"></section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <nav class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="bonuses.html">Bônus</a>
+                <a href="games.html">Jogos</a>
+                <a href="payments.html">Pagamentos</a>
+                <a href="review.html">Review</a>
+                <a href="app.html">App</a>
+                <a href="responsible.html">18+ Segurança</a>
+            </nav>
+            <div class="footer-text">
+                <p>&copy; LuckyJet · 18+ · Jogue com Responsabilidade · BR</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem;">O jogo pode ser viciante. Jogue com moderação e apenas se tiver mais de 18 anos.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

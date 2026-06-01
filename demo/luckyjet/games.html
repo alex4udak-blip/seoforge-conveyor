@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogos de Cassino - LuckyJet Brasil</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a1f3a;
+  --secondary: #2d3561;
+  --accent: #ffd700;
+  --accent-dark: #e6c200;
+  --text: #e8e9f0;
+  --text-muted: #a8aab8;
+  --bg-dark: #0f1219;
+  --bg-card: #1e2338;
+  --success: #00d084;
+  --gradient: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.header {
+  background: var(--primary);
+  border-bottom: 2px solid var(--accent);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.header-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo svg {
+  width: 32px;
+  height: 32px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav a:hover {
+  background: var(--secondary);
+  color: var(--accent);
+}
+
+.nav a.active {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.hero-slim {
+  background: var(--gradient);
+  padding: 60px 20px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slim::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://im.runware.ai/image/os/a06dlim3/ws/4/ii/3fc68232-b316-42dd-ad40-1c0190779a07.jpg') center/cover;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.hero-slim-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-slim h1 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--accent);
+  animation: fadeInUp 0.6s ease;
+}
+
+.hero-slim p {
+  font-size: 18px;
+  color: var(--text);
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 60px 20px;
+}
+
+.section-alt {
+  background: var(--primary);
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--accent);
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.filter-btn {
+  padding: 10px 24px;
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  border-radius: 24px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--accent);
+  background: var(--secondary);
+  color: var(--accent);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.game-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(255, 215, 0, 0.2);
+}
+
+.game-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 75%;
+  overflow: hidden;
+  background: var(--secondary);
+}
+
+.game-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image {
+  transform: scale(1.1);
+}
+
+.game-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+.game-info {
+  padding: 20px;
+}
+
+.game-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.game-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.game-rtp {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-provider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-description {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.game-cta {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: var(--primary);
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.game-cta:hover::before {
+  left: 100%;
+}
+
+.game-cta:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+.rtp-info-section {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 40px;
+  margin: 50px auto;
+  max-width: 900px;
+  border: 2px solid var(--secondary);
+}
+
+.rtp-info-section h3 {
+  font-size: 26px;
+  color: var(--accent);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.rtp-info-section p {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.rtp-table {
+  width: 100%;
+  margin-top: 30px;
+  border-collapse: collapse;
+}
+
+.rtp-table th,
+.rtp-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--secondary);
+}
+
+.rtp-table th {
+  background: var(--secondary);
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.rtp-table td {
+  color: var(--text);
+}
+
+.rtp-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--success);
+  color: var(--primary);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cta-banner {
+  background: var(--gradient);
+  border-radius: 16px;
+  padding: 50px 30px;
+  text-align: center;
+  margin: 50px auto;
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.cta-banner-content {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-banner h3 {
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.cta-banner p {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 16px 48px;
+  background: var(--accent);
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(255, 215, 0, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(255, 215, 0, 0.5);
+}
+
+.categories-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.category-card {
+  background: var(--bg-card);
+  padding: 30px 24px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.category-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  background: var(--secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--accent);
+}
+
+.category-card h4 {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.category-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.footer {
+  background: var(--primary);
+  border-top: 2px solid var(--accent);
+  padding: 40px 20px 30px;
+  margin-top: 80px;
+}
+
+.footer-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.footer-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+.footer-legal {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.footer-legal strong {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav a {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .hero-slim h1 {
+    font-size: 32px;
+  }
+
+  .hero-slim p {
+    font-size: 16px;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .rtp-info-section {
+    padding: 24px;
+  }
+
+  .rtp-table {
+    font-size: 14px;
+  }
+
+  .rtp-table th,
+  .rtp-table td {
+    padding: 10px 8px;
+  }
+
+  .cta-banner {
+    padding: 30px 20px;
+  }
+
+  .cta-banner h3 {
+    font-size: 24px;
+  }
+
+  .cta-banner p {
+    font-size: 16px;
+  }
+
+  .btn-primary {
+    padding: 14px 36px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-bar {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.86-.94-7-4.59-7-9V8.3l7-3.11 7 3.11V11c0 4.41-3.14 8.06-7 9z"/>
+        <path d="M12 6l-5 2.5v3.5c0 3.33 2.06 6.26 5 7.42 2.94-1.16 5-4.09 5-7.42V8.5L12 6zm3 6h-6v-2h6v2z"/>
+      </svg>
+      LuckyJet
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bônus</a>
+      <a href="games.html" class="active">Jogos</a>
+      <a href="payments.html">Pagamentos</a>
+      <a href="review.html">Avaliação</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Segurança</a>
+    </nav>
+  </div><section class="g"></section>
+</header>
+
+<section class="hero-slim">
+  <div class="hero-slim-content">
+    <h1>Biblioteca de Jogos</h1>
+    <p>Explore nossa coleção completa de jogos crash, slots e jogos ao vivo com os melhores RTPs do mercado</p>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Jogos Populares</h2>
+    <p class="section-subtitle">Os jogos mais jogados pelos brasileiros com altas taxas de retorno ao jogador</p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active">Todos</button>
+      <button class="filter-btn">Crash Games</button>
+      <button class="filter-btn">Slots</button>
+      <button class="filter-btn">Alto RTP</button>
+      <button class="filter-btn">Ao Vivo</button>
+    </div>
+
+    <div class="games-grid">
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <span class="game-badge">Popular</span>
+          <img src="https://im.runware.ai/image/os/a06dlim3/ws/3/ii/97957c24-0fa5-4505-9b62-7bf6ff88b388.jpg" alt="Aviator" class="game-image">
+        </div><section class="g"></section>
+        <div class="game-info">
+          <h3 class="game-title">Aviator</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 97%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>Spribe</span>
+            </div>
+          </div><section class="g"></section>
+          <p class="game-description">O jogo crash mais popular do Brasil. Saque antes do avião voar e multiplique seus ganhos até 100x!</p>
+          <a href="/go/" class="game-cta">Jogar Aviator</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <span class="game-badge">Quente</span>
+          <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/5683496c-0ab0-42df-b312-20eb7c680e56.jpg" alt="Fortune Tiger" class="game-image">
+        </div><aside class="s"></aside>
+        <div class="game-info">
+          <h3 class="game-title">Fortune Tiger</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 96.81%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>PG Soft</span>
+            </div>
+          </div><figure class="f"><span></span></figure>
+          <p class="game-description">O famoso jogo do tigre! Slot clássico com multiplicadores generosos e rodadas bônus emocionantes.</p>
+          <a href="/go/" class="game-cta">Jogar Fortune Tiger</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <span class="game-badge">Novo</span>
+          <img src="https://im.runware.ai/image/os/a02d21/ws/3/ii/6eb5402b-2b31-4501-8f98-870163cf5ff1.jpg" alt="Spaceman" class="game-image">
+        </div><div class="x"><span></span></div>
+        <div class="game-info">
+          <h3 class="game-title">Spaceman</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 96.5%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>Pragmatic</span>
+            </div>
+          </div><div class="d"><i></i><i></i></div>
+          <p class="game-description">Viaje pelo espaço e multiplique seus ganhos! Crash game espacial com gráficos incríveis.</p>
+          <a href="/go/" class="game-cta">Jogar Spaceman</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <img src="https://im.runware.ai/image/os/a06dlim3/ws/4/ii/3fc68232-b316-42dd-ad40-1c0190779a07.jpg" alt="JetX" class="game-image">
+        </div><aside class="s"></aside>
+        <div class="game-info">
+          <h3 class="game-title">JetX</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 97%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>SmartSoft</span>
+            </div>
+          </div><aside class="s"></aside>
+          <p class="game-description">Crash game eletrizante com multiplicadores de até 10.000x! Saque no momento certo.</p>
+          <a href="/go/" class="game-cta">Jogar JetX</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <img src="https://im.runware.ai/image/os/a06dlim3/ws/4/ii/3fc68232-b316-42dd-ad40-1c0190779a07.jpg" alt="Mines" class="game-image">
+        </div><figure class="f"><span></span></figure>
+        <div class="game-info">
+          <h3 class="game-title">Mines</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 98%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>Spribe</span>
+            </div>
+          </div><aside class="s"></aside>
+          <p class="game-description">Campo minado estratégico com RTP altíssimo. Escolha os quadrados seguros e ganhe!</p>
+          <a href="/go/" class="game-cta">Jogar Mines</a>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-image-wrapper">
+          <img src="https://im.runware.ai/image/os/a06dlim3/ws/4/ii/3fc68232-b316-42dd-ad40-1c0190779a07.jpg" alt="Sugar Rush" class="game-image">
+        </div><aside class="s"></aside>
+        <div class="game-info">
+          <h3 class="game-title">Sugar Rush</h3>
+          <div class="game-meta">
+            <div class="game-rtp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>RTP 96.5%</span>
+            </div>
+            <div class="game-provider">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+              <span>Pragmatic</span>
+            </div>
+          </div><figure class="f"><span></span></figure>
+          <p class="game-description">Slot doce com múltiplos multiplicadores em cascata. Combinações deliciosas te esperam!</p>
+          <a href="/go/" class="game-cta">Jogar Sugar Rush</a>
+        </div>
+      </div>
+    </div><aside class="s"></aside>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h3 class="section-title">Categorias de Jogos</h2>
+    <p class="section-subtitle">Encontre o tipo de jogo perfeito para você</p>
+    
+    <div class="categories-section">
+      <div class="category-card">
+        <div class="category-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+          </svg>
+        </div>
+        <h4>Crash Games</h4>
+        <p>Aviator, Spaceman, JetX e mais</p>
+      </div><section class="g"></section>
+
+      <div class="category-card">
+        <div class="category-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+          </svg>
+        </div>
+        <h4>Slots</h4>
+        <p>Fortune Tiger, Sugar Rush e mais</p>
+      </div>
+
+      <div class="category-card">
+        <div class="category-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+          </svg>
+        </div><aside class="s"></aside>
+        <h4>Ao Vivo</h4>
+        <p>Dealers reais, ação em tempo real</p>
+      </div>
+
+      <div class="category-card">
+        <div class="category-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <h4>Alto RTP</h4>
+        <p>Jogos com retorno acima de 97%</p>
+      </div><section class="g"></section>
+    </div>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section">
+  <div class="container">
+    <div class="rtp-info-section">
+      <h3>Entenda o RTP dos Nossos Jogos</h3>
+      <p>RTP (Return to Player) é a porcentagem teórica que o jogo devolve aos jogadores ao longo do tempo. Quanto maior o RTP, melhores são as suas chances de ganhar a longo prazo.</p>
+      <p>Todos os nossos jogos são certificados e auditados por laboratórios independentes, garantindo justiça e transparência.</p>
+      
+      <table class="rtp-table">
+        <thead>
+          <tr>
+            <th>Jogo</th>
+            <th>Categoria</th>
+            <th>RTP</th>
+            <th>Volatilidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Mines</strong></td>
+            <td>Estratégia</td>
+            <td><span class="rtp-badge">98%</span></td>
+            <td>Variável</td>
+          </tr>
+          <tr>
+            <td><strong>Aviator</strong></td>
+            <td>Crash Game</td>
+            <td><span class="rtp-badge">97%</span></td>
+            <td>Média</td>
+          </tr>
+          <tr>
+            <td><strong>JetX</strong></td>
+            <td>Crash Game</td>
+            <td><span class="rtp-badge">97%</span></td>
+            <td>Média-Alta</td>
+          </tr>
+          <tr>
+            <td><strong>Fortune Tiger</strong></td>
+            <td>Slot</td>
+            <td><span class="rtp-badge">96.81%</span></td>
+            <td>Média-Alta</td>
+          </tr>
+          <tr>
+            <td><strong>Spaceman</strong></td>
+            <td>Crash Game</td>
+            <td><span class="rtp-badge">96.5%</span></td>
+            <td>Média</td>
+          </tr>
+          <tr>
+            <td><strong>Sugar Rush</strong></td>
+            <td>Slot</td>
+            <td><span class="rtp-badge">96.5%</span></td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><section class="g"></section>
+
+    <div class="cta-banner">
+      <div class="cta-banner-content">
+        <h3>Pronto para Jogar?</h3>
+        <p>Cadastre-se agora e ganhe até R$ 5.000 em bônus de boas-vindas</p>
+        <a href="/go/" class="btn-primary">Começar a Jogar</a>
+      </div>
+    </div>
+  </div><section class="g"></section>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bônus</a>
+      <a href="games.html">Jogos</a>
+      <a href="payments.html">Pagamentos</a>
+      <a href="review.html">Avaliação</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Segurança</a>
+    </nav>
+    <div class="footer-legal">
+      <p><strong>© 2024 LuckyJet</strong> · Todos os direitos reservados</p>
+      <p>18+ · Jogue com responsabilidade · Brasil</p>
+      <p>O jogo pode causar dependência. Jogue de forma consciente e responsável.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

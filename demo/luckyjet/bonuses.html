@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bônus e Promoções - LuckyJet Casino Brasil</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a1a2e;
+  --secondary: #16213e;
+  --accent: #ffd700;
+  --accent-hover: #ffed4e;
+  --text: #ffffff;
+  --text-muted: #b8b8d1;
+  --bg-light: #f5f5f7;
+  --bg-dark: #0f0f1e;
+  --success: #00d084;
+  --gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  line-height: 1.6;
+  color: var(--primary);
+  font-size: 16px;
+  background: #fff;
+}
+
+header {
+  background: var(--gradient);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo svg {
+  width: 32px;
+  height: 32px;
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+nav a:hover {
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--accent);
+}
+
+nav a.active {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.hero-slim {
+  background: var(--gradient);
+  color: var(--text);
+  padding: 3rem 1.5rem 2rem;
+  text-align: center;
+}
+
+.hero-slim h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-slim p {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 4rem 1.5rem;
+}
+
+.section-alt {
+  background: var(--bg-light);
+}
+
+.section-dark {
+  background: var(--secondary);
+  color: var(--text);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+}
+
+.section-dark .section-subtitle {
+  color: var(--text-muted);
+}
+
+.bonus-hero {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 2rem auto 3rem;
+  max-width: 800px;
+  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.bonus-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shine 3s infinite;
+}
+
+.bonus-amount {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.bonus-hero h2 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.bonus-hero p {
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--accent);
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+  animation: pulse 0.6s ease-in-out;
+}
+
+.bonus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.bonus-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.bonus-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent);
+}
+
+.bonus-card-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--gradient);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.bonus-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+.bonus-card p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.bonus-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 1px 1px 0 var(--primary);
+  margin: 1rem 0;
+}
+
+.steps-container {
+  max-width: 800px;
+  margin: 3rem auto;
+}
+
+.step {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.step:nth-child(1) { animation-delay: 0.1s; }
+.step:nth-child(2) { animation-delay: 0.2s; }
+.step:nth-child(3) { animation-delay: 0.3s; }
+.step:nth-child(4) { animation-delay: 0.4s; }
+
+.step-number {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: var(--accent);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.step-content p {
+  color: var(--text-muted);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+thead {
+  background: var(--gradient);
+  color: var(--text);
+}
+
+th, td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+th {
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+td {
+  color: #333;
+}
+
+.highlight {
+  color: var(--accent);
+  font-weight: 700;
+  text-shadow: 0 0 1px var(--primary);
+}
+
+.terms-box {
+  background: rgba(255, 215, 0, 0.1);
+  border-left: 4px solid var(--accent);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.terms-box h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.terms-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.terms-box li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.terms-box li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.games-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.game-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.game-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.game-card-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  color: #fff;
+  padding: 2rem 1rem 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+footer {
+  background: var(--primary);
+  color: var(--text-muted);
+  padding: 3rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+.footer-bottom p {
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    justify-content: center;
+  }
+  
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .hero-slim h1 {
+    font-size: 2rem;
+  }
+  
+  .bonus-amount {
+    font-size: 2.5rem;
+  }
+  
+  .bonus-hero {
+    padding: 2rem 1.5rem;
+  }
+  
+  .section {
+    padding: 3rem 1.5rem;
+  }
+  
+  th, td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  nav a {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+  }
+  
+  .bonus-amount {
+    font-size: 2rem;
+  }
+  
+  .game-card img {
+    height: 150px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+        <path d="M2 17L12 22L22 17V12L12 17L2 12V17Z" fill="currentColor" opacity="0.7"/>
+      </svg>
+      LuckyJet
+    </a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="bonuses.html" class="active">Bônus</a>
+      <a href="games.html">Jogos</a>
+      <a href="payments.html">Pagamentos</a>
+      <a href="review.html">Análise</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Segurança</a>
+    </nav>
+  </div><section class="g"></section>
+</header>
+
+<div class="hero-slim">
+  <h1>Bônus e Promoções</h1>
+  <p>Aproveite ofertas exclusivas e maximize seus ganhos no LuckyJet Casino</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="bonus-hero">
+      <div class="bonus-amount">R$ 5.000</div>
+      <h2>Bônus de Boas-Vindas</h2>
+      <p>Receba até R$ 5.000 em bônus no seu primeiro depósito + rodadas grátis em jogos selecionados</p>
+      <a href="/go/" class="cta-button">Resgatar Bônus Agora</a>
+    </div><section class="g"></section>
+
+    <div class="bonus-grid">
+      <div class="bonus-card">
+        <div class="bonus-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#ffd700"/>
+          </svg>
+        </div>
+        <h3>Bônus de Primeiro Depósito</h3>
+        <p>Comece com o pé direito</p>
+        <div class="bonus-value">100%</div>
+        <p>Até R$ 5.000 no seu primeiro depósito. Deposite R$ 50 e jogue com R$ 100!</p>
+      </div><section class="g"></section>
+
+      <div class="bonus-card">
+        <div class="bonus-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="#ffd700" stroke-width="2" fill="none"/>
+            <path d="M12 6V12L16 14" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Rodadas Grátis</h3>
+        <p>Gire sem gastar</p>
+        <div class="bonus-value">50</div>
+        <p>50 rodadas grátis em Aviator, Fortune Tiger ou Spaceman ao fazer seu primeiro depósito</p>
+      </div><aside class="s"></aside>
+
+      <div class="bonus-card">
+        <div class="bonus-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffd700" stroke-width="2"/>
+            <path d="M12 16V12M12 8H12.01" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Cashback Semanal</h3>
+        <p>Recupere suas perdas</p>
+        <div class="bonus-value">10%</div>
+        <p>Receba até 10% de cashback todas as segundas-feiras sobre as perdas da semana anterior</p>
+      </div><figure class="f"><span></span></figure>
+    </div>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section section-dark">
+  <div class="container">
+    <h3 class="section-title">Como Resgatar Seu Bônus</h2>
+    <p class="section-subtitle">Siga estes passos simples para ativar suas promoções</p>
+    
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div><div class="x"><span></span></div>
+        <div class="step-content">
+          <h3>Crie Sua Conta</h3>
+          <p>Registre-se no LuckyJet com seus dados pessoais. O processo leva menos de 2 minutos e é totalmente seguro.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div><div class="d"><i></i><i></i></div>
+        <div class="step-content">
+          <h3>Faça Seu Primeiro Depósito</h3>
+          <p>Deposite no mínimo R$ 50 usando Pix ou Boleto. O bônus será creditado automaticamente.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div><aside class="s"></aside>
+        <div class="step-content">
+          <h3>Ative o Bônus</h3>
+          <p>Acesse a seção "Bônus" no seu perfil e ative a promoção de boas-vindas antes de começar a jogar.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div><aside class="s"></aside>
+        <div class="step-content">
+          <h3>Comece a Jogar</h3>
+          <p>Use seu saldo de bônus em qualquer jogo disponível e cumpra os requisitos de apostas para sacar seus ganhos.</p>
+        </div>
+      </div>
+    </div><figure class="f"><span></span></figure>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="/go/" class="cta-button">Começar Agora</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Requisitos de Apostas</h2>
+    <p class="section-subtitle">Entenda as condições para liberar seus bônus</p>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de Bônus</th>
+            <th>Rollover</th>
+            <th>Prazo de Validade</th>
+            <th>Aposta Mínima</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bônus de Boas-Vindas</td>
+            <td><span class="highlight">35x</span></td>
+            <td>30 dias</td>
+            <td>R$ 5,00</td>
+          </tr>
+          <tr>
+            <td>Rodadas Grátis</td>
+            <td><span class="highlight">40x</span></td>
+            <td>7 dias</td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td>Cashback Semanal</td>
+            <td><span class="highlight">10x</span></td>
+            <td>7 dias</td>
+            <td>R$ 2,00</td>
+          </tr>
+          <tr>
+            <td>Bônus de Recarga</td>
+            <td><span class="highlight">30x</span></td>
+            <td>14 dias</td>
+            <td>R$ 5,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><aside class="s"></aside>
+
+    <div class="terms-box">
+      <h3>Termos e Condições Importantes</h3>
+      <ul>
+        <li>O bônus de boas-vindas está disponível apenas para novos jogadores</li>
+        <li>Depósito mínimo de R$ 50 para ativar o bônus</li>
+        <li>Rollover deve ser cumprido antes de qualquer saque</li>
+        <li>Apostas máximas de R$ 50 por rodada durante o rollover</li>
+        <li>Alguns jogos podem contribuir de forma diferente para o rollover</li>
+        <li>O bônus não utilizado expira após o prazo de validade</li>
+        <li>LuckyJet reserva o direito de cancelar bônus em caso de abuso</li>
+        <li>Aplicam-se termos e condições gerais do site</li>
+      </ul>
+    </div>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section section-alt">
+  <div class="container">
+    <h3 class="section-title">Jogos Populares com Bônus</h2>
+    <p class="section-subtitle">Use suas rodadas grátis nestes jogos incríveis</p>
+
+    <div class="games-preview">
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a06dlim3/ws/3/ii/97957c24-0fa5-4505-9b62-7bf6ff88b388.jpg" alt="Aviator">
+        <div class="game-card-title">Aviator</div><aside class="s"></aside>
+      </div>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/5683496c-0ab0-42df-b312-20eb7c680e56.jpg" alt="Fortune Tiger">
+        <div class="game-card-title">Fortune Tiger</div>
+      </div><figure class="f"><span></span></figure>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a02d21/ws/3/ii/6eb5402b-2b31-4501-8f98-870163cf5ff1.jpg" alt="Spaceman">
+        <div class="game-card-title">Spaceman</div>
+      </div>
+    </div><aside class="s"></aside>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="/go/" class="cta-button">Resgatar Bônus e Jogar</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-nav">
+      <a href="index.html">Início</a>
+      <a href="bonuses.html">Bônus</a>
+      <a href="games.html">Jogos</a>
+      <a href="payments.html">Pagamentos</a>
+      <a href="review.html">Análise</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Segurança</a>
+    </div><section class="g"></section>
+    <div class="footer-bottom">
+      <p>&copy; 2024 LuckyJet. Todos os direitos reservados.</p>
+      <p>18+ | Jogue com responsabilidade | Brasil</p>
+      <p>O jogo pode causar dependência. Jogue de forma consciente.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
