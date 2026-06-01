@@ -66,11 +66,17 @@ def recon_serp(keyword: str, geo: str="in", n: int=10, deep: bool=True):
         new=[d for d in cur if d not in prev] if prev else []
         res["new_domains"]=new
         res["first_scan"]=not prev
-        # помечаем новые в результатах
         for r in res["results"]:
             r["is_new"]= prev and r["domain"] in new
         hist[key]={"domains":cur,"last_keyword":keyword,"geo":geo}
         _save_recon(hist)
+        # SQLite-история для динамики во времени (данные=золото)
+        try:
+            from core.recon_db import save_scan, dynamics
+            save_scan(geo, keyword, res["results"], int(time.time()))
+            res["dynamics"]=dynamics(geo, keyword)
+        except Exception as e:
+            res["dynamics"]={"error":str(e)[:80]}
         return res
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})

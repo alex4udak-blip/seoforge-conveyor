@@ -232,13 +232,15 @@ async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)
     const sig=(x.signals||[]).length?`<div class="sub" style="font-size:11px;color:var(--mut)">${x.signals.join(' · ')}</div>`:'';
     return `<tr><td><b>${x.pos}</b></td><td>${nb}<b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div>${sig}</td><td><span class="tag ${tcls(x.type)}">${x.type}</span></td><td><button class="pill" style="cursor:pointer;border:none" onclick="doBotview('${x.domain}',event)">вскрыть клоаку</button></td></tr>`;}).join('');
   const newBanner=(d.new_domains&&d.new_domains.length)?`<div class="verdict" style="border-color:#3ddc9355"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg><div><b>Новые домены в выдаче (поймать первым!):</b> ${d.new_domains.join(', ')}</div></div>`:'';
+  const dyn=d.dynamics||{};
+  const dynBanner=dyn.verdict?`<div class="verdict" style="border-color:${dyn.churn>=2?'var(--acc)':'var(--mut)'}55"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Динамика выдачи (${dyn.scans} срезов):</b> ${dyn.verdict}${dyn.entered&&dyn.entered.length?'<br><span class="sub">вошли: '+dyn.entered.join(', ')+'</span>':''}${dyn.dropped&&dyn.dropped.length?'<br><span class="sub">выпали: '+dyn.dropped.join(', ')+'</span>':''}</div></div>`:'';
   const rel=(d.related||[]).map(r=>`<span class="pill" style="cursor:pointer" onclick="$('#r_kw').value='${r.replace(/'/g,'')}';toast('Подставлено')">${r}</span>`).join('');
   $('#r_body').innerHTML=`<div class="stats" style="margin-top:18px">
     <div class="stat"><span class="lbl">Сеошники (конкуренты)</span><b style="color:var(--am)">${c['сеошники']||0}</b></div>
     <div class="stat"><span class="lbl">Официалы</span><b style="color:var(--vio)">${c['официалы']||0}</b></div>
     <div class="stat"><span class="lbl">Неясно</span><b style="color:var(--mut)">${c['неясно']||0}</b></div></div>
     <div class="verdict"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg><div><b>Куда бить:</b> ${c.verdict||''}</div></div>
-    ${newBanner}
+    ${newBanner}${dynBanner}
     <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
     <table><tr><th>#</th><th>Домен / сигналы</th><th>Тип</th><th></th></tr>${rows}</table>
     <div id="bv_body"></div>
