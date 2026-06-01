@@ -24,6 +24,15 @@ class GenReq(BaseModel):
 class AuditReq(BaseModel):
     slug: str; geo: str="in"; keyword: str="online casino"; competitors: list=[]
 
+
+@app.get("/demo/{fname}")
+def serve_demo(fname: str):
+    import os as _os
+    fp=_os.path.abspath(_os.path.join("demo", fname))
+    if not fp.startswith(_os.path.abspath("demo")) or not _os.path.isfile(fp):
+        return PlainTextResponse("404", status_code=404)
+    return FileResponse(fp)
+
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
