@@ -95,6 +95,7 @@ td{padding:11px 10px;border-top:1px solid var(--line);font-size:13.5px;vertical-
     <button data-p="create"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Создать</button>
     <button data-p="metrics"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Метрики</button>
     <button data-p="recon"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Разведка</button>
+    <button data-p="domains"><svg class="ic" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg>Домены</button>
   </nav>
   <div class="right">
     <span class="live"><span class="dot"></span>live</span>
@@ -147,6 +148,19 @@ td{padding:11px 10px;border-top:1px solid var(--line);font-size:13.5px;vertical-
       <div class="note"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Живой топ органики + классификация footprint: бренд-казино vs афилейт-обзорники — куда бить.</div>
     </div>
     <div id="r_body"></div>
+  </div>
+  <div class="panel" id="domains">
+    <h2><svg class="ic" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg>База доменов — траст-дропы и расходники</h2>
+    <div class="sub" style="margin-bottom:14px">Готовый склад гембл-доменов с бэклинками (Dynadot marketplace) + верификация возраста по Wayback. «Траст» = реально старый домен (≤2020), не накрученные бэки.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+      <button class="btn sec" onclick="loadDomains('trust')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>Только трасты (Tier-1)</button>
+      <button class="btn sec" onclick="loadDomains('cheap')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M5 5h11a3 3 0 010 6H5h12"/></svg>Дешёвые расходники</button>
+      <button class="btn sec" onclick="loadDomains('all')"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Вся база</button>
+    </div>
+    <h2 style="margin-top:8px"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Проверить домен под новый бренд</h2>
+    <div class="form" style="max-width:520px"><div class="row"><div><label>Бренд</label><input id="d_brand" placeholder="luckyaviator"></div>
+    <div style="display:flex;align-items:flex-end"><button class="btn" onclick="checkBrand()"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Проверить в Dynadot</button></div></div></div>
+    <div id="d_body"></div>
   </div>
 </div>
 <script>
@@ -310,6 +324,33 @@ _navClick.forEach(b=>b.addEventListener('click',()=>{
 }));
 document.getElementById('c_mode')&&($('#c_mode').onchange=modeDesc);
 
+// ===== ДОМЕНЫ =====
+async function loadDomains(mode){
+  let q='sort=backlinks';
+  if(mode==='trust')q='only_trust=true&sort=age';
+  if(mode==='cheap')q='max_price=35&min_backlinks=50';
+  $('#d_body').innerHTML='<div class="pstage" style="margin-top:16px"><span class="spin"></span>Загружаю базу...</div>';
+  const d=await api('/domains?'+q);
+  const rows=d.domains.map(x=>{
+    const badge=x.is_trust?'<span class="tag t-brand" title="реально старый домен по Wayback">ТРАСТ '+x.wb_year+'</span>':(x.price<=35?'<span class="tag" style="background:#22d3ee22;color:var(--acc2)">расходник</span>':'<span class="tag t-other">проверить</span>');
+    return `<tr><td><b>${x.domain}</b></td><td>$${x.price.toFixed(0)}</td><td>${x.backlinks.toLocaleString()}</td><td>${x.wb_year||'—'}</td><td>${badge}</td></tr>`;}).join('');
+  $('#d_body').innerHTML=`<div class="stats" style="margin-top:16px">
+    <div class="stat"><span class="lbl">Всего в базе</span><b>${d.stats.total}</b></div>
+    <div class="stat"><span class="lbl">Верифиц. трасты</span><b style="color:var(--vio)">${d.stats.trusts}</b></div>
+    <div class="stat"><span class="lbl">Дешёвые (&le;$35)</span><b style="color:var(--acc2)">${d.stats.cheap}</b></div></div>
+    <table><tr><th>Домен</th><th>Цена</th><th>Бэклинки</th><th>В вебе с</th><th>Тип</th></tr>${rows}</table>`;
+}
+async function checkBrand(){const b=$('#d_brand').value;if(!b){toast('Введи бренд');return;}
+  $('#d_body').innerHTML='<div class="pstage" style="margin-top:16px"><span class="spin"></span>Проверяю в Dynadot...</div>';
+  const d=await api('/domains/check?brand='+encodeURIComponent(b));
+  if(d.error){$('#d_body').innerHTML='<div class="verdict">'+d.error+'</div>';return;}
+  const rows=(d.available||[]).map(x=>`<tr><td><b>${x.domain}</b></td><td style="color:var(--acc)">свободен</td><td>$${x.reg_price}</td><td>$${x.renew}</td></tr>`).join('');
+  $('#d_body').innerHTML=`<h2><svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Свободные домены под «${b}»</h2>
+    <table><tr><th>Домен</th><th>Статус</th><th>Регистрация</th><th>Продление</th></tr>${rows||'<tr><td class="sub">всё занято</td></tr>'}</table>`;
+}
+// хук на вкладку домены
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.p==='domains'){loadDomains('trust');}}));
 // realtime loop
 tick();setInterval(tick,4000);
 loadSuggest();

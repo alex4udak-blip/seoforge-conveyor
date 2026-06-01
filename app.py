@@ -27,6 +27,24 @@ class AuditReq(BaseModel):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/domains")
+def domains_list(sort: str="backlinks", max_price: float=None, min_backlinks: int=0, only_trust: bool=False):
+    """База гембл-доменов (Dynadot harvest) + верификация траста Wayback. Доменщик конвейера."""
+    try:
+        from core.domains import list_domains
+        return list_domains(sort, max_price, min_backlinks, only_trust)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
+@app.get("/domains/check")
+def domains_check(brand: str):
+    """Проверить домены под НОВЫЙ бренд через Dynadot (доступность+цена)."""
+    try:
+        from core.domains import check_brand
+        return check_brand(brand)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
 @app.get("/botview")
 def botview_endpoint(domain: str):
     """Вскрытие клоаки конкурента: Google-view (translate.goog) vs user-view → детект клоаки."""
