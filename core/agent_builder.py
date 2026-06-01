@@ -167,7 +167,7 @@ def build(brand, keyword, geo, domain, plan, content, assets=None, design=None):
     blocks_html = "".join(_block_html(domain, i, b, content.get(b, {}), geo, cur, maxbonus) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
     from core.image_bank import hero_img as _hero_img_url
-    hero_img = f'<img class="hbg" src="{_hero_img_url(domain, 1000, 440)}" alt="{_html.escape(brand)}" loading="eager">'
+    hero_img = f'<img class="hbg" src="{_hero_img_url(domain, 1000, 440, brand=brand, vibe=f"{brand} {keyword}")}" alt="{_html.escape(brand)}" loading="eager">'
     hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain, hero_img)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">

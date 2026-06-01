@@ -275,8 +275,30 @@ def _build_job(req: "GenReq", slug: str):
         plan = plan_structure(kw, req.geo, recon=recon, seed=slug)
         _set_stage(slug,"Агент пишет контент (AI-выдача)",70,brand=req.brand,geo=req.geo,domain=req.domain)
         content = write_content(req.brand, kw, req.geo, plan)
-        _set_stage(slug,"Уникальная вёрстка + визуал",88,brand=req.brand,geo=req.geo,domain=req.domain)
-        html = agent_build(req.brand, kw, req.geo, slug, plan, content)
+        # СБОРКА КАРТИНОК (тематические под игру + реальные лого платёжек/казино)
+        _set_stage(slug,"Генерация уникальных изображений",80,brand=req.brand,geo=req.geo,domain=req.domain)
+        from core.keyword_taxonomy import GEO_FLAVOR
+        from core.image_bank import hero_img, game_img
+        from core.asset_fetcher import payment_logo_url, casino_logo
+        fl = GEO_FLAVOR.get(req.geo, {})
+        vibe = f"{req.brand} {kw}"
+        hot = fl.get("hot", ["Aviator", "Slots"])[:4]
+        images = {
+            "hero": hero_img(slug, 1000, 440, brand=req.brand, vibe=vibe),
+            "games": {g: game_img(g, slug) for g in hot},
+            "pays": {p: payment_logo_url(p) for p in fl.get("pay", ["Visa"])[:4]},
+            "casinos": [{"name": (t.get("brand") or t.get("domain","casino")),
+                         "logo": casino_logo(t.get("domain","")), "bonus": fl.get("bonus","Bonus")}
+                        for t in (recon.get("top") or [])[:5] if t.get("domain")],
+        }
+        _set_stage(slug,"Дизайнер пишет вёрстку (Sonnet)",88,brand=req.brand,geo=req.geo,domain=req.domain)
+        # СНАЧАЛА Sonnet пишет ВСЮ страницу; если битая/короткая → fallback на каркас
+        from core.agent_fullsite import build_fullsite
+        html = build_fullsite(req.brand, kw, req.geo, req.domain, plan, content, images)
+        engine = "sonnet-fullsite"
+        if not html:
+            html = agent_build(req.brand, kw, req.geo, slug, plan, content)
+            engine = "agent-builder"
         os.makedirs(f"output/{slug}", exist_ok=True)
         open(f"output/{slug}/index.html","w",encoding="utf-8").write(html)
         # копируем ассеты гео в сайт (для относительных путей картинок)
@@ -287,7 +309,7 @@ def _build_job(req: "GenReq", slug: str):
             for f in os.listdir(ap):
                 try: shutil.copy(f"{ap}/{f}", f"{sa}/{f}")
                 except: pass
-        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":1,"build":"done","stage":"Готово","progress":100,"layout":plan.get("layout"),"engine":"agent-v2"}; _save_net(net)
+        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":1,"build":"done","stage":"Готово","progress":100,"layout":plan.get("layout"),"engine":engine}; _save_net(net)
     except Exception as e:
         net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error","stage":"Ошибка: "+str(e)[:100],"progress":0}; _save_net(net)
 
