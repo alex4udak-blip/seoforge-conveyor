@@ -33,6 +33,65 @@ def full_schema(p, content):
     g.append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qa]})
     return json.dumps({"@context":"https://schema.org","@graph":g})
 
+def _vh(domain, key):
+    """Детерминированный хеш домен+ключ → выбор варианта структуры."""
+    import hashlib
+    return int(hashlib.sha256(f"{domain}:{key}".encode()).hexdigest(), 16)
+
+def _wrap_section(domain, idx, cls, title, inner):
+    """Вариативная обёртка секции — РАЗНЫЙ DOM-скелет по хешу (домен+позиция).
+    Снижает footprint: один и тот же контент рендерится 5 структурно разными способами."""
+    h = _vh(domain, f"wrap{idx}") % 5
+    t = html.escape(title)
+    if h == 0:   # классика: section>div.wrap>h2
+        return f'<section class="{cls}"><div class="wrap"><h2>{t}</h2>{inner}</div></section>'
+    if h == 1:   # article + header-обёртка заголовка
+        return f'<article class="{cls}"><div class="wrap"><header class="sh"><h2>{t}</h2></header><div class="sb">{inner}</div></div></article>'
+    if h == 2:   # div.block + h3 вместо h2 + разный внутренний контейнер
+        return f'<div class="{cls} block"><div class="container"><h3 class="stitle">{t}</h3><div class="inner">{inner}</div></div></div>'
+    if h == 3:   # section без промежуточного wrap, заголовок-span
+        return f'<section class="{cls} flat"><div class="row"><div class="head"><span class="h2 lbl">{t}</span></div>{inner}</div></section>'
+    # h==4: details-подобная семантика, h2 с обёрткой
+    return f'<section class="{cls} v4"><div class="wrap"><div class="titlebar"><h2 class="t">{t}</h2></div><div class="content">{inner}</div></div></section>'
+
+def _body_top(p, geo, maxbonus, cur, pays, navhtml, meta):
+    """Вариативная шапка+hero — 3 структурно разных каркаса по хешу домена (снижает footprint)."""
+    b = html.escape(p['brand']); g = geo.upper()
+    h1 = html.escape(p['keyword'].title()) + f" — {b} {g}"
+    paystr = ", ".join(pays[:3]) or "Fast payouts"
+    promo = f'<div class="promo-bar">LIMITED: {b} gives 200% up to {maxbonus} + 250 Free Spins — TODAY ONLY</div>'
+    header = f'<header class="top"><div class="topin"><span class="brandmark">{b}</span><nav class="nav">{navhtml}</nav></div></header>'
+    trust = '<div class="trust"><span>Licensed</span><span>SSL Secure</span><span>24h Payouts</span><span>'+("Verified for "+g)+'</span></div>'
+    winners = f'<div class="winners"><b id="wc">1,247</b> players won today · {cur}4.2M paid out this week</div>'
+    bonus = f'<div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">200% up to {maxbonus}</span><span class="hbsub">+ 250 Free Spins · {paystr}</span></div>'
+    cta = '<a class="btn" href="/go/">Claim Bonus Now</a>'
+    lic = '<div class="licenses"><span>Curacao Licensed</span><span>MGA Certified</span><span>eCOGRA Tested</span><span>SSL 256-bit</span><span>18+ Responsible</span></div>'
+    v = _vh(p["domain"], "bodytop") % 5
+    if v == 0:   # promo → header → div.hero(h1,p,bonus,cta,trust,winners) → licenses
+        hero = f'<div class="hero"><div class="wrap"><h1>{h1}</h1><p>{meta}</p>{bonus}{cta}{trust}{winners}</div></div>'
+        return promo + header + hero + lic
+    if v == 1:   # header → section.hero(bonus сверху, h1 ниже) → trust-секция → promo
+        hero = f'<section class="hero alt"><div class="wrap">{bonus}<h1>{h1}</h1><p>{meta}</p>{cta}{winners}</div></section>'
+        return header + hero + f'<section class="trustbar"><div class="wrap">{trust}{lic}</div></section>' + promo
+    if v == 2:   # header → promo → article.hero(h1+cta+trust) → bonusband
+        hero = f'<article class="hero v2"><div class="wrap"><h1>{h1}</h1><p>{meta}</p>{cta}{trust}</div></article>'
+        return header + promo + hero + f'<div class="bonusband"><div class="wrap">{bonus}{winners}</div></div>' + lic
+    if v == 3:   # main>header внутри, hero как figure, лицензии в nav-баре сверху
+        hero = f'<main class="hero v3"><figure class="wrap"><h1>{h1}</h1><figcaption>{meta}</figcaption>{cta}{bonus}</figure></main>'
+        return header + lic + hero + f'<div class="band"><div class="wrap">{trust}{winners}</div></div>' + promo
+    # v==4: hero сначала (без отдельного header), бренд внутри hero, promo в конце
+    hero = f'<div class="hero v4"><div class="wrap"><div class="hbrand">{b}</div><nav class="nav">{navhtml}</nav><h1>{h1}</h1><p>{meta}</p>{trust}{cta}</div></div>'
+    return hero + f'<section class="offerbar"><div class="wrap">{bonus}</div></section>' + lic + winners + promo
+
+def _payments_block(domain, paysrow):
+    """Вариативный блок платежей — разный тег/заголовок по хешу."""
+    v = _vh(domain, "pay") % 3
+    if v == 0:
+        return f'<section class="sec"><div class="wrap"><h3>Accepted Payments</h3><div class="pays">{paysrow}</div></div></section>'
+    if v == 1:
+        return f'<div class="paysec"><div class="container"><h2 class="stitle">Payment Methods</h2><div class="pays">{paysrow}</div></div></div>'
+    return f'<aside class="payments"><div class="row"><span class="h2 lbl">Deposits & Withdrawals</span><div class="pays">{paysrow}</div></div></aside>'
+
 def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
     p=plan; pal=p["palette"]; fh,fb=p["fonts"]; secs=content.get("sections",{})
     geo=p["geo"]; _fl=GEO_FLAVOR.get(geo,{})
@@ -66,7 +125,19 @@ def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
           {thumbhtml}
           <div class="cbonus">{bonuses[i]}</div>
           <a class="cbtn" href="/go/">Claim →</a></div>'''
-    toplist_html='<div class="cgrid">'+"".join(casino_card(i) for i in range(min(5,len(brands))))+'</div>'
+    # toplist — 3 структурно разных варианта по хешу домена (главный повторяющийся блок → ключ к footprint)
+    _n=min(5,len(brands))
+    _tv=_vh(p["domain"],"toplist")%3
+    if _tv==0:
+        toplist_html='<div class="cgrid">'+"".join(casino_card(i) for i in range(_n))+'</div>'
+    elif _tv==1:
+        # нумерованный список ol>li с другой внутренней структурой
+        items="".join(f'<li class="crow"><span class="rk">#{i+1}</span><span class="cn">{html.escape(brands[i][0])}</span><span class="cb">{bonuses[i]}</span><span class="cr">★{rates[i]}</span><a class="cbtn" href="/go/">Claim</a></li>' for i in range(_n))
+        toplist_html=f'<ol class="ctop">{items}</ol>'
+    else:
+        # таблица-строки (другой набор тегов)
+        rows="".join(f'<tr class="ctr"><td class="rk">{i+1}</td><td><b>{html.escape(brands[i][0])}</b></td><td>{bonuses[i]}</td><td>★{rates[i]}</td><td><a class="cbtn" href="/go/">Claim</a></td></tr>' for i in range(_n))
+        toplist_html=f'<table class="ctoptable"><tbody>{rows}</tbody></table>'
 
     # секции
     blocks=[]; first=True
@@ -97,7 +168,7 @@ def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
             inner=f'<p>{html.escape(secs.get(s,""))}</p>'
         title=SECTION_TITLES.get(s,s.replace("_"," ").title()).format(brand=p["brand"])
         cls="sec alt" if not first else "sec"
-        blocks.append(f'<section class="{cls}"><div class="wrap"><h2>{html.escape(title)}</h2>{inner}</div></section>')
+        blocks.append(_wrap_section(p["domain"], len(blocks), cls, title, inner))
         first=not first
     schema=full_schema(p,content)
     hero_bg=f'background-image:linear-gradient(180deg,{pal["bg"]}cc,{pal["bg"]}ee),url({hero_url});' if hero_url else f'background:linear-gradient(135deg,{pal["accent"]}55,{pal["bg"]});'
@@ -177,15 +248,9 @@ footer{{padding:30px 0;opacity:.6;font-size:13px;border-top:1px solid #ffffff14}
 .sticky{{position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:var(--acc);color:#0a0a0a;text-align:center;padding:16px;border-radius:14px;font-weight:800;text-decoration:none;box-shadow:0 8px 30px #0009;font-size:17px}}
 @media(min-width:760px){{.sticky{{left:auto;right:24px;bottom:24px;padding:14px 30px}}}}
 </style></head><body>
-<div class="promo-bar">LIMITED: {p["brand"]} gives 200% up to {maxbonus} + 250 Free Spins — TODAY ONLY</div>
-<header class="top"><div class="topin"><span class="brandmark">{html.escape(p['brand'])}</span><nav class="nav">{navhtml}</nav></div></header>
-<div class="hero"><div class="wrap"><h1>{html.escape(p['keyword'].title())} — {html.escape(p['brand'])} {geo.upper()}</h1><p>{html.escape(content.get('meta_description','')[:120])}</p><div class="herobonus"><span class="hbtag">WELCOME BONUS</span><span class="hbamt">200% up to {maxbonus}</span><span class="hbsub">+ 250 Free Spins · {", ".join(pays[:3]) or "Fast payouts"}</span></div>
-<a class="btn" href="/go/">Claim Bonus Now</a>
-<div class="trust"><span>Licensed</span><span>SSL Secure</span><span>24h Payouts</span><span>{("Verified for "+geo.upper())}</span></div>
-<div class="winners"><b id="wc">1,247</b> players won today · {cur}4.2M paid out this week</div></div></div>
-<div class="licenses"><span>Curacao Licensed</span><span>MGA Certified</span><span>eCOGRA Tested</span><span>SSL 256-bit</span><span>18+ Responsible</span></div>
+{_body_top(p, geo, maxbonus, cur, pays, navhtml, html.escape(content.get('meta_description','')[:120]))}
 {''.join(blocks)}
-<section class="sec"><div class="wrap"><h3>Accepted Payments</h3><div class="pays">{paysrow}</div></div></section>
+{_payments_block(p["domain"], paysrow)}
 <footer><div class="wrap">© 2026 {html.escape(p['brand'])} · 18+ · Play responsibly · {geo.upper()}</div></footer>
 <a class="sticky" href="/go/">{p['cta']} →</a>
 </body></html>"""

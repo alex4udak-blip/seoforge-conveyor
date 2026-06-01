@@ -45,6 +45,20 @@ def domains_check(brand: str):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
+@app.get("/footprint")
+def footprint_scan():
+    """Footprint-анализатор: насколько сайты сети структурно похожи (риск склейки/бана Google)."""
+    try:
+        from core.footprint import analyze
+        sites = []
+        for slug in _site_slugs():
+            fp = os.path.abspath(os.path.join("output", slug, "index.html"))
+            if os.path.isfile(fp):
+                sites.append({"slug": slug, "html": open(fp, encoding="utf-8", errors="ignore").read()})
+        return analyze(sites)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
 @app.get("/ai-visibility")
 def ai_vis(keyword: str, geo: str="in", our_domain: str=None):
     """Есть ли мы в AI-выдаче по запросу + кто цитируется вместо нас + как зайти."""

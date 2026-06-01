@@ -34,6 +34,11 @@ def build_site(domain, brand, geo, mode="brand"):
         except Exception:
             content={"meta_description":pg["title"],"sections":{s:f"{brand} {pg['kw']} information." for s in secs}}
         html=render(pl, content, hero, "", nav, game_imgs)
+        try:
+            from core.footprint import mutate
+            html=mutate(html, domain)   # анти-footprint пост-процессор (структурная мутация per-domain)
+        except Exception as e:
+            print("footprint mutate warn:", e)
         fn = "index.html" if pg["slug"]=="index" else f"{pg['slug'].replace('/','_')}.html"
         open(f"{outdir}/{fn}","w").write(html)
         urls.append(pg["slug"])
