@@ -43,7 +43,8 @@ def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None):
     from core.image_bank import hero_img, game_img
     from core.asset_fetcher import payment_logo_url, casino_logo
     fl = GEO_FLAVOR.get(geo, {}); hot = fl.get("hot", ["Slots", "Roulette"])[:4]
-    cas = [{"name": (t.get("brand") or t.get("domain", "")), "logo": casino_logo(t.get("domain", "")),
+    cas = [{"name": (t.get("brand") or t.get("domain", "")),
+            "logo": casino_logo(t.get("domain", ""), t.get("brand") or t.get("domain", "")),
             "bonus": fl.get("bonus", "")} for t in (recon.get("top") or [])[:5] if t.get("domain")] if recon else []
     images = {"hero": hero_img(host, 1000, 440, brand=brand, vibe=f"{brand} {keyword}"),
               "games": {g: game_img(g, host, brand=brand) for g in hot},

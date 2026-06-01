@@ -46,7 +46,7 @@ def _toplist_html(geo, cur, maxbonus):
     rows = []
     for i, b in enumerate(brands[:5]):
         name, dom = b if isinstance(b, (list, tuple)) else (b, f"casino{i}.com")
-        logo = casino_logo(dom)
+        logo = casino_logo(dom, name)
         rows.append(f'<div class="cc"><span class="rk">{i+1}</span>'
                     f'<img class="clogo" src="{logo}" alt="{_html.escape(name)}" loading="lazy" width="32" height="32">'
                     f'<span class="cn">{_html.escape(name)}</span><span class="cb">{bonuses[i]}</span>'

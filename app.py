@@ -330,7 +330,7 @@ def _build_job(req: "GenReq", slug: str):
             "games": {g: game_img(g, slug) for g in hot},
             "pays": {p: payment_logo_url(p) for p in fl.get("pay", ["Visa"])[:4]},
             "casinos": [{"name": (t.get("brand") or t.get("domain","casino")),
-                         "logo": casino_logo(t.get("domain","")), "bonus": fl.get("bonus","Bonus")}
+                         "logo": casino_logo(t.get("domain",""), t.get("brand") or t.get("domain","")), "bonus": fl.get("bonus","Bonus")}
                         for t in (recon.get("top") or [])[:5] if t.get("domain")],
         }
         _set_stage(slug,"Дизайнер пишет страницы сайта (Sonnet)",88,brand=req.brand,geo=req.geo,domain=req.domain)
