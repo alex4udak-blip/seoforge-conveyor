@@ -223,18 +223,25 @@ async function doAudit(){const slug=$('#m_slug').value,kw=$('#m_kw').value||'onl
 async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw){toast('Введи запрос');return;}
   const btn=$('#rbtn');btn.disabled=true;
   $('#r_body').innerHTML='<div class="pstage" style="margin-top:18px"><span class="spin"></span>Тяну живой топ выдачи...</div>';
-  const d=await api('/recon?keyword='+encodeURIComponent(kw)+'&geo='+geo+'&n=10');btn.disabled=false;
+  const d=await api('/recon?keyword='+encodeURIComponent(kw)+'&geo='+geo+'&n=10&deep=true');btn.disabled=false;
   if(d.error){$('#r_body').innerHTML='<div class="verdict">'+d.error+'</div>';return;}
   const c=d.classified||{};
-  const rows=d.results.map(x=>{const t=x.type==='brand-casino'?'t-brand':x.type==='affiliate'?'t-aff':'t-other';
-    return `<tr><td><b>${x.pos}</b></td><td><b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div></td><td><span class="tag ${t}">${x.type}</span></td></tr>`;}).join('');
+  const tcls=t=>t==='сеошник'?'t-aff':t&&t.indexOf('официал')>=0?'t-brand':'t-other';
+  const rows=d.results.map(x=>{
+    const nb=x.is_new?'<span class="tag" style="background:#3ddc9722;color:var(--acc)">НОВЫЙ</span> ':'';
+    const sig=(x.signals||[]).length?`<div class="sub" style="font-size:11px;color:var(--mut)">${x.signals.join(' · ')}</div>`:'';
+    return `<tr><td><b>${x.pos}</b></td><td>${nb}<b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div>${sig}</td><td><span class="tag ${tcls(x.type)}">${x.type}</span></td></tr>`;}).join('');
+  const newBanner=(d.new_domains&&d.new_domains.length)?`<div class="verdict" style="border-color:#3ddc9355"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg><div><b>Новые домены в выдаче (поймать первым!):</b> ${d.new_domains.join(', ')}</div></div>`:'';
+  const rel=(d.related||[]).map(r=>`<span class="pill" style="cursor:pointer" onclick="$('#r_kw').value='${r.replace(/'/g,'')}';toast('Подставлено')">${r}</span>`).join('');
   $('#r_body').innerHTML=`<div class="stats" style="margin-top:18px">
-    <div class="stat"><span class="lbl">Бренд-казино</span><b style="color:var(--vio)">${c.brand_casino||0}</b></div>
-    <div class="stat"><span class="lbl">Афилейты</span><b style="color:var(--am)">${c.affiliate||0}</b></div>
-    <div class="stat"><span class="lbl">Прочее</span><b style="color:var(--mut)">${c.other||0}</b></div></div>
-    <div class="verdict"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg><div><b>Вердикт:</b> ${c.verdict||''}</div></div>
+    <div class="stat"><span class="lbl">Сеошники (конкуренты)</span><b style="color:var(--am)">${c['сеошники']||0}</b></div>
+    <div class="stat"><span class="lbl">Официалы</span><b style="color:var(--vio)">${c['официалы']||0}</b></div>
+    <div class="stat"><span class="lbl">Неясно</span><b style="color:var(--mut)">${c['неясно']||0}</b></div></div>
+    <div class="verdict"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg><div><b>Куда бить:</b> ${c.verdict||''}</div></div>
+    ${newBanner}
     <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
-    <table><tr><th>#</th><th>Домен</th><th>Тип</th></tr>${rows}</table>`;
+    <table><tr><th>#</th><th>Домен / сигналы</th><th>Тип</th></tr>${rows}</table>
+    ${rel?`<h2><svg class="ic" viewBox="0 0 24 24"><path d="M4 11a9 9 0 019-9M4 4v7h7"/></svg>Связанные запросы / семантика (для генератора)</h2><div>${rel}</div>`:''}`;
 }
 function toast(m){const t=document.createElement('div');t.className='toast';
   t.innerHTML='<svg class="ic" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'+m;document.body.appendChild(t);

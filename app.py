@@ -36,12 +36,33 @@ def suggest_ideas(geo: str=None, seed: int=0):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
+RECON_DB = "output/recon_history.json"
+def _load_recon():
+    try: return json.load(open(RECON_DB))
+    except Exception: return {}
+def _save_recon(d):
+    os.makedirs("output", exist_ok=True); json.dump(d, open(RECON_DB,"w"), ensure_ascii=False, indent=1)
+
 @app.get("/recon")
-def recon_serp(keyword: str, geo: str="in", n: int=10):
-    """Разведка конкурентов: топ органики по ключу+гео + классификация footprint (наша разработка)."""
+def recon_serp(keyword: str, geo: str="in", n: int=10, deep: bool=True):
+    """Разведка: топ + классификация официал/сеошник + related/PAA + НОВЫЕ бренды (детект vs история)."""
     try:
         from core.recon import serp
-        return serp(keyword, geo, n)
+        res = serp(keyword, geo, n, classify_deep=deep)
+        if "results" not in res: return res
+        # детект новых доменов vs прошлый скан (ядро Tier-3 — поймать бренд первым)
+        key=f"{geo}:{keyword}".lower()
+        hist=_load_recon(); prev=set(hist.get(key,{}).get("domains",[]))
+        cur=[r["domain"] for r in res["results"]]
+        new=[d for d in cur if d not in prev] if prev else []
+        res["new_domains"]=new
+        res["first_scan"]=not prev
+        # помечаем новые в результатах
+        for r in res["results"]:
+            r["is_new"]= prev and r["domain"] in new
+        hist[key]={"domains":cur,"last_keyword":keyword,"geo":geo}
+        _save_recon(hist)
+        return res
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
