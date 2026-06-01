@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AviatorWin - Best Online Casino in India | ₹30,000 Bonus</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a1a2e;
+  --secondary: #16213e;
+  --accent: #e94560;
+  --gold: #ffa726;
+  --light: #f5f5f5;
+  --white: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--white);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand svg {
+  width: 32px;
+  height: 32px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+nav a {
+  color: var(--light);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.4rem 0;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav a:hover {
+  color: var(--gold);
+}
+
+nav a.active {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+}
+
+.hero {
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(rgba(26, 26, 46, 0.45), rgba(22, 33, 62, 0.5)), 
+              url('https://im.runware.ai/image/os/a10dlim3/ws/4/ii/9a3ea176-13d3-4c3c-ae91-0197c0085463.jpg') center/cover no-repeat;
+  color: var(--white);
+  padding: 3rem 1.25rem;
+}
+
+.hero-content {
+  max-width: 800px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+}
+
+.hero p {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+.cta-primary {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, var(--accent), #c53252);
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.cta-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(233, 69, 96, 0.6);
+  animation: none;
+}
+
+.section {
+  padding: 4rem 1.25rem;
+}
+
+.section-alt {
+  background: var(--light);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+.casino-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.casino-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: fadeIn 0.6s ease-out backwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.casino-card:nth-child(1) { animation-delay: 0.1s; }
+.casino-card:nth-child(2) { animation-delay: 0.2s; }
+.casino-card:nth-child(3) { animation-delay: 0.3s; }
+.casino-card:nth-child(4) { animation-delay: 0.4s; }
+
+.casino-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.casino-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.casino-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.bonus-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), #ff9800);
+  color: var(--primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.cta-secondary {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: var(--accent);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 25px;
+  transition: background 0.3s, transform 0.3s;
+  margin-top: 1rem;
+}
+
+.cta-secondary:hover {
+  background: #c53252;
+  transform: scale(1.05);
+}
+
+.trust-section {
+  text-align: center;
+}
+
+.trust-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.trust-item {
+  padding: 1.5rem;
+}
+
+.trust-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--accent), #c53252);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.trust-item:nth-child(2) .trust-icon {
+  animation-delay: 0.5s;
+}
+
+.trust-item:nth-child(3) .trust-icon {
+  animation-delay: 1s;
+}
+
+.trust-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--white);
+}
+
+.trust-item h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.trust-item p {
+  color: var(--text-light);
+}
+
+.games-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.game-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.game-card:hover {
+  transform: scale(1.03);
+}
+
+.game-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.game-info {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.game-info h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.payments-preview {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.payment-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.payment-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.payment-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.payment-logo:hover {
+  transform: scale(1.1);
+}
+
+.payment-upi {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #097939, #0a8f44);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.payment-item span {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+footer {
+  background: var(--secondary);
+  color: var(--light);
+  padding: 3rem 1.25rem 1.5rem;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-nav a {
+  color: var(--light);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover {
+  color: var(--gold);
+}
+
+.footer-info {
+  font-size: 0.9rem;
+  color: rgba(245, 245, 245, 0.7);
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  nav ul {
+    justify-content: center;
+  }
+  
+  .hero {
+    min-height: 500px;
+  }
+  
+  .section {
+    padding: 3rem 1.25rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#ffa726"/>
+        <path d="M2 17L12 22L22 17" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      AviatorWin
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="bonuses.html">Bonuses</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="payments.html">Payments</a></li>
+        <li><a href="review.html">Review</a></li>
+        <li><a href="app.html">App</a></li>
+        <li><a href="responsible.html">18+ Safety</a></li>
+      </ul>
+    </nav>
+  </div><figure class="f"><span></span></figure>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>India's Premier Online Casino</h1>
+    <p>Play Aviator, Teen Patti & More. Get Up to ₹30,000 Welcome Bonus with UPI, Paytm & PhonePe</p>
+    <a href="/go/" class="cta-primary">Claim Your Bonus</a>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section">
+  <div class="container">
+    <h2>Top Rated Casinos in India</h2>
+    <p class="section-intro">Trusted platforms offering the best bonuses, instant withdrawals via UPI, and the most popular games loved by Indian players.</p>
+    <div class="casino-grid">
+      <div class="casino-card">
+        <img src="https://www.google.com/s2/favicons?domain=1xbet.com&sz=128" alt="1xBet" class="casino-logo">
+        <h3>1xBet</h3>
+        <div class="bonus-badge">₹30,000</div><figure class="f"><span></span></figure>
+        <p>Welcome Bonus</p>
+        <a href="/go/" class="cta-secondary">Claim Bonus</a>
+      </div>
+      <div class="casino-card">
+        <img src="https://www.google.com/s2/favicons?domain=parimatch.in&sz=128" alt="Parimatch" class="casino-logo">
+        <h3>Parimatch</h3>
+        <div class="bonus-badge">₹30,000</div><aside class="s"></aside>
+        <p>Welcome Bonus</p>
+        <a href="/go/" class="cta-secondary">Claim Bonus</a>
+      </div>
+      <div class="casino-card">
+        <img src="https://www.google.com/s2/favicons?domain=betway.com&sz=128" alt="Betway" class="casino-logo">
+        <h3>Betway</h3>
+        <div class="bonus-badge">₹30,000</div><section class="g"></section>
+        <p>Welcome Bonus</p>
+        <a href="/go/" class="cta-secondary">Claim Bonus</a>
+      </div>
+      <div class="casino-card">
+        <img src="https://www.google.com/s2/favicons?domain=10cric.com&sz=128" alt="10Cric" class="casino-logo">
+        <h3>10Cric</h3>
+        <div class="bonus-badge">₹30,000</div><div class="d"><i></i><i></i></div>
+        <p>Welcome Bonus</p>
+        <a href="/go/" class="cta-secondary">Claim Bonus</a>
+      </div>
+    </div><figure class="f"><span></span></figure>
+  </div>
+</section>
+
+<section class="section section-alt trust-section">
+  <div class="container">
+    <h2>Why Trust AviatorWin</h2>
+    <p class="section-intro">We provide honest reviews and recommendations for online casinos serving Indian players, focusing on safety, reliability, and player satisfaction.</p>
+    <div class="trust-features">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 7V12C4 16.55 7.16 20.74 12 22C16.84 20.74 20 16.55 20 12V7L12 2Z" fill="white"/>
+          </svg>
+        </div><div class="x"><span></span></div>
+        <h3>Licensed & Secure</h3>
+        <p>All recommended casinos are licensed, regulated, and use advanced SSL encryption to protect your data and funds.</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2"/>
+            <path d="M12 6V12L16 14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div><div class="x"><span></span></div>
+        <h3>Fast Withdrawals</h3>
+        <p>Get your winnings quickly with instant UPI transfers, Paytm, and PhonePe. Most withdrawals processed within 24 hours.</p>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="7" r="4" stroke="white" stroke-width="2"/>
+          </svg>
+        </div><section class="g"></section>
+        <h3>Expert Reviews</h3>
+        <p>Our team of casino experts thoroughly tests each platform, evaluating games, bonuses, support, and payment methods.</p>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Popular Casino Games</h2>
+    <p class="section-intro">Experience the thrill of India's most beloved casino games, from the adrenaline-pumping Aviator to traditional favorites like Teen Patti and Andar Bahar.</p>
+    <div class="games-preview">
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/fadf4823-1f7e-4343-bc81-d3d2f969416a.jpg" alt="Aviator">
+        <div class="game-info">
+          <h3>Aviator</h3>
+          <a href="/go/" class="cta-secondary">Play Now</a>
+        </div><aside class="s"></aside>
+      </div>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a07dlim3/ws/3/ii/16eb975f-41f1-4dcd-adf0-7fd3a1bd6428.jpg" alt="Teen Patti">
+        <div class="game-info">
+          <h3>Teen Patti</h3>
+          <a href="/go/" class="cta-secondary">Play Now</a>
+        </div><div class="d"><i></i><i></i></div>
+      </div>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/a487c93b-2706-402a-ab32-727f9bfbdab2.jpg" alt="Andar Bahar">
+        <div class="game-info">
+          <h3>Andar Bahar</h3>
+          <a href="/go/" class="cta-secondary">Play Now</a>
+        </div><aside class="s"></aside>
+      </div>
+    </div><figure class="f"><span></span></figure>
+  </div>
+</section><section class="g"></section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2>Convenient Payment Methods</h2>
+    <p class="section-intro">Deposit and withdraw using your favorite Indian payment methods. Quick, secure, and hassle-free transactions.</p>
+    <div class="payments-preview">
+      <div class="payment-logos">
+        <div class="payment-item">
+          <div class="payment-upi">UPI</div><figure class="f"><span></span></figure>
+          <span>UPI</span>
+        </div>
+        <div class="payment-item">
+          <img src="https://cdn.simpleicons.org/paytm" alt="Paytm" class="payment-logo">
+          <span>Paytm</span>
+        </div><aside class="s"></aside>
+        <div class="payment-item">
+          <img src="https://cdn.simpleicons.org/phonepe" alt="PhonePe" class="payment-logo">
+          <span>PhonePe</span>
+        </div>
+      </div><div class="x"><span></span></div>
+    </div>
+  </div><section class="g"></section>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </div>
+    <div class="footer-info">
+      <p>&copy; AviatorWin &middot; 18+ &middot; Play Responsibly &middot; IN</p>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem;">Gambling can be addictive. Please play responsibly and within your means.</p>
+    </div><aside class="s"></aside>
+  </div>
+</footer>
+
+</body>
+</html>

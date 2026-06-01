@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payments – Deposits & Withdrawals | AviatorWin India</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a5490;
+  --primary-dark: #0d3a6b;
+  --accent: #f59e0b;
+  --accent-dark: #d97706;
+  --bg-light: #f8fafc;
+  --bg-white: #ffffff;
+  --text-dark: #1e293b;
+  --text-gray: #475569;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: var(--bg-light);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg-white);
+  box-shadow: var(--shadow);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-gray);
+  transition: all 0.2s;
+}
+
+nav a:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+nav a.active {
+  background: var(--primary);
+  color: white;
+}
+
+.hero-slim {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.hero-slim h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.hero-slim p {
+  font-size: 1.125rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: 4rem 1rem;
+}
+
+.section-alt {
+  background: var(--bg-white);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-dark);
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-gray);
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.payment-card {
+  background: var(--bg-white);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.section-alt .payment-card {
+  background: var(--bg-light);
+}
+
+.payment-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.payment-logo {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.payment-logo img {
+  max-height: 60px;
+  max-width: 120px;
+}
+
+.payment-logo svg {
+  width: 80px;
+  height: 60px;
+}
+
+.payment-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.payment-details {
+  text-align: left;
+  margin: 1.5rem 0;
+}
+
+.payment-details dt {
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-top: 0.75rem;
+}
+
+.payment-details dd {
+  color: var(--text-gray);
+  margin-left: 0;
+}
+
+.withdrawal-table-wrapper {
+  overflow-x: auto;
+  margin: 3rem 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+}
+
+.withdrawal-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-white);
+  min-width: 600px;
+}
+
+.withdrawal-table thead {
+  background: var(--primary);
+  color: white;
+}
+
+.withdrawal-table th,
+.withdrawal-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+}
+
+.withdrawal-table th {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.withdrawal-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.withdrawal-table tbody tr:hover {
+  background: var(--bg-light);
+}
+
+.withdrawal-table td {
+  color: var(--text-gray);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--success);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.steps {
+  display: grid;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+}
+
+.step-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.step-content p {
+  color: var(--text-gray);
+  line-height: 1.7;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  margin: 4rem auto;
+  max-width: 800px;
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-box h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-box p {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: white;
+  color: var(--accent-dark);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.info-card {
+  background: var(--bg-white);
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.section-alt .info-card {
+  background: var(--bg-light);
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+.info-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.info-card li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-gray);
+}
+
+.info-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+footer {
+  background: var(--text-dark);
+  color: white;
+  padding: 3rem 1rem 2rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-nav a {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9375rem;
+  transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+  color: white;
+}
+
+.footer-notice {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+}
+
+.footer-notice strong {
+  color: var(--accent);
+}
+
+.footer-copy {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.875rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.payment-card, .step, .info-card {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.payment-card:nth-child(1) { animation-delay: 0.1s; }
+.payment-card:nth-child(2) { animation-delay: 0.2s; }
+.payment-card:nth-child(3) { animation-delay: 0.3s; }
+
+.step:nth-child(1) { animation-delay: 0.1s; }
+.step:nth-child(2) { animation-delay: 0.2s; }
+.step:nth-child(3) { animation-delay: 0.3s; }
+.step:nth-child(4) { animation-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  .header-container {
+    justify-content: center;
+  }
+  
+  nav ul {
+    justify-content: center;
+  }
+  
+  nav a {
+    font-size: 0.875rem;
+    padding: 0.4rem 0.7rem;
+  }
+  
+  .hero-slim h1 {
+    font-size: 1.75rem;
+  }
+  
+  .hero-slim p {
+    font-size: 1rem;
+  }
+  
+  .section {
+    padding: 3rem 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .payment-methods {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .cta-box h2 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-box p {
+    font-size: 1rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <a href="index.html" class="logo">Aviator<span>Win</span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="bonuses.html">Bonuses</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="payments.html" class="active">Payments</a></li>
+        <li><a href="review.html">Review</a></li>
+        <li><a href="app.html">App</a></li>
+        <li><a href="responsible.html">18+ Safety</a></li>
+      </ul>
+    </nav>
+  </div><figure class="f"><span></span></figure>
+</header>
+
+<div class="hero-slim">
+  <h1>Deposits & Withdrawals</h1>
+  <p>Fast, secure payment methods for Indian players. Deposit instantly and withdraw your winnings quickly with UPI, Paytm, and PhonePe.</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Payment Methods</h2>
+    <p class="section-subtitle">Choose from India's most trusted payment options for seamless deposits and withdrawals</p>
+    
+    <div class="payment-methods">
+      <div class="payment-card">
+        <div class="payment-logo">
+          <svg viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="15" width="180" height="50" rx="8" fill="#0D3A6B"/>
+            <text x="100" y="50" text-anchor="middle" fill="white" font-size="28" font-weight="700" font-family="Arial">UPI</text>
+          </svg>
+        </div><figure class="f"><span></span></figure>
+        <h3>UPI</h3>
+        <dl class="payment-details">
+          <dt>Minimum Deposit</dt>
+          <dd>₹500</dd>
+          <dt>Maximum Deposit</dt>
+          <dd>₹100,000</dd>
+          <dt>Processing Time</dt>
+          <dd>Instant</dd>
+          <dt>Withdrawal Time</dt>
+          <dd>15 minutes - 24 hours</dd>
+        </dl>
+        <a href="/go/" class="btn">Use UPI</a>
+      </div>
+
+      <div class="payment-card">
+        <div class="payment-logo">
+          <img src="https://cdn.simpleicons.org/paytm" alt="Paytm">
+        </div><aside class="s"></aside>
+        <h3>Paytm</h3>
+        <dl class="payment-details">
+          <dt>Minimum Deposit</dt>
+          <dd>₹500</dd>
+          <dt>Maximum Deposit</dt>
+          <dd>₹100,000</dd>
+          <dt>Processing Time</dt>
+          <dd>Instant</dd>
+          <dt>Withdrawal Time</dt>
+          <dd>30 minutes - 24 hours</dd>
+        </dl>
+        <a href="/go/" class="btn">Use Paytm</a>
+      </div>
+
+      <div class="payment-card">
+        <div class="payment-logo">
+          <img src="https://cdn.simpleicons.org/phonepe" alt="PhonePe">
+        </div><section class="g"></section>
+        <h3>PhonePe</h3>
+        <dl class="payment-details">
+          <dt>Minimum Deposit</dt>
+          <dd>₹500</dd>
+          <dt>Maximum Deposit</dt>
+          <dd>₹100,000</dd>
+          <dt>Processing Time</dt>
+          <dd>Instant</dd>
+          <dt>Withdrawal Time</dt>
+          <dd>15 minutes - 24 hours</dd>
+        </dl>
+        <a href="/go/" class="btn">Use PhonePe</a>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Withdrawal Processing Times</h2>
+    <p class="section-subtitle">Fast payouts to get your winnings when you need them</p>
+    
+    <div class="withdrawal-table-wrapper">
+      <table class="withdrawal-table">
+        <thead>
+          <tr>
+            <th>Payment Method</th>
+            <th>Minimum Withdrawal</th>
+            <th>Maximum Withdrawal</th>
+            <th>Processing Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>UPI</strong></td>
+            <td>₹1,000</td>
+            <td>₹100,000</td>
+            <td>15 minutes - 24 hours</td>
+            <td><span class="badge">Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Paytm</strong></td>
+            <td>₹1,000</td>
+            <td>₹100,000</td>
+            <td>30 minutes - 24 hours</td>
+            <td><span class="badge">Active</span></td>
+          </tr>
+          <tr>
+            <td><strong>PhonePe</strong></td>
+            <td>₹1,000</td>
+            <td>₹100,000</td>
+            <td>15 minutes - 24 hours</td>
+            <td><span class="badge">Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><figure class="f"><span></span></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How to Make Your First Deposit</h2>
+    <p class="section-subtitle">Get started in minutes with our simple deposit process</p>
+    
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div><div class="x"><span></span></div>
+        <div class="step-content">
+          <h3>Create Your Account</h3>
+          <p>Sign up for AviatorWin in less than 2 minutes. Provide your mobile number, email, and create a secure password. Verify your account through SMS or email.</p>
+        </div>
+      </div><div class="x"><span></span></div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Navigate to Deposits</h3>
+          <p>Log in to your account and click on the "Deposit" button in your account dashboard. Select your preferred payment method from UPI, Paytm, or PhonePe.</p>
+        </div><section class="g"></section>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div><div class="d"><i></i><i></i></div>
+        <div class="step-content">
+          <h3>Enter Deposit Amount</h3>
+          <p>Choose the amount you want to deposit (minimum ₹500). Check if any bonus codes are available and enter them to claim extra rewards on your deposit.</p>
+        </div>
+      </div><aside class="s"></aside>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Complete Payment</h3>
+          <p>Follow the secure payment instructions for your chosen method. Your funds will appear in your account instantly, and you can start playing Aviator, Teen Patti, and more right away.</p>
+        </div><div class="d"><i></i><i></i></div>
+      </div>
+    </div><aside class="s"></aside>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Important Payment Information</h2>
+    
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Security & Safety</h3>
+        <ul>
+          <li>256-bit SSL encryption protects all transactions</li>
+          <li>PCI DSS compliant payment processing</li>
+          <li>No payment details stored on our servers</li>
+          <li>Two-factor authentication available</li>
+          <li>Licensed and regulated operations</li>
+        </ul>
+      </div><figure class="f"><span></span></figure>
+
+      <div class="info-card">
+        <h3>Fees & Charges</h3>
+        <ul>
+          <li>Zero deposit fees on all payment methods</li>
+          <li>No withdrawal fees for verified accounts</li>
+          <li>No hidden charges or commissions</li>
+          <li>Transparent transaction history</li>
+          <li>Instant bonus crediting</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>Verification Requirements</h3>
+        <ul>
+          <li>Valid Indian mobile number required</li>
+          <li>Email verification mandatory</li>
+          <li>ID proof for withdrawals over ₹50,000</li>
+          <li>Address proof may be requested</li>
+          <li>One-time KYC process</li>
+        </ul>
+      </div><figure class="f"><span></span></figure>
+    </div>
+  </div><aside class="s"></aside>
+</section><section class="g"></section>
+
+<div class="cta-box" style="margin: 4rem 1rem;">
+  <h2>Ready to Get Started?</h2>
+  <p>Join thousands of Indian players enjoying fast deposits and quick withdrawals on AviatorWin</p>
+  <a href="/go/" class="btn">Start Playing Now</a>
+</div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </div><div class="x"><span></span></div>
+    <div class="footer-notice">
+      <strong>18+ Only</strong> · Play Responsibly · Licensed for India
+    </div>
+    <div class="footer-copy">
+      © 2024 AviatorWin · All rights reserved
+    </div><section class="g"></section>
+  </div>
+</footer>
+
+</body>
+</html>

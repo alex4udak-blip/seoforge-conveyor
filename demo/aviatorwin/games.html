@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games Library - AviatorWin Casino | Aviator, Teen Patti, Andar Bahar</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a0b2e;
+  --secondary: #7c3aed;
+  --accent: #f59e0b;
+  --light: #f8fafc;
+  --dark: #0f172a;
+  --success: #10b981;
+  --gray: #64748b;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--dark);
+  background: var(--light);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--primary);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.875rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+nav {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+nav a.active {
+  background: var(--secondary);
+  color: white;
+}
+
+.hero-slim {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  padding: 3rem 1.25rem 2rem;
+  color: white;
+  text-align: center;
+}
+
+.hero-slim h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.hero-slim p {
+  font-size: 1.125rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.section {
+  padding: 4rem 1.25rem;
+}
+
+.section-alt {
+  background: white;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.section-header p {
+  font-size: 1.0625rem;
+  color: var(--gray);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.category-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.category-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--secondary);
+  background: white;
+  color: var(--secondary);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.category-btn:hover,
+.category-btn.active {
+  background: var(--secondary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.game-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.game-card:nth-child(1) { animation-delay: 0.1s; }
+.game-card:nth-child(2) { animation-delay: 0.2s; }
+.game-card:nth-child(3) { animation-delay: 0.3s; }
+.game-card:nth-child(4) { animation-delay: 0.4s; }
+.game-card:nth-child(5) { animation-delay: 0.5s; }
+.game-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.game-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--primary);
+}
+
+.game-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image img {
+  transform: scale(1.1);
+}
+
+.game-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.game-info {
+  padding: 1.5rem;
+}
+
+.game-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.game-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
+.rtp-badge {
+  background: linear-gradient(135deg, var(--success), #059669);
+  color: white;
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.game-description {
+  font-size: 0.9375rem;
+  color: var(--gray);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.play-btn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, var(--secondary), #6d28d9);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.play-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  padding: 2rem;
+  border-radius: 16px;
+  border-left: 4px solid var(--secondary);
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-card p {
+  color: var(--gray);
+  font-size: 0.9375rem;
+}
+
+.providers-section {
+  text-align: center;
+  padding: 3rem 1.25rem;
+  background: var(--primary);
+  color: white;
+}
+
+.providers-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.providers-list {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.provider-item {
+  font-size: 1.125rem;
+  font-weight: 600;
+  opacity: 0.85;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+
+.cta-section {
+  padding: 4rem 1.25rem;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.cta-content p {
+  font-size: 1.125rem;
+  opacity: 0.95;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 1.125rem 3rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(245,158,11,0.4);
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(245,158,11,0.5);
+}
+
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.7);
+  padding: 3rem 1.25rem 2rem;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-nav a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .hero-slim h1 {
+    font-size: 2rem;
+  }
+
+  .hero-slim p {
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 3rem 1.25rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .cta-content h2 {
+    font-size: 1.75rem;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div><figure class="f"><span></span></figure>
+      AviatorWin
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html" class="active">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero-slim">
+  <h1>Casino Games Library</h1>
+  <p>Explore India's favorite casino games with certified RTP and instant play. Aviator, Teen Patti, Andar Bahar and more.</p>
+</div><figure class="f"><span></span></figure>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Popular Games</h2>
+      <p>Handpicked selection of the most played casino games in India with fair RTP and instant withdrawals</p>
+    </div>
+
+    <div class="category-nav">
+      <span class="category-btn active">All Games</span>
+      <span class="category-btn">Live Casino</span>
+      <span class="category-btn">Card Games</span>
+      <span class="category-btn">Crash Games</span>
+      <span class="category-btn">Slots</span>
+    </div><aside class="s"></aside>
+
+    <div class="games-grid">
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/fadf4823-1f7e-4343-bc81-d3d2f969416a.jpg" alt="Aviator Game">
+          <span class="game-badge">Hot</span>
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Aviator</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 97%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Instant Play
+            </span>
+          </div><section class="g"></section>
+          <p class="game-description">The most popular crash game in India. Watch the multiplier fly and cash out before it crashes!</p>
+          <a href="/go/" class="play-btn">Play Aviator Now</a>
+        </div>
+      </div><div class="d"><i></i><i></i></div>
+
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a07dlim3/ws/3/ii/16eb975f-41f1-4dcd-adf0-7fd3a1bd6428.jpg" alt="Teen Patti Game">
+          <span class="game-badge">Popular</span>
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Teen Patti</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 96.5%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              Live Dealer
+            </span>
+          </div><figure class="f"><span></span></figure>
+          <p class="game-description">Classic Indian card game with live dealers. Multiple tables and betting limits for all players.</p>
+          <a href="/go/" class="play-btn">Play Teen Patti</a>
+        </div>
+      </div><div class="x"><span></span></div>
+
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/a487c93b-2706-402a-ab32-727f9bfbdab2.jpg" alt="Andar Bahar Game">
+          <span class="game-badge">New</span>
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Andar Bahar</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 96.8%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+              Card Game
+            </span>
+          </div><div class="x"><span></span></div>
+          <p class="game-description">Traditional Indian game of chance. Simple rules, fast rounds, and exciting side bets available.</p>
+          <a href="/go/" class="play-btn">Play Andar Bahar</a>
+        </div>
+      </div><section class="g"></section>
+
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/fadf4823-1f7e-4343-bc81-d3d2f969416a.jpg" alt="Crazy Time">
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Crazy Time</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 95.4%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Live Game Show
+            </span>
+          </div><div class="d"><i></i><i></i></div>
+          <p class="game-description">Exciting wheel-based game show with bonus rounds and massive multipliers up to 20,000x!</p>
+          <a href="/go/" class="play-btn">Play Now</a>
+        </div>
+      </div><aside class="s"></aside>
+
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a07dlim3/ws/3/ii/16eb975f-41f1-4dcd-adf0-7fd3a1bd6428.jpg" alt="Blackjack">
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Blackjack</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 99.5%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+              Table Game
+            </span>
+          </div><div class="d"><i></i><i></i></div>
+          <p class="game-description">Classic 21 with multiple variants. Perfect strategy can bring RTP close to 100%. Beat the dealer!</p>
+          <a href="/go/" class="play-btn">Play Blackjack</a>
+        </div>
+      </div><aside class="s"></aside>
+
+      <div class="game-card">
+        <div class="game-image">
+          <img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/a487c93b-2706-402a-ab32-727f9bfbdab2.jpg" alt="Roulette">
+        </div>
+        <div class="game-info">
+          <h3 class="game-title">Roulette</h3>
+          <div class="game-meta">
+            <span class="rtp-badge">RTP 97.3%</span>
+            <span class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              Live Casino
+            </span>
+          </div><figure class="f"><span></span></figure>
+          <p class="game-description">European and American roulette with live dealers. Multiple camera angles and chat features.</p>
+          <a href="/go/" class="play-btn">Play Roulette</a>
+        </div>
+      </div><figure class="f"><span></span></figure>
+    </div>
+  </div><aside class="s"></aside>
+</section><aside class="s"></aside>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>Understanding RTP & Game Features</h2>
+      <p>Everything you need to know about Return to Player percentages and game mechanics</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>
+          <div class="info-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" stroke="var(--secondary)"/>
+              <path d="M12 16v-4" stroke="var(--secondary)"/>
+              <path d="M12 8h.01" stroke="var(--secondary)"/>
+            </svg>
+          </div><div class="x"><span></span></div>
+          What is RTP?
+        </h3>
+        <p>Return to Player (RTP) is the percentage of all wagered money that a game will pay back to players over time. For example, a 97% RTP means that for every ₹100 wagered, the game returns ₹97 on average. Higher RTP means better long-term value for players.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>
+          <div class="info-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="var(--success)"/>
+              <polyline points="22 4 12 14.01 9 11.01" stroke="var(--success)"/>
+            </svg>
+          </div><section class="g"></section>
+          Certified Fair Gaming
+        </h3>
+        <p>All games on AviatorWin are provided by licensed game developers with certified RNG (Random Number Generator) systems. Regular audits ensure fair play and accurate RTP percentages. Your gameplay is protected and transparent.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>
+          <div class="info-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="var(--accent)"/>
+            </svg>
+          </div><aside class="s"></aside>
+          Betting Limits
+        </h3>
+        <p>Flexible betting options for all bankrolls. Minimum bets start from ₹10, while VIP tables accept up to ₹100,000 per round. Choose tables that match your budget and playing style for the best experience.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>
+          <div class="info-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke="var(--secondary)"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="var(--secondary)"/>
+            </svg>
+          </div><div class="x"><span></span></div>
+          Mobile Optimized
+        </h3>
+        <p>Play all games seamlessly on your mobile device. Our platform is optimized for Android and iOS, with responsive design and touch controls. Same features, same RTP, anywhere you go with stable internet connection.</p>
+      </div>
+    </div><section class="g"></section>
+  </div>
+</section>
+
+<div class="providers-section">
+  <div class="container">
+    <h3>Powered by Top Game Providers</h3>
+    <div class="providers-list">
+      <div class="provider-item">Evolution Gaming</div><aside class="s"></aside>
+      <div class="provider-item">Spribe</div>
+      <div class="provider-item">Ezugi</div><aside class="s"></aside>
+      <div class="provider-item">Pragmatic Play</div>
+      <div class="provider-item">NetEnt</div><div class="d"><i></i><i></i></div>
+      <div class="provider-item">Microgaming</div>
+    </div><aside class="s"></aside>
+  </div>
+</div><figure class="f"><span></span></figure>
+
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to Play?</h2>
+    <p>Join AviatorWin today and claim your ₹30,000 welcome bonus. Start playing India's favorite games with instant UPI deposits.</p>
+    <a href="/go/" class="cta-btn">Claim Bonus & Play Now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </nav>
+    <div class="footer-bottom">
+      &copy; 2024 AviatorWin &middot; 18+ Only &middot; Play Responsibly &middot; India<br>
+      Gambling can be addictive. Please play responsibly and within your limits.
+    </div><section class="g"></section>
+  </div>
+</footer>
+
+</body>
+</html>

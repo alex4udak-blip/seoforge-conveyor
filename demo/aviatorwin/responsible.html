@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>18+ Safety & Responsible Gaming | AviatorWin India</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a237e;
+  --primary-dark: #0d1642;
+  --accent: #ffa726;
+  --accent-light: #ffb74d;
+  --text: #212121;
+  --text-light: #757575;
+  --bg: #ffffff;
+  --bg-alt: #f5f7fa;
+  --border: #e0e0e0;
+  --success: #2e7d32;
+  --white: #ffffff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.header {
+  background: var(--primary);
+  color: var(--white);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav a {
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav a:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.nav a.active {
+  background: var(--accent);
+  color: var(--primary-dark);
+}
+
+.hero-slim {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+  padding: 3rem 0 2.5rem;
+  text-align: center;
+}
+
+.hero-slim h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
+}
+
+.hero-slim p {
+  font-size: 1.15rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.section.alt {
+  background: var(--bg-alt);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.content-grid {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.content-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.section.alt .content-card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.content-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.content-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.content-card p {
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.content-card ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.content-card li {
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.cta-box {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+  margin: 3rem 0;
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.cta-box h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary-dark);
+}
+
+.cta-box p {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--white);
+  text-decoration: none;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.info-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.info-item {
+  background: var(--white);
+  border-left: 4px solid var(--accent);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.section.alt .info-item {
+  background: var(--bg);
+}
+
+.info-item h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+}
+
+.info-item p {
+  color: var(--text);
+}
+
+.license-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--success);
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.footer {
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 3rem 0 1.5rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.footer-nav a {
+  color: var(--white);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.footer-nav a:hover {
+  opacity: 1;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.age-warning {
+  background: #d32f2f;
+  color: var(--white);
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
+
+@media (min-width: 768px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-slim h1 {
+    font-size: 2.75rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .nav a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+  
+  .hero-slim h1 {
+    font-size: 1.75rem;
+  }
+  
+  .hero-slim p {
+    font-size: 1rem;
+  }
+  
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  .content-card {
+    padding: 1.5rem;
+  }
+  
+  .cta-box {
+    padding: 2rem 1.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="age-warning">
+  <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="currentColor"/>
+  </svg>
+  <span>18+ ONLY | Gambling can be addictive | Play Responsibly</span>
+</div><figure class="f"><span></span></figure>
+
+<header class="header">
+  <div class="header-container">
+    <a href="index.html" class="logo">Aviator<span>Win</span></a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html" class="active">18+ Safety</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero-slim">
+  <h1>18+ Safety & Responsible Gaming</h1>
+  <p>Your wellbeing is our priority. Play smart, stay safe, and enjoy gaming responsibly.</p>
+</div><figure class="f"><span></span></figure>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Our Commitment to Safe Gaming</h2>
+    <p class="section-subtitle">AviatorWin is dedicated to providing a safe and responsible gaming environment for all players in India. We believe gambling should be entertainment, never a problem.</p>
+    
+    <div class="content-grid">
+      <div class="content-card">
+        <h3>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#2e7d32"/>
+          </svg>
+          Age Verification
+        </h3>
+        <p>All players must be 18 years or older to participate in real-money gaming on AviatorWin. We employ strict age verification measures to prevent underage gambling.</p>
+        <ul>
+          <li>Mandatory ID verification during registration</li>
+          <li>Document authentication for all new accounts</li>
+          <li>Continuous monitoring and compliance checks</li>
+          <li>Zero tolerance for underage gaming attempts</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h3>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 8H17V6C17 3.24 14.76 1 12 1C9.24 1 7 3.24 7 6V8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8ZM12 17C10.9 17 10 16.1 10 15C10 13.9 10.9 13 12 13C13.1 13 14 13.9 14 15C14 16.1 13.1 17 12 17ZM15.1 8H8.9V6C8.9 4.29 10.29 2.9 12 2.9C13.71 2.9 15.1 4.29 15.1 6V8Z" fill="#1a237e"/>
+          </svg>
+          Secure Platform
+        </h3>
+        <p>Your personal and financial information is protected by industry-leading security protocols and encryption technology.</p>
+        <ul>
+          <li>256-bit SSL encryption for all transactions</li>
+          <li>Secure payment gateways (UPI, Paytm, PhonePe)</li>
+          <li>Regular security audits and compliance reviews</li>
+          <li>Protected data storage and privacy measures</li>
+        </ul>
+      </div><aside class="s"></aside>
+
+      <div class="content-card">
+        <h3>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.44 4 16.08 4 12C4 11.38 4.08 10.79 4.21 10.21L9 15V16C9 17.1 9.9 18 11 18V19.93ZM17.9 17.39C17.64 16.58 16.9 16 16 16H15V13C15 12.45 14.55 12 14 12H8V10H10C10.55 10 11 9.55 11 9V7H13C14.1 7 15 6.1 15 5V4.59C17.93 5.78 20 8.65 20 12C20 14.08 19.2 15.97 17.9 17.39Z" fill="#ffa726"/>
+          </svg>
+          Licensed & Regulated
+        </h3>
+        <p>AviatorWin operates under strict regulatory oversight and maintains all necessary licenses for online gaming operations in India.</p>
+        <div class="license-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/>
+          </svg>
+          Fully Licensed & Certified
+        </div>
+      </div><section class="g"></section>
+
+      <div class="content-card">
+        <h3>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20ZM11 7H13V13H11V7ZM11 15H13V17H11V15Z" fill="#d32f2f"/>
+          </svg>
+          Problem Gambling Support
+        </h3>
+        <p>We provide comprehensive resources and support for players who may be experiencing gambling-related issues.</p>
+        <ul>
+          <li>24/7 access to support resources</li>
+          <li>Links to professional counseling services</li>
+          <li>Educational materials about responsible gaming</li>
+          <li>Self-assessment tools and questionnaires</li>
+        </ul>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section><aside class="s"></aside>
+
+<section class="section alt">
+  <div class="container">
+    <h2 class="section-title">Responsible Gaming Tools</h2>
+    <p class="section-subtitle">Take control of your gaming experience with our comprehensive suite of responsible gaming tools.</p>
+    
+    <div class="info-grid">
+      <div class="info-item">
+        <h4>Deposit Limits</h4>
+        <p>Set daily, weekly, or monthly deposit limits to control your spending. Limits can be adjusted in your account settings and will take effect immediately for reductions.</p>
+      </div><figure class="f"><span></span></figure>
+      
+      <div class="info-item">
+        <h4>Session Time Limits</h4>
+        <p>Configure automatic reminders or session timeouts to help manage the time you spend gaming. You'll receive notifications at your chosen intervals.</p>
+      </div>
+      
+      <div class="info-item">
+        <h4>Loss Limits</h4>
+        <p>Establish maximum loss thresholds for any given period. Once reached, you'll be unable to place further bets until the period resets.</p>
+      </div><div class="x"><span></span></div>
+      
+      <div class="info-item">
+        <h4>Reality Checks</h4>
+        <p>Receive periodic notifications showing your current session duration and net win/loss to help you stay aware of your gaming activity.</p>
+      </div>
+      
+      <div class="info-item">
+        <h4>Self-Exclusion</h4>
+        <p>Temporarily or permanently exclude yourself from gaming. Options range from 24 hours to permanent closure. During exclusion, you cannot access your account or create new ones.</p>
+      </div><div class="x"><span></span></div>
+      
+      <div class="info-item">
+        <h4>Account History</h4>
+        <p>Review your complete gaming history, including all bets placed, deposits made, and withdrawals processed. Full transparency for informed decisions.</p>
+      </div>
+    </div><section class="g"></section>
+
+    <div class="cta-box">
+      <h3>Need to Set Limits?</h3>
+      <p>Access your account settings to configure deposit limits, session timers, and other responsible gaming tools.</p>
+      <a href="/go/" class="btn">Manage Account Settings</a>
+    </div>
+  </div><div class="d"><i></i><i></i></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Recognizing Problem Gambling</h2>
+    <p class="section-subtitle">Understanding the warning signs is the first step toward maintaining healthy gaming habits.</p>
+    
+    <div class="content-card">
+      <h3>Warning Signs to Watch For</h3>
+      <p>If you or someone you know exhibits any of these behaviors, it may indicate a gambling problem:</p>
+      <ul>
+        <li>Spending more money or time on gambling than intended</li>
+        <li>Gambling with money needed for essential expenses</li>
+        <li>Borrowing money or selling possessions to fund gambling</li>
+        <li>Feeling restless or irritable when trying to cut down</li>
+        <li>Gambling to escape problems or relieve negative emotions</li>
+        <li>Chasing losses by gambling more to recover money</li>
+        <li>Lying to family or friends about gambling activities</li>
+        <li>Neglecting work, school, or family responsibilities</li>
+        <li>Feeling guilty or anxious about gambling behavior</li>
+        <li>Failed attempts to control, cut back, or stop gambling</li>
+      </ul>
+    </div>
+
+    <div class="info-grid" style="margin-top: 2rem;">
+      <div class="info-item">
+        <h4>Get Help Now</h4>
+        <p>If you recognize these signs, please reach out to professional support services immediately. Help is available 24/7.</p>
+      </div><aside class="s"></aside>
+      
+      <div class="info-item">
+        <h4>Support Resources</h4>
+        <p>Contact organizations like Gamblers Anonymous India or the National Problem Gambling Helpline for confidential assistance and counseling.</p>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2 class="section-title">About AviatorWin</h2>
+    <p class="section-subtitle">Your trusted online gaming destination in India, committed to excellence, integrity, and responsible entertainment.</p>
+    
+    <div class="content-grid">
+      <div class="content-card">
+        <h3>Who We Are</h3>
+        <p>AviatorWin is a premier online casino platform serving the Indian market since our establishment. We specialize in providing a curated selection of popular games including Aviator, Teen Patti, and Andar Bahar, alongside a comprehensive sports betting experience.</p>
+        <p>Our mission is to deliver world-class entertainment while maintaining the highest standards of player safety, security, and responsible gaming practices.</p>
+      </div><aside class="s"></aside>
+
+      <div class="content-card">
+        <h3>Our Values</h3>
+        <ul>
+          <li><strong>Player First:</strong> Every decision prioritizes player experience and wellbeing</li>
+          <li><strong>Transparency:</strong> Clear terms, fair games, and honest communication</li>
+          <li><strong>Security:</strong> Bank-grade protection for your data and funds</li>
+          <li><strong>Responsibility:</strong> Promoting safe gaming and preventing problem gambling</li>
+          <li><strong>Innovation:</strong> Continuous improvement and cutting-edge features</li>
+          <li><strong>Integrity:</strong> Operating with honesty and regulatory compliance</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h3>Payment Methods</h3>
+        <p>We support all popular Indian payment methods for seamless deposits and withdrawals:</p>
+        <ul>
+          <li>UPI (Unified Payments Interface)</li>
+          <li>Paytm Wallet</li>
+          <li>PhonePe</li>
+          <li>Net Banking</li>
+          <li>Instant withdrawals processed 24/7</li>
+        </ul>
+        <p>All transactions are encrypted and processed through secure, trusted gateways.</p>
+      </div><figure class="f"><span></span></figure>
+
+      <div class="content-card">
+        <h3>Customer Support</h3>
+        <p>Our dedicated support team is available around the clock to assist with any questions or concerns:</p>
+        <ul>
+          <li>24/7 live chat support in English and Hindi</li>
+          <li>Email support with response within 24 hours</li>
+          <li>Comprehensive FAQ and help center</li>
+          <li>Dedicated responsible gaming support line</li>
+          <li>Quick resolution of payment and technical issues</li>
+        </ul>
+      </div>
+    </div><figure class="f"><span></span></figure>
+  </div>
+</section><section class="g"></section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Fair Gaming & Game Integrity</h2>
+    <p class="section-subtitle">Every game on AviatorWin uses certified Random Number Generators (RNG) to ensure completely fair and unbiased outcomes.</p>
+    
+    <div class="info-grid">
+      <div class="info-item">
+        <h4>Certified RNG</h4>
+        <p>All our games are powered by independently tested and certified random number generation systems, ensuring every spin, deal, and outcome is completely random and fair.</p>
+      </div><aside class="s"></aside>
+      
+      <div class="info-item">
+        <h4>Regular Audits</h4>
+        <p>We undergo regular third-party audits to verify game fairness, payout percentages, and compliance with industry standards. Audit reports are available upon request.</p>
+      </div>
+      
+      <div class="info-item">
+        <h4>Transparent Odds</h4>
+        <p>We clearly display the return-to-player (RTP) percentages and odds for all games, so you can make informed decisions about where to play.</p>
+      </div><div class="x"><span></span></div>
+      
+      <div class="info-item">
+        <h4>Dispute Resolution</h4>
+        <p>In the unlikely event of a dispute, we have a clear and fair process for investigation and resolution, with all game rounds logged and verifiable.</p>
+      </div>
+    </div><section class="g"></section>
+
+    <div class="cta-box" style="margin-top: 3rem;">
+      <h3>Ready to Play Responsibly?</h3>
+      <p>Join AviatorWin today and enjoy popular games like Aviator, Teen Patti, and Andar Bahar with up to ₹30,000 in welcome bonuses.</p>
+      <a href="/go/" class="btn">Claim Your Bonus Now</a>
+    </div>
+  </div><aside class="s"></aside>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </nav>
+    <div class="footer-bottom">
+      © 2024 AviatorWin · 18+ Only · Play Responsibly · India
+      <br>
+      Gambling can be addictive. Please play responsibly and within your means.
+    </div>
+  </div><div class="x"><span></span></div>
+</footer>
+
+</body>
+</html>

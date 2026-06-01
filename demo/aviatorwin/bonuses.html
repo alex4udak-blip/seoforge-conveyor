@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonuses & Promotions - AviatorWin Casino India</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a1f4d;
+  --primary-dark: #0f1330;
+  --accent: #ff6b35;
+  --accent-hover: #e55a2b;
+  --gold: #ffd700;
+  --bg-light: #f8f9fa;
+  --bg-white: #ffffff;
+  --text: #2d3436;
+  --text-light: #636e72;
+  --border: #dfe6e9;
+  --success: #00b894;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg-white);
+}
+
+.header {
+  background: var(--primary);
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.nav a.active {
+  background: var(--accent);
+  font-weight: 600;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  animation: fadeInUp 0.6s ease;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.bonus-highlight {
+  display: inline-block;
+  background: var(--accent);
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1rem 0 2rem;
+  box-shadow: 0 4px 20px rgba(255,107,53,0.3);
+  animation: pulse 2s ease infinite;
+}
+
+.cta-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 1rem 3rem;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.cta-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255,107,53,0.4);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: 4rem 1rem;
+}
+
+.section:nth-child(even) {
+  background: var(--bg-light);
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+.bonus-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.bonus-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.bonus-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  border-color: var(--accent);
+}
+
+.bonus-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.bonus-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--accent), #ff8c5f);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bonus-card h3 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.bonus-amount {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.bonus-card p {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.bonus-features {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+
+.bonus-features li {
+  padding: 0.5rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+  color: var(--text);
+}
+
+.bonus-features li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.wagering-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+.wagering-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.wagering-table th {
+  background: var(--primary);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+}
+
+.wagering-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.wagering-table tr:last-child td {
+  border-bottom: none;
+}
+
+.wagering-table tr:nth-child(even) {
+  background: var(--bg-light);
+}
+
+.steps {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  min-width: 50px;
+  height: 50px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.terms-box {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+.terms-box h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.terms-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.terms-box li {
+  padding: 0.5rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.terms-box li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.promo-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.promo-item:hover {
+  transform: scale(1.03);
+}
+
+.promo-item h4 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.promo-item .promo-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0.5rem 0;
+}
+
+.promo-item p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.cta-secondary {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.75rem 2rem;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.cta-secondary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.footer {
+  background: var(--primary-dark);
+  color: white;
+  padding: 3rem 1rem 1.5rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.footer-nav a {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.footer-nav a:hover {
+  opacity: 1;
+}
+
+.footer-bottom {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  opacity: 0.7;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .bonus-highlight {
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .bonus-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .nav a {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+  }
+  
+  .wagering-table {
+    overflow-x: auto;
+  }
+  
+  .wagering-table table {
+    min-width: 500px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-primary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .nav a {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <a href="index.html" class="logo">
+      <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 4L4 12L16 20L28 12L16 4Z" fill="#ff6b35"/>
+        <path d="M4 20L16 28L28 20" stroke="#ffd700" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      AviatorWin
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html" class="active">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </nav>
+  </div><figure class="f"><span></span></figure>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Bonuses & Promotions</h1>
+    <p class="hero-subtitle">Maximize your winnings with exclusive casino bonuses tailored for Indian players</p>
+    <div class="bonus-highlight">Up to ₹30,000</div>
+    <a href="/go/" class="cta-primary">Claim Welcome Bonus</a>
+  </div><figure class="f"><span></span></figure>
+</section><aside class="s"></aside>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Available Casino Bonuses</h2>
+    <p class="section-subtitle">Choose the perfect bonus package that suits your playing style</p>
+    
+    <div class="bonus-cards">
+      <div class="bonus-card">
+        <div class="bonus-card-header">
+          <div class="bonus-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="white"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Welcome Bonus</h3>
+          </div><aside class="s"></aside>
+        </div>
+        <div class="bonus-amount">₹30,000</div><section class="g"></section>
+        <p>Get a 100% match bonus on your first deposit up to ₹30,000. Perfect for new players looking to maximize their starting bankroll.</p>
+        <ul class="bonus-features">
+          <li>100% deposit match</li>
+          <li>Valid on first deposit</li>
+          <li>Bonus + deposit wagering</li>
+          <li>30 days to complete</li>
+        </ul>
+        <a href="/go/" class="cta-secondary">Claim Now</a>
+      </div>
+
+      <div class="bonus-card">
+        <div class="bonus-card-header">
+          <div class="bonus-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+              <path d="M12 6V12L16 14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div><div class="d"><i></i><i></i></div>
+          <div>
+            <h3>Free Spins</h3>
+          </div>
+        </div><figure class="f"><span></span></figure>
+        <div class="bonus-amount">100 Spins</div>
+        <p>Receive 100 free spins on popular slot games when you make your second deposit. Explore our game collection risk-free.</p>
+        <ul class="bonus-features">
+          <li>100 free game rounds</li>
+          <li>Valid on Aviator & slots</li>
+          <li>No max win limit</li>
+          <li>7 days to use</li>
+        </ul>
+        <a href="/go/" class="cta-secondary">Get Spins</a>
+      </div><div class="x"><span></span></div>
+
+      <div class="bonus-card">
+        <div class="bonus-card-header">
+          <div class="bonus-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+              <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2"/>
+              <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Reload Bonus</h3>
+          </div><div class="x"><span></span></div>
+        </div>
+        <div class="bonus-amount">50% Match</div><section class="g"></section>
+        <p>Weekly reload bonuses for loyal players. Get a 50% match up to ₹15,000 every week on your deposits.</p>
+        <ul class="bonus-features">
+          <li>50% deposit match</li>
+          <li>Available weekly</li>
+          <li>Up to ₹15,000</li>
+          <li>For existing players</li>
+        </ul>
+        <a href="/go/" class="cta-secondary">Reload Now</a>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Wagering Requirements</h2>
+    <p class="section-subtitle">Transparent bonus terms and conditions for all promotions</p>
+    
+    <div class="wagering-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Bonus Type</th>
+            <th>Wagering Requirement</th>
+            <th>Time Limit</th>
+            <th>Min Deposit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Welcome Bonus</strong></td>
+            <td>35x (bonus + deposit)</td>
+            <td>30 days</td>
+            <td>₹500</td>
+          </tr>
+          <tr>
+            <td><strong>Free Spins</strong></td>
+            <td>40x winnings</td>
+            <td>7 days</td>
+            <td>₹1,000</td>
+          </tr>
+          <tr>
+            <td><strong>Reload Bonus</strong></td>
+            <td>30x bonus</td>
+            <td>14 days</td>
+            <td>₹1,000</td>
+          </tr>
+          <tr>
+            <td><strong>Cashback</strong></td>
+            <td>No wagering</td>
+            <td>Instant</td>
+            <td>N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div><aside class="s"></aside>
+
+    <div class="terms-box">
+      <h3>Important Bonus Terms</h3>
+      <ul>
+        <li>All bonuses must be wagered before withdrawal can be processed</li>
+        <li>Maximum bet with active bonus is ₹400 per round</li>
+        <li>Different games contribute differently to wagering requirements</li>
+        <li>Slots and Aviator contribute 100% to wagering</li>
+        <li>Table games like Teen Patti and Andar Bahar contribute 10%</li>
+        <li>Bonuses are available to players 18+ only</li>
+        <li>Only one active bonus per account at a time</li>
+        <li>AviatorWin reserves the right to void bonuses if terms are violated</li>
+      </ul>
+    </div>
+  </div><div class="d"><i></i><i></i></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How to Claim Your Bonus</h2>
+    <p class="section-subtitle">Simple step-by-step process to activate your welcome bonus</p>
+    
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Create Your Account</h3>
+          <p>Click the claim button and register your new account with AviatorWin. Provide your mobile number, email, and create a secure password. Verification is instant via UPI or phone number.</p>
+        </div><aside class="s"></aside>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div><figure class="f"><span></span></figure>
+        <div class="step-content">
+          <h3>Make Your First Deposit</h3>
+          <p>Navigate to the cashier section and choose your preferred payment method – UPI, Paytm, or PhonePe. Deposit a minimum of ₹500 to qualify for the welcome bonus.</p>
+        </div>
+      </div><figure class="f"><span></span></figure>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Activate the Bonus</h3>
+          <p>Your bonus will be automatically credited to your account within minutes. Check your bonus balance in the account section. Some bonuses require opt-in via the promotions page.</p>
+        </div><aside class="s"></aside>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div><div class="x"><span></span></div>
+        <div class="step-content">
+          <h3>Start Playing</h3>
+          <p>Use your bonus funds to play your favorite games like Aviator, Teen Patti, and Andar Bahar. Meet the wagering requirements to convert bonus funds into withdrawable cash.</p>
+        </div>
+      </div><section class="g"></section>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="/go/" class="cta-primary">Start Claiming Bonuses</a>
+    </div><aside class="s"></aside>
+  </div>
+</section><section class="g"></section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Ongoing Promotions</h2>
+    <p class="section-subtitle">Exclusive offers and limited-time promotions for all players</p>
+    
+    <div class="promo-grid">
+      <div class="promo-item">
+        <h4>Daily Cashback</h4>
+        <div class="promo-value">10%</div><div class="x"><span></span></div>
+        <p>Get 10% cashback on net losses every day. No wagering requirements on cashback.</p>
+      </div>
+
+      <div class="promo-item">
+        <h4>Refer a Friend</h4>
+        <div class="promo-value">₹2,000</div><section class="g"></section>
+        <p>Earn ₹2,000 for every friend you refer who makes their first deposit.</p>
+      </div>
+
+      <div class="promo-item">
+        <h4>VIP Rewards</h4>
+        <div class="promo-value">Exclusive</div><aside class="s"></aside>
+        <p>Join our VIP program for personalized bonuses, faster withdrawals, and dedicated support.</p>
+      </div>
+
+      <div class="promo-item">
+        <h4>Tournament Prize Pool</h4>
+        <div class="promo-value">₹1,00,000</div><aside class="s"></aside>
+        <p>Compete in weekly Aviator tournaments with massive prize pools for top players.</p>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="bonuses.html">Bonuses</a>
+      <a href="games.html">Games</a>
+      <a href="payments.html">Payments</a>
+      <a href="review.html">Review</a>
+      <a href="app.html">App</a>
+      <a href="responsible.html">18+ Safety</a>
+    </nav>
+    <div class="footer-bottom">
+      © AviatorWin · 18+ · Play Responsibly · IN
+    </div><aside class="s"></aside>
+  </div>
+</footer>
+
+</body>
+</html>

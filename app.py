@@ -25,7 +25,7 @@ class AuditReq(BaseModel):
     slug: str; geo: str="in"; keyword: str="online casino"; competitors: list=[]
 
 
-@app.get("/demo/{fname}")
+@app.get("/demo/{fname:path}")
 def serve_demo(fname: str):
     import os as _os
     fp=_os.path.abspath(_os.path.join("demo", fname))
