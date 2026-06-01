@@ -73,14 +73,22 @@ def _scene_for(vibe):
             return s
     return "a luxurious modern casino floor with bright slot machines, golden chips and roulette, vibrant neon lighting"
 
-def hero_img(domain, w=1000, h=440, brand="", vibe="casino"):
+def hero_img(domain, w=1000, h=440, brand="", vibe="casino", text=""):
     key = os.environ.get("RUNWARE_API_KEY", "")
     if key:
-        scene = _scene_for(vibe)
-        prompt = (f"{scene}. Professional advertising photograph, ultra sharp focus, bright vivid colors, "
-                  f"high-key dramatic studio lighting, clean crisp detail, premium gambling brand hero banner, "
-                  f"8k, photorealistic, NOT dark, NOT muddy, NO blur, no people faces, "
-                  f"no text, no letters, no words, no logo, no watermark")
+        # АГЕНТНЫЙ промпт (уникальный, под текст) → fallback хардкод-сцена
+        prompt = None
+        try:
+            from core.agent_imageprompt import image_prompt
+            prompt = image_prompt("hero", brand=brand, game=vibe, geo="", text=text, seed=domain)
+        except Exception:
+            prompt = None
+        if not prompt:
+            scene = _scene_for(vibe)
+            prompt = (f"{scene}. Professional advertising photograph, ultra sharp focus, bright vivid colors, "
+                      f"high-key dramatic studio lighting, clean crisp detail, premium gambling brand hero banner, "
+                      f"8k, photorealistic, NOT dark, NOT muddy, NO blur, no people faces, "
+                      f"no text, no letters, no words, no logo, no watermark")
         # Flux Pro Ultra (4MP, резкий) на фикс.размере 3136x1344 (~21:9) — для чёткого hero
         u = _runware(prompt, 3136, 1344, key, model="bfl:2@2")
         if u: return u
@@ -88,12 +96,19 @@ def hero_img(domain, w=1000, h=440, brand="", vibe="casino"):
         if u: return u
     return _url(_pick(HERO, domain, "hero"), w, h)
 
-def game_img(game, domain, w=400, h=260, key=None):
+def game_img(game, domain, w=400, h=260, key=None, brand=""):
     key = key or os.environ.get("RUNWARE_API_KEY", "")
     if key:
-        scene = _scene_for(game)
-        prompt = (f"{scene}. Sharp vibrant mobile game thumbnail, bright colorful, crisp clear, "
-                  f"high quality, no text, no letters, no numbers, no playing-card suits or pips, no watermark")
+        prompt = None
+        try:
+            from core.agent_imageprompt import image_prompt
+            prompt = image_prompt("game", brand=brand, game=game, geo="", text="", seed=f"{domain}:{game}")
+        except Exception:
+            prompt = None
+        if not prompt:
+            scene = _scene_for(game)
+            prompt = (f"{scene}. Sharp vibrant mobile game thumbnail, bright colorful, crisp clear, "
+                      f"high quality, no text, no letters, no numbers, no playing-card suits or pips, no watermark")
         u = _runware(prompt, 512, 384, key)
         if u: return u
     pool = GAME_CAT.get(game.lower(), SLOTS)
