@@ -43,21 +43,27 @@ DATA (use ALL of it):
 
 REQUIREMENTS — make it look like a REAL top-tier 2026 casino site (better than WordPress competitors):
 - Sticky HEADER with brand logo-text + nav.
-- FULL-WIDTH hero with the hero_image as background/feature, big H1, bonus badge, prominent CTA. NOT a narrow centered column — use full width, real layout.
-- Dense, professional FIRST screen (above fold): hero + trust badges + a glimpse of toplist.
-- TOPLIST of top_casinos with their logos, bonuses, ratings, Claim buttons (cards/table, styled).
-- GAMES grid using game_images.
-- PAYMENTS row using payment_logos (real logos).
+- HERO IS CRITICAL: the hero_image URL MUST be visibly rendered as a full-bleed background of the hero
+  section (e.g. <section class="hero" style="background-image:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),url('HERO_IMAGE_URL');background-size:cover;background-position:center">).
+  A plain dark hero with NO image = FAILURE. The image must show through behind the H1. Add a dark
+  gradient overlay so white text stays readable. Use the EXACT hero_image URL from the data.
+- Big H1, bonus badge, prominent CTA in the hero. Full width, real layout — NOT a narrow centered column.
+- GAMES grid above-the-fold-ish: render each game_images URL as a real <img> card with the game name.
+  These visuals MUST appear — a text-only page = FAILURE.
+- TOPLIST of top_casinos with their logos, bonuses, ratings, Claim buttons (cards/table, styled). Skip if empty.
+- PAYMENTS row using payment_logos (real <img> logos) + trust badges (licensed, SSL, 18+).
 - Content blocks (use h2+lead+body) with good typography, spacing, sections that alternate bg.
-- Sticky mobile CTA at bottom.
+- Sticky mobile CTA at bottom: a SHORT "Join Now"/"Sign Up" button ONLY — do NOT repeat the bonus
+  amount there (it already appears in the hero; repeating it looks broken).
 - Footer.
 - Micro-animations (count-up, hover lift, shimmer on bonus) — write your own CSS @keyframes.
-- Tasteful modern palette fitting {brand} ({plan.get('layout','casino')}). Dark premium. Good fonts (Google Fonts link).
+- RICH palette: a primary brand color + a SECONDARY accent + gradients — NOT one single accent on black
+  everywhere (monotone = amateur). Dark premium base but with visual variety. Good fonts (Google Fonts link).
 - MOBILE-FIRST: must look great on 390px AND desktop. Use grid/flex, responsive.
 Output ONLY the full HTML from <!doctype html> to </html>. No explanation, no markdown fences."""
-    try:
+    def _gen(extra=""):
         body = json.dumps({"model": MODEL, "max_tokens": 16000,
-                           "messages": [{"role": "user", "content": prompt}]}).encode()
+                           "messages": [{"role": "user", "content": prompt + extra}]}).encode()
         req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
             headers={"x-api-key": KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
         r = json.loads(urllib.request.urlopen(req, timeout=180).read())
@@ -67,8 +73,18 @@ Output ONLY the full HTML from <!doctype html> to </html>. No explanation, no ma
         if i == -1: i = txt.lower().find("<html")
         if i == -1: return None
         html = txt[i:]
-        # валидация: должен быть полный документ разумного размера
         if len(html) < 3000 or "</html>" not in html.lower() or html.count("<") < 50:
+            return None
+        return html
+    try:
+        html = _gen()
+        # hero-картинка ОБЯЗАНА присутствовать (vision ловил "no hero image, plain dark bg")
+        if html and hero and hero not in html:
+            retry = _gen(f"\n\nCRITICAL: your previous output omitted the hero image. The hero section "
+                         f"MUST contain this exact URL as a CSS background-image: {hero}")
+            if retry and hero in retry:
+                html = retry
+        if not html:
             return None
         return mutate(html, domain)   # анти-footprint
     except Exception:
