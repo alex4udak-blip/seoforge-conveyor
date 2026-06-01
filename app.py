@@ -45,6 +45,15 @@ def domains_check(brand: str):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error":str(e)[:200]})
 
+@app.get("/ai-visibility")
+def ai_vis(keyword: str, geo: str="in", our_domain: str=None):
+    """Есть ли мы в AI-выдаче по запросу + кто цитируется вместо нас + как зайти."""
+    try:
+        from core.recon import ai_visibility
+        return ai_visibility(keyword, geo, our_domain)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error":str(e)[:200]})
+
 @app.get("/botview")
 def botview_endpoint(domain: str):
     """Вскрытие клоаки конкурента: Google-view (translate.goog) vs user-view → детект клоаки."""

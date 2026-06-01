@@ -53,6 +53,28 @@ def serp(keyword, geo="in", n=10, classify_deep=True):
     return {"keyword": keyword, "geo": geo, "count": len(out),
             "results": out, "related": rel[:12], "classified": _footprint(out)}
 
+def ai_visibility(keyword, geo="in", our_domain=None):
+    """Есть ли мы в AI-выдаче. Замер: какие домены/бренды доминируют в источниках по запросу.
+    Прокси без браузера: топ органики = база источников AI (ChatGPT 87% берёт топ Bing, AIO берёт топ Google).
+    Возвращает: кого AI вероятно процитирует + есть ли наш домен + через кого заходить."""
+    s = serp(keyword, geo, n=10, classify_deep=False)
+    if "results" not in s:
+        return {"error": s.get("error", "serp failed")}
+    domains = [r["domain"] for r in s["results"]]
+    # агрегаторы/обзорники = источники, на которые опираются AI (Perplexity/ChatGPT цитируют их)
+    sources = [r for r in s["results"] if r.get("type") == "сеошник"]
+    our_present = bool(our_domain and any(our_domain in d for d in domains))
+    return {
+        "keyword": keyword, "geo": geo,
+        "we_in_serp": our_present,
+        "likely_ai_sources": [r["domain"] for r in sources][:6],  # кого AI цитирует
+        "all_top": domains,
+        "verdict": (f"наш домен {our_domain} В выдаче-источнике AI" if our_present
+                    else f"нас НЕТ в источниках AI — цитируют: {', '.join([r['domain'] for r in sources][:3])}. "
+                         f"Чтобы попасть в AI-ответ: (1) встать в топ Bing/Google, (2) попасть в списки этих агрегаторов, (3) FAQ+пассажи под цитирование"),
+        "related": s.get("related", [])[:8],  # follow-up интенты для генератора
+    }
+
 def domain_age(domain):
     """Возраст домена ПО ДАТАМ через Wayback (первый снапшот в веб-архиве). Без ключа.
     Возвращает {first_seen: 'YYYYMMDD', age_years, age_label}. None если домена нет в архиве (= совсем свежий)."""
