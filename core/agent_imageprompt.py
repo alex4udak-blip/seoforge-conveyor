@@ -25,13 +25,26 @@ def image_prompt(kind, brand="", game="", geo="", text="", seed=""):
         return None
     # вариативность: подмешиваем хеш seed в инструкцию, чтоб каждый раз иначе
     h = hashlib.sha256(f"{kind}:{brand}:{game}:{seed}".encode()).hexdigest()[:8]
-    subj = (f"the HERO banner of an online casino brand '{brand}' ({geo}) themed around '{game or 'casino'}'"
+    # тип игры → ОБЯЗАТЕЛЬНО разная композиция (Алекс: не повторять, не "куча монет" везде)
+    g = (game or "").lower()
+    if any(k in g for k in ("aviator", "jetx", "spaceman", "crash")):
+        cat = "an abstract glowing neon multiplier curve streaking upward across a dark premium casino backdrop with subtle light particles (crash-game energy)"
+    elif any(k in g for k in ("teen patti", "andar bahar", "poker", "blackjack", "baccarat", "card")):
+        cat = "an elegant casino card table with rich felt and warm spotlight, cards softly motion-blurred so no suit is readable, a live-dealer atmosphere"
+    elif any(k in g for k in ("roulette", "crazy time", "wheel", "dream catcher")):
+        cat = "a vivid spinning wheel in motion with bright bokeh lights and dynamic blur, game-show energy"
+    elif any(k in g for k in ("slot", "fortune", "tiger", "book", "starburst", "fruit", "777", "jili", "color game")):
+        cat = "glowing slot-machine reels with vibrant themed symbols (fruits, gems, lucky 7s) lit by neon, a jackpot feel"
+    else:
+        cat = "a luxurious premium casino floor scene with varied tasteful detail"
+    subj = (f"the HERO banner of an online casino brand '{brand}' ({geo}) — {cat}"
             if kind == "hero" else
-            f"a thumbnail for the casino game '{game}' on brand '{brand}' ({geo})")
+            f"a thumbnail for the casino game '{game}' on brand '{brand}' ({geo}) — depict {cat}")
     ctx = f"\nPage copy for context (match its mood, do NOT put any of this text in the image): {text[:300]}" if text else ""
     sys = (f"You write ONE image-generation prompt (1-2 sentences, concrete visual nouns + lighting + mood). "
-           f"{_RULES} Make this prompt DISTINCT from typical casino stock — vary the composition, palette, "
-           f"camera angle and props (variation token {h}). Output ONLY the prompt text, nothing else.")
+           f"{_RULES} Make this prompt DISTINCT — vary the composition, palette, camera angle and props "
+           f"(variation token {h}). Do NOT default to 'a pile of coins/chips' for every image — match the "
+           f"specific scene described in the request. Output ONLY the prompt text, nothing else.")
     user = f"Write a unique image prompt for {subj}.{ctx}"
     try:
         body = json.dumps({"model": MODEL, "max_tokens": 200, "system": sys,

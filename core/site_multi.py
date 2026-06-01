@@ -25,16 +25,17 @@ PAGES = [
 
 def _build_page(page, ctx):
     """Sonnet пишет ОДНУ страницу с общей навигацией + своей темой."""
-    nav_links = " | ".join(f'{p["nav"]}=>{p["slug"]}.html' for p in PAGES)
+    # nav: даём слаг + англ.подсказку темы, label Sonnet пишет на языке гео (анти-хардкор/анти-EN-течь)
+    nav_links = " | ".join(f'{p["slug"]}.html (topic: {p["nav"]})' for p in PAGES)
     prompt = f"""You are a world-class web designer+developer building ONE page of a multi-page online casino site.
 
-BRAND: {ctx['brand']} | MARKET: {ctx['geo']} | LANGUAGE: write ALL text in {ctx['lang']} (never Russian unless that is {ctx['lang']}).
+BRAND: {ctx['brand']} | MARKET: {ctx['geo']} | LANGUAGE: write ABSOLUTELY ALL visible text in {ctx['lang']} — this includes the menu/nav labels, every button (CTA), badges, section titles, table headers, footer, alt text. NOT a single English word unless {ctx['lang']} is English. Never Russian unless that is {ctx['lang']}.
 CURRENCY: {ctx['cur']} | MAX BONUS: {ctx['maxbonus']} | PAYMENTS: {ctx['pays']} | POPULAR GAMES: {ctx['hot']}
 
-THIS PAGE = "{page['nav']}" — {page['role']}
+THIS PAGE topic = {page['role']}
 
-NAVIGATION (MUST appear in the sticky header on EVERY page, links are relative .html files): {nav_links}
-The current page is "{page['nav']}" — mark it active.
+NAVIGATION (MUST appear in the sticky header on EVERY page; links are relative .html files; WRITE EACH MENU LABEL IN {ctx['lang']}, translating the topic): {nav_links}
+Mark the current page ({page['nav']} topic) as active in the menu.
 
 ASSETS you MUST use (exact URLs):
 - hero/feature image: {ctx['hero']}
@@ -52,6 +53,7 @@ HARD REQUIREMENTS:
 - Rich but HARMONIOUS palette (primary + complementary accent, NO clashing teal-on-orange). NO emoji — inline SVG/CSS only.
 - MOBILE-FIRST (great at 390px AND desktop), body font-size>=15px line-height>=1.6, own CSS @keyframes micro-animations.
 - Real content for THIS page's topic (use the data above), good typography, sections that alternate background.
+- LAYOUT DISCIPLINE: stack sections vertically in a logical reading order (header → hero → main content sections → footer). Every section is full-width with its inner content in ONE centered container (max-width ~1140px, consistent horizontal padding). NO overlapping blocks, NO floating/misaligned elements, NO orphaned half-width boxes — grids must have equal-height aligned cards. Consistent vertical rhythm (uniform section padding). It must look deliberately laid out, not scattered.
 
 Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, no explanation."""
     body = json.dumps({"model": MODEL, "max_tokens": 16000,
