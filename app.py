@@ -70,6 +70,24 @@ def recon_serp(keyword: str, geo: str="in", n: int=10, deep: bool=True):
             r["is_new"]= prev and r["domain"] in new
         hist[key]={"domains":cur,"last_keyword":keyword,"geo":geo}
         _save_recon(hist)
+        # возраст домена ПО ДАТАМ (Wayback) для топ-5 + умная новизна
+        try:
+            from core.recon import domain_age
+            from datetime import datetime
+            now_y, now_m = datetime.now().year, datetime.now().month
+            for r in res["results"][:5]:
+                a = domain_age(r["domain"])
+                if a.get("first_year"):
+                    months = (now_y - a["first_year"])*12 + (now_m - a.get("first_month",1))
+                    r["age_months"] = max(0, months)
+                    r["age_label"] = (f"{months//12}г {months%12}м" if months>=12 else f"{months}мес")
+                    r["fresh_domain"] = months <= 6
+                else:
+                    r["age_months"] = None; r["age_label"]="нет в архиве"; r["fresh_domain"]=True
+                # СВЕЖИЙ БРЕНД = молодой домен И только что в топе
+                r["fresh_brand"] = bool(r.get("fresh_domain") and r.get("is_new"))
+        except Exception as e:
+            res["age_error"]=str(e)[:80]
         # SQLite-история для динамики во времени (данные=золото)
         try:
             from core.recon_db import save_scan, dynamics

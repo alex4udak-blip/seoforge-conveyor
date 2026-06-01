@@ -53,6 +53,24 @@ def serp(keyword, geo="in", n=10, classify_deep=True):
     return {"keyword": keyword, "geo": geo, "count": len(out),
             "results": out, "related": rel[:12], "classified": _footprint(out)}
 
+def domain_age(domain):
+    """Возраст домена ПО ДАТАМ через Wayback (первый снапшот в веб-архиве). Без ключа.
+    Возвращает {first_seen: 'YYYYMMDD', age_years, age_label}. None если домена нет в архиве (= совсем свежий)."""
+    domain = domain.replace("https://","").replace("http://","").split("/")[0].replace("www.","")
+    try:
+        import json as _j
+        u = f"http://archive.org/wayback/available?url={domain}&timestamp=20000101"
+        d = _j.loads(_fetch(u, timeout=12))
+        snap = d.get("archived_snapshots",{}).get("closest",{})
+        ts = snap.get("timestamp")
+        if not ts:
+            return {"first_seen": None, "age_years": 0, "age_label": "нет в архиве (возможно свежий)"}
+        year = int(ts[:4]); mon = int(ts[4:6])
+        # текущий год передаём приблизительно — точную дату не вычисляем в проде, год архива достаточен
+        return {"first_seen": ts[:8], "first_year": year, "first_month": mon}
+    except Exception as e:
+        return {"first_seen": None, "error": str(e)[:60]}
+
 def botview(domain):
     """Вскрытие клоаки конкурента: контент через translate.goog (Google IP) vs обычный заход.
     Разница = клоака (сайт показывает Google одно, юзеру другое). Метод Димы/affiliate.fm."""

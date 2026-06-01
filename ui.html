@@ -228,9 +228,11 @@ async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)
   const c=d.classified||{};
   const tcls=t=>t==='сеошник'?'t-aff':t&&t.indexOf('официал')>=0?'t-brand':'t-other';
   const rows=d.results.map(x=>{
-    const nb=x.is_new?'<span class="tag" style="background:#3ddc9722;color:var(--acc)" title="Домена не было в прошлом скане — только что зашёл в топ. Сигнал зайти первым.">НОВЫЙ В ТОПЕ</span> ':'';
+    const fb=x.fresh_brand?'<span class="tag" style="background:#3ddc9733;color:var(--acc)" title="Молодой домен И только что в топе — свежий бренд, лови первым">СВЕЖИЙ БРЕНД</span> ':'';
+    const nt=(x.is_new&&!x.fresh_brand)?'<span class="tag" style="background:#22d3ee22;color:var(--acc2)" title="Влез в топ с прошлого скана (но домен старый — купленный дроп)">НОВЫЙ В ТОПЕ</span> ':'';
+    const age=x.age_label?`<span class="tag t-other" title="возраст домена по Wayback">${x.age_label}</span> `:'';
     const sig=(x.signals||[]).length?`<div class="sub" style="font-size:11px;color:var(--mut)">${x.signals.join(' · ')}</div>`:'';
-    return `<tr><td><b>${x.pos}</b></td><td>${nb}<b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div>${sig}</td><td><span class="tag ${tcls(x.type)}">${x.type}</span></td><td><button class="pill" style="cursor:pointer;border:none" onclick="doBotview('${x.domain}',event)">вскрыть клоаку</button></td></tr>`;}).join('');
+    return `<tr><td><b>${x.pos}</b></td><td>${fb}${nt}${age}<b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div>${sig}</td><td><span class="tag ${tcls(x.type)}">${x.type}</span></td><td><button class="pill" style="cursor:pointer;border:none" onclick="doBotview('${x.domain}',event)">вскрыть клоаку</button></td></tr>`;}).join('');
   const newBanner=(d.new_domains&&d.new_domains.length)?`<div class="verdict" style="border-color:#3ddc9355"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg><div><b>Новые домены в выдаче (поймать первым!):</b> ${d.new_domains.join(', ')}</div></div>`:'';
   const dyn=d.dynamics||{};
   const dynBanner=dyn.verdict?`<div class="verdict" style="border-color:${dyn.churn>=2?'var(--acc)':'var(--mut)'}55"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Динамика выдачи (${dyn.scans} срезов):</b> ${dyn.verdict}${dyn.entered&&dyn.entered.length?'<br><span class="sub">вошли: '+dyn.entered.join(', ')+'</span>':''}${dyn.dropped&&dyn.dropped.length?'<br><span class="sub">выпали: '+dyn.dropped.join(', ')+'</span>':''}</div></div>`:'';
