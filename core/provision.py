@@ -145,6 +145,28 @@ def ht_create_shared_server(server_type="cx23", location="nbg1", image="ubuntu-2
                 "id": r["server"]["id"]}
     return {"status": "error", "raw": r}
 
+# ---------- Деплой файлов сайта на общий сервер (scp по SSH) ----------
+import subprocess
+SSH_KEY = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".deploy", "id_seoforge")
+
+def deploy_files(domain, local_dir, server_ip=None):
+    """Заливает HTML-файлы сайта в /var/www/_sites/<domain> на общем сервере."""
+    server_ip = server_ip or ht_server_ip()
+    if not server_ip:
+        return {"ok": False, "err": "no server"}
+    ssh = ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no", f"root@{server_ip}"]
+    try:
+        subprocess.run(ssh + [f"mkdir -p /var/www/_sites/{domain}"], timeout=30, capture_output=True)
+        files = [os.path.join(local_dir, f) for f in os.listdir(local_dir) if f.endswith(".html")]
+        if not files:
+            return {"ok": False, "err": "no html files"}
+        scp = ["scp", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no"] + files + \
+              [f"root@{server_ip}:/var/www/_sites/{domain}/"]
+        r = subprocess.run(scp, timeout=90, capture_output=True)
+        return {"ok": r.returncode == 0, "files": len(files), "err": r.stderr.decode()[:200] if r.returncode else ""}
+    except Exception as e:
+        return {"ok": False, "err": str(e)[:200]}
+
 # ---------- Оркестратор ----------
 def provision(domain, server_ip=None, buy=False):
     """домен (опц. покупка) → CF zone → NS у регистратора → A проксированная → SSL. Возвращает отчёт.
