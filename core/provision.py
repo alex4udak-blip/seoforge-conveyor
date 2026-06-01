@@ -29,8 +29,12 @@ def _cf_req(method, path, body=None):
 
 # ---------- Cloudflare ----------
 def cf_account_id():
+    # токен может не иметь Account:Read — тогда берём из env (известен из дашборда)
+    env = os.environ.get("CF_ACCOUNT_ID", "")
+    if env:
+        return env
     r = _cf_req("GET", "/accounts")
-    if r.get("result"):
+    if isinstance(r, dict) and r.get("result"):
         return r["result"][0]["id"]
     return None
 
