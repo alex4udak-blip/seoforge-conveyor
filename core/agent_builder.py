@@ -149,54 +149,38 @@ LAYOUT_CSS = {
     "qa-first": "--accent:#ff8fab", "magazine": "--accent:#5eead4",
 }
 
-def build(brand, keyword, geo, domain, plan, content, assets=None):
+def build(brand, keyword, geo, domain, plan, content, assets=None, design=None):
     fl = GEO_FLAVOR.get(geo, {})
     cur = fl.get("cur", "$"); maxbonus = fl.get("bonus", "5,000")
     pays = ", ".join(fl.get("pay", ["UPI"])[:3])
     layout = plan.get("layout", "toplist-first")
-    accent = LAYOUT_CSS.get(layout, "--accent:#3ddc97")
     blocks = plan.get("blocks", [])
     g = geo.upper()
-    # H1 из первого блока или ключа
+    # ДИЗАЙН-СИСТЕМА от агента-дизайнера (Sonnet) — современный mobile-first вид
+    if design is None:
+        from core.agent_designer import design_system
+        design = design_system(brand, geo, "casino", recon=None, seed=domain)
+    from core.css_engine import build_css, anim_js, _fonts_link
+    css = build_css(design); fonts = _fonts_link(design); js = anim_js(design)
     first = list(content.values())[0] if content else {}
     h1 = _html.escape(first.get("h2", f"{keyword.title()} — {brand} {g}"))
     blocks_html = "".join(_block_html(domain, i, b, content.get(b, {}), geo, cur, maxbonus) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
-    # hero зависит от layout — разный первый экран
-    # hero — фото казино из КУРИРУЕМОГО банка (проверенные, не рулетка с мерседесом)
     from core.image_bank import hero_img as _hero_img_url
-    hero_img = f'<img class="hbg" src="{_hero_img_url(domain, 1000, 360)}" alt="{_html.escape(brand)}" loading="eager">'
+    hero_img = f'<img class="hbg" src="{_hero_img_url(domain, 1000, 440)}" alt="{_html.escape(brand)}" loading="eager">'
     hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain, hero_img)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{_html.escape(brand)} — {_html.escape(keyword.title())} {g}</title>
 <meta name="description" content="{_html.escape(first.get('lead','')[:155])}">
-<style>:root{{{accent};--bg:#0b1018;--tx:#eaf0ff}}
-body{{margin:0;font-family:system-ui,Segoe UI,Roboto;background:var(--bg);color:var(--tx);line-height:1.6}}
-.wrap,.container,.row{{max-width:920px;margin:0 auto;padding:22px}}
-h1{{font-size:30px}}h2,.h2{{color:var(--accent);font-size:21px;margin-top:8px}}h3{{color:var(--accent)}}
-.lead{{font-size:17px;font-weight:600}}.b{{border-bottom:1px solid #ffffff10}}
-.hero{{background:linear-gradient(135deg,var(--accent)33,var(--bg));padding:40px 0}}
-.cta{{display:inline-block;background:var(--accent);color:#04140d;padding:13px 26px;border-radius:10px;font-weight:700;text-decoration:none;margin-top:14px}}.cta.sm{{padding:7px 14px;font-size:13px;margin:0}}
-.sticky{{position:fixed;left:12px;right:12px;bottom:12px;background:var(--accent);color:#04140d;text-align:center;padding:15px;border-radius:12px;font-weight:800;text-decoration:none;z-index:50}}
-@media(min-width:760px){{.sticky{{left:auto;right:24px}}}}
-.hero img.hbg{{width:100%;max-height:280px;object-fit:cover;border-radius:14px;margin-top:14px}}
-.pays{{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}}
-.pay{{display:inline-flex;align-items:center;gap:7px;background:#ffffff10;border:1px solid #ffffff18;border-radius:9px;padding:8px 13px;font-size:13px;font-weight:600}}
-.pay img{{display:block}}.pay.badge{{background:var(--accent)22;color:var(--accent)}}
-.games{{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px}}
-.gt{{margin:0;border-radius:12px;overflow:hidden;background:#ffffff08}}.gt img{{width:100%;height:100px;object-fit:cover;display:block}}
-.gt figcaption{{padding:8px;font-size:13px;font-weight:600}}.gt.no{{display:grid;place-items:center;min-height:120px;border:1px dashed #ffffff22}}
-.toplist{{margin-top:14px;display:flex;flex-direction:column;gap:8px}}
-.cc{{display:flex;align-items:center;gap:12px;background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;padding:12px 14px}}
-.cc .rk{{font-weight:800;color:var(--accent);font-size:18px;width:22px}}.cc .clogo{{border-radius:7px;background:#fff}}
-.cc .cn{{font-weight:700;flex:1}}.cc .cb{{font-size:13px;opacity:.85}}.cc .cr{{color:var(--accent);font-weight:700}}
-@media(max-width:600px){{.cc .cb{{display:none}}}}</style>
+{fonts}
+<style>{css}</style>
 <script type="application/ld+json">{schema}</script></head><body>
 {hero}
 {blocks_html}
 <footer><div class="wrap">© 2026 {_html.escape(brand)} · 18+ · Play responsibly · {g}</div></footer>
 <a class="sticky" href="/go/">Claim Bonus — {brand}</a>
+{js}
 </body></html>"""
     return mutate(html, domain)   # анти-footprint пост-процессор
 
