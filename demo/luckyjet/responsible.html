@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogo Responsável e Segurança 18+ | LuckyJet Casino Brasil</title>
+<title>Jogo Responsável - LuckyJet Brasil | +18 Segurança</title>
 <style>
 * {
   margin: 0;
@@ -12,16 +12,20 @@
 }
 
 :root {
-  --primary: #1a0b2e;
-  --secondary: #4a148c;
-  --accent: #ffc107;
-  --accent-light: #ffd54f;
-  --danger: #d32f2f;
-  --bg-light: #f5f5f5;
+  --primary: #1a237e;
+  --primary-light: #3949ab;
+  --primary-dark: #0d1642;
+  --accent: #ffd600;
+  --accent-dark: #ffc400;
+  --bg-light: #f5f7fa;
   --bg-white: #ffffff;
   --text-dark: #1a1a1a;
-  --text-light: #666666;
-  --border: #e0e0e0;
+  --text-gray: #4a5568;
+  --text-light: #718096;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 }
 
 body {
@@ -30,403 +34,407 @@ body {
   line-height: 1.6;
   color: var(--text-dark);
   background: var(--bg-white);
+  padding-bottom: 80px;
 }
 
-.header {
-  background: var(--primary);
-  color: white;
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
   position: sticky;
   top: 0;
+  background: var(--bg-white);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  animation: slideDown 0.4s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  padding: 16px 0;
 }
 
 .header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   flex-wrap: wrap;
-  gap: 1rem;
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 26px;
   font-weight: 800;
-  color: var(--accent);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo svg {
-  width: 32px;
-  height: 32px;
-}
-
-.nav {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  font-size: 0.95rem;
-  white-space: nowrap;
-}
-
-.nav a:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateY(-1px);
-}
-
-.nav a.active {
-  background: var(--accent);
   color: var(--primary);
-  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-gray);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+nav a:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+nav a.active {
+  background: var(--primary);
+  color: white;
 }
 
 .hero-slim {
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
   color: white;
-  padding: 3rem 1rem;
+  padding: 60px 0;
   text-align: center;
 }
 
 .hero-slim h1 {
-  font-size: 2.5rem;
+  font-size: 42px;
   font-weight: 800;
-  margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out;
+  margin-bottom: 16px;
+  line-height: 1.2;
 }
 
 .hero-slim p {
-  font-size: 1.1rem;
+  font-size: 18px;
   opacity: 0.95;
   max-width: 700px;
   margin: 0 auto;
-  animation: fadeInUp 0.6s ease-out 0.2s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
 }
 
 .section {
-  padding: 4rem 1rem;
+  padding: 80px 0;
 }
 
 .section-alt {
   background: var(--bg-light);
 }
 
-.section-white {
-  background: var(--bg-white);
-}
-
-.section h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--primary);
+.section-header {
   text-align: center;
+  margin-bottom: 48px;
 }
 
-.section h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 2rem 0 1rem;
-  color: var(--secondary);
+.section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 12px;
 }
 
-.section p {
-  color: var(--text-light);
-  margin-bottom: 1rem;
-  font-size: 1rem;
+.section-header p {
+  font-size: 18px;
+  color: var(--text-gray);
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.content-grid {
+.info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 32px;
+  margin-bottom: 48px;
 }
 
 .info-card {
-  background: white;
-  padding: 2rem;
+  background: var(--bg-white);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-  animation: fadeIn 0.6s ease-out;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .section-alt .info-card {
-  background: white;
+  background: var(--bg-white);
 }
 
 .info-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.icon-wrapper {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+.info-card-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.icon-wrapper svg {
-  width: 32px;
-  height: 32px;
-  color: var(--primary);
+  margin-bottom: 20px;
 }
 
 .info-card h3 {
-  font-size: 1.3rem;
-  margin: 0 0 1rem 0;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--primary);
+  margin-bottom: 12px;
 }
 
 .info-card p {
-  color: var(--text-light);
-  margin-bottom: 0.5rem;
+  color: var(--text-gray);
+  line-height: 1.7;
 }
 
 .info-card ul {
   list-style: none;
-  margin: 1rem 0;
+  margin-top: 16px;
 }
 
-.info-card ul li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
+.info-card li {
+  padding: 8px 0;
+  padding-left: 28px;
   position: relative;
-  color: var(--text-light);
+  color: var(--text-gray);
 }
 
-.info-card ul li:before {
+.info-card li:before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.9rem;
+  top: 14px;
   width: 6px;
   height: 6px;
   background: var(--accent);
   border-radius: 50%;
 }
 
-.warning-box {
-  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
-  border-left: 4px solid var(--accent);
-  padding: 2rem;
-  border-radius: 8px;
-  margin: 2rem auto;
-  max-width: 900px;
-}
-
-.warning-box h3 {
-  color: var(--danger);
-  margin-top: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.warning-box svg {
-  width: 28px;
-  height: 28px;
-}
-
-.age-restriction {
-  background: linear-gradient(135deg, var(--danger), #c62828);
-  color: white;
-  padding: 3rem 1rem;
-  text-align: center;
-  margin: 3rem 0;
-}
-
-.age-restriction h2 {
-  color: white;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.age-restriction p {
-  color: rgba(255,255,255,0.95);
-  font-size: 1.2rem;
+.feature-image {
+  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 48px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.feature-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.content-block {
+  max-width: 800px;
+  margin: 0 auto 48px;
+  background: var(--bg-white);
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.section-alt .content-block {
+  background: var(--bg-white);
+}
+
+.content-block h3 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.content-block p {
+  color: var(--text-gray);
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+
+.content-block ul {
+  list-style: none;
+  margin: 20px 0;
+}
+
+.content-block li {
+  padding: 12px 0;
+  padding-left: 32px;
+  position: relative;
+  color: var(--text-gray);
+  line-height: 1.7;
+}
+
+.content-block li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+}
+
+.alert-box {
+  background: linear-gradient(135deg, #fff3cd, #fffbea);
+  border-left: 4px solid var(--warning);
+  border-radius: 8px;
+  padding: 24px;
+  margin: 32px 0;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.alert-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.alert-content h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.alert-content p {
+  color: var(--text-gray);
+  line-height: 1.7;
+}
+
+.danger-box {
+  background: linear-gradient(135deg, #fee, #fff5f5);
+  border-left: 4px solid var(--danger);
 }
 
 .btn {
   display: inline-block;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: var(--primary);
   text-decoration: none;
   border-radius: 8px;
   font-weight: 700;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255,193,7,0.3);
-  border: none;
-  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(255, 214, 0, 0.3);
+  text-align: center;
 }
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(255,193,7,0.4);
+  box-shadow: 0 6px 20px rgba(255, 214, 0, 0.4);
 }
 
-.btn-secondary {
-  background: white;
-  color: var(--secondary);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
 }
 
-.btn-secondary:hover {
-  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.4);
 }
 
 .cta-section {
   text-align: center;
-  padding: 3rem 1rem;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.max-width-800 {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.license-section {
-  background: var(--primary);
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
   color: white;
-  padding: 3rem 1rem;
-  text-align: center;
 }
 
-.license-section h2 {
-  color: var(--accent);
+.cta-section h2 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 16px;
 }
 
-.license-section p {
-  color: rgba(255,255,255,0.9);
-  max-width: 800px;
-  margin: 1rem auto;
+.cta-section p {
+  font-size: 18px;
+  margin-bottom: 32px;
+  opacity: 0.95;
 }
 
-.tools-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.tool-item {
-  background: rgba(255,255,255,0.05);
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: all 0.3s ease;
-}
-
-.tool-item:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateX(4px);
-}
-
-.tool-item h4 {
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.tool-item p {
-  color: rgba(255,255,255,0.85);
-  font-size: 0.95rem;
-}
-
-.footer {
-  background: var(--primary);
-  color: white;
-  padding: 3rem 1rem 2rem;
-  margin-top: 4rem;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
+.license-badges {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 48px 0;
+}
+
+.badge {
+  background: var(--bg-white);
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.badge-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.badge-text {
+  text-align: left;
+}
+
+.badge-text strong {
+  display: block;
+  font-size: 18px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.badge-text span {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+footer {
+  background: var(--primary-dark);
+  color: white;
+  padding: 48px 0 32px;
 }
 
 .footer-nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  gap: 24px;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
 }
 
 .footer-nav a {
   color: rgba(255,255,255,0.8);
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-size: 15px;
+  transition: color 0.2s;
 }
 
 .footer-nav a:hover {
@@ -435,319 +443,495 @@ body {
 
 .footer-bottom {
   text-align: center;
-  color: rgba(255,255,255,0.6);
-  padding-top: 2rem;
+  padding-top: 24px;
   border-top: 1px solid rgba(255,255,255,0.1);
-  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  padding: 16px 20px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+  z-index: 999;
+  animation: slideUp 0.4s ease-out;
+}
+
+.sticky-cta a {
+  display: block;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 14px 32px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 17px;
+  text-align: center;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(26, 35, 126, 0.4);
+}
+
+.sticky-cta a:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.5);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {
-  .hero-slim h1 {
-    font-size: 1.8rem;
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
   }
   
-  .hero-slim p {
-    font-size: 1rem;
-  }
-  
-  .section h2 {
-    font-size: 1.6rem;
-  }
-  
-  .nav {
-    width: 100%;
+  nav ul {
     justify-content: center;
   }
   
-  .nav a {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
+  nav a {
+    font-size: 14px;
+    padding: 6px 10px;
   }
   
-  .content-grid {
+  .hero-slim h1 {
+    font-size: 32px;
+  }
+  
+  .hero-slim p {
+    font-size: 16px;
+  }
+  
+  .section {
+    padding: 48px 0;
+  }
+  
+  .section-header h2 {
+    font-size: 28px;
+  }
+  
+  .section-header p {
+    font-size: 16px;
+  }
+  
+  .info-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   
-  .age-restriction h2 {
-    font-size: 2rem;
+  .content-block {
+    padding: 24px;
+  }
+  
+  .content-block h3 {
+    font-size: 22px;
+  }
+  
+  .cta-section h2 {
+    font-size: 28px;
+  }
+  
+  .cta-section p {
+    font-size: 16px;
+  }
+  
+  .license-badges {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .badge {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .badge-text {
+    text-align: center;
+  }
+  
+  .footer-nav {
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-content">
-    <a href="index.html" class="logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-      </svg>
-      LuckyJet
-    </a>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="bonuses.html">Bônus</a>
-      <a href="games.html">Jogos</a>
-      <a href="payments.html">Pagamentos</a>
-      <a href="review.html">Análise</a>
-      <a href="app.html">App</a>
-      <a href="responsible.html" class="active">18+ Segurança</a>
-    </nav>
-  </div><section class="g"></section>
+<header>
+  <div class="container">
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">LJ</div><section class="g"></section>
+        <span>LuckyJet</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="bonuses.html">Bônus</a></li>
+          <li><a href="games.html">Jogos</a></li>
+          <li><a href="payments.html">Pagamentos</a></li>
+          <li><a href="review.html">Análise</a></li>
+          <li><a href="app.html">App</a></li>
+          <li><a href="responsible.html" class="active">Segurança +18</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>
 
 <div class="hero-slim">
-  <h1>Jogo Responsável e Segurança</h1>
-  <p>Seu bem-estar é nossa prioridade. Jogue com responsabilidade e consciência.</p>
+  <div class="container">
+    <h1>Jogo Responsável e Segurança</h1>
+    <p>Comprometidos com a sua segurança e bem-estar. Jogue com responsabilidade, diversão e consciência.</p>
+  </div><section class="g"></section>
 </div>
 
-<section class="age-restriction">
+<section class="section">
   <div class="container">
-    <h2>+18</h2>
-    <p>O LuckyJet é exclusivo para maiores de 18 anos. Jogos de azar são atividades para adultos e exigem maturidade e responsabilidade financeira.</p>
-  </div>
-</section><aside class="s"></aside>
-
-<section class="section section-white">
-  <div class="container">
-    <h3>Compromisso com o Jogo Responsável</h2>
-    <div class="max-width-800">
-      <p>No LuckyJet, acreditamos que jogos de cassino devem ser uma forma de entretenimento segura e controlada. Nosso compromisso é garantir que todos os jogadores tenham acesso às ferramentas e informações necessárias para manter o controle sobre suas atividades de jogo.</p>
-      <p>Trabalhamos continuamente para promover um ambiente de jogo responsável, oferecendo recursos de autocontrole e suporte para aqueles que precisam.</p>
+    <div class="feature-image">
+      <img src="https://im.runware.ai/image/os/a07dlim3/ws/4/ii/b4eb795c-0da0-4c5a-9aae-4516cea3e93c.jpg" alt="Jogo Responsável LuckyJet Brasil">
+    </div>
+    
+    <div class="section-header">
+      <h2>Nosso Compromisso com Você</h2>
+      <p>A LuckyJet acredita que o jogo deve ser uma forma de entretenimento segura, divertida e responsável para todos os nossos jogadores brasileiros.</p>
     </div><section class="g"></section>
     
-    <div class="content-grid">
+    <div class="info-grid">
       <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Apenas +18 Anos</h3>
+        <p>Nossos serviços são exclusivos para maiores de 18 anos. Verificamos rigorosamente a idade de todos os nossos jogadores durante o cadastro.</p>
+      </div>
+      
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </div><aside class="s"></aside>
+        <h3>Licenciado e Seguro</h3>
+        <p>Operamos com licenças válidas e utilizamos tecnologia de criptografia SSL de última geração para proteger todos os seus dados pessoais e financeiros.</p>
+      </div>
+      
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
             <circle cx="12" cy="12" r="10"/>
             <path d="M12 6v6l4 2"/>
           </svg>
         </div>
-        <h3>Limites de Tempo</h3>
-        <p>Defina limites de tempo para suas sessões de jogo. Jogar por períodos prolongados pode levar a decisões impulsivas e perda de controle.</p>
-        <p><strong>Recomendação:</strong> Faça pausas regulares a cada 60-90 minutos.</p>
-      </div>
-      
-      <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div><section class="g"></section>
-        <h3>Limites de Depósito</h3>
-        <p>Configure limites diários, semanais ou mensais para seus depósitos. Nunca jogue com dinheiro que você não pode perder.</p>
-        <p><strong>Dica:</strong> Separe seu orçamento de entretenimento do orçamento essencial.</p>
-      </div>
-      
-      <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4M12 16h.01"/>
-          </svg>
-        </div>
-        <h3>Reconheça os Sinais</h3>
-        <p>É importante reconhecer quando o jogo está se tornando um problema:</p>
-        <ul>
-          <li>Jogar mais do que planejado</li>
-          <li>Perseguir perdas</li>
-          <li>Negligenciar responsabilidades</li>
-          <li>Pedir dinheiro emprestado para jogar</li>
-          <li>Mentir sobre hábitos de jogo</li>
-        </ul>
-      </div><aside class="s"></aside>
+        <h3>Limites e Controle</h3>
+        <p>Oferecemos ferramentas completas para você definir limites de depósito, perda, apostas e tempo de jogo. Você mantém sempre o controle.</p>
+      </div><figure class="f"><span></span></figure>
     </div>
-  </div>
-</section>
-
-<section class="section section-alt">
-  <div class="container">
-    <h2>Ferramentas de Autocontrole</h2>
-    <p class="text-center max-width-800" style="margin-bottom: 2rem;">Oferecemos diversas ferramentas para ajudá-lo a manter o controle sobre sua experiência de jogo:</p>
-    
-    <div class="content-grid">
-      <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <path d="M16 2v4M8 2v4M3 10h18"/>
-          </svg>
-        </div><figure class="f"><span></span></figure>
-        <h3>Autoexclusão Temporária</h3>
-        <p>Faça uma pausa quando precisar. Você pode se autoexcluir por períodos de 24 horas, 7 dias, 30 dias ou mais.</p>
-        <p>Durante o período de exclusão, você não poderá acessar sua conta nem fazer depósitos.</p>
-      </div>
-      
-      <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-        </div>
-        <h3>Alertas e Lembretes</h3>
-        <p>Configure notificações para lembrá-lo do tempo gasto jogando e dos valores depositados.</p>
-        <p>Receba alertas personalizados quando atingir seus limites predefinidos.</p>
-      </div><div class="x"><span></span></div>
-      
-      <div class="info-card">
-        <div class="icon-wrapper">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-          </svg>
-        </div>
-        <h3>Histórico de Atividades</h3>
-        <p>Acesse seu histórico completo de jogos, depósitos e saques a qualquer momento.</p>
-        <p>Revise regularmente suas atividades para manter o controle financeiro.</p>
-      </div>
-    </div><div class="d"><i></i><i></i></div>
   </div>
 </section><aside class="s"></aside>
 
-<section class="section license-section">
+<section class="section section-alt">
   <div class="container">
-    <h3>Licenciamento e Segurança</h2>
-    <p>O LuckyJet opera sob licenças internacionais rigorosas que garantem práticas justas e transparentes. Nossa plataforma utiliza criptografia SSL de 256 bits para proteger todos os dados e transações financeiras.</p>
+    <div class="section-header">
+      <h3>Jogue com Responsabilidade</h2>
+      <p>Reconheça os sinais e mantenha o jogo sempre como diversão</p>
+    </div><div class="x"><span></span></div>
     
-    <div class="tools-list">
-      <div class="tool-item">
-        <h4>Criptografia Avançada</h4>
-        <p>Todos os dados são protegidos com tecnologia SSL de nível bancário.</p>
-      </div>
-      <div class="tool-item">
-        <h4>Jogos Certificados</h4>
-        <p>Todos os jogos são auditados por laboratórios independentes para garantir aleatoriedade.</p>
-      </div><aside class="s"></aside>
-      <div class="tool-item">
-        <h4>Proteção de Dados</h4>
-        <p>Conformidade total com LGPD e regulamentações de privacidade brasileiras.</p>
-      </div>
-      <div class="tool-item">
-        <h4>Pagamentos Seguros</h4>
-        <p>Integração com Pix e Boleto para transações rápidas e seguras.</p>
-      </div>
-    </div><aside class="s"></aside>
-  </div>
-</section>
-
-<section class="section section-white">
-  <div class="container">
-    <div class="warning-box">
-      <h3>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        Sinais de Alerta - Quando Buscar Ajuda
-      </h3>
-      <p>Se você ou alguém que conhece apresenta os seguintes comportamentos, é hora de buscar ajuda profissional:</p>
-      <ul>
-        <li>Gastar mais dinheiro do que pode pagar em jogos de azar</li>
-        <li>Mentir para família e amigos sobre atividades de jogo</li>
-        <li>Sentir necessidade de aumentar apostas para sentir emoção</li>
-        <li>Tentar recuperar perdas com mais apostas ("perseguir perdas")</li>
-        <li>Negligenciar trabalho, estudos ou responsabilidades familiares</li>
-        <li>Pedir emprestado ou vender pertences para financiar o jogo</li>
-        <li>Sentir ansiedade, irritabilidade ou depressão relacionadas ao jogo</li>
-      </ul>
+    <div class="content-block">
+      <h3>O Que é Jogo Responsável?</h3>
+      <p>Jogo responsável significa aproveitar a emoção dos jogos de cassino online de forma consciente e equilibrada, sem comprometer sua vida pessoal, profissional ou financeira.</p>
+      <p>Na LuckyJet, acreditamos que o jogo deve ser uma atividade de lazer, nunca uma forma de ganhar dinheiro ou resolver problemas financeiros.</p>
+      
+      <div class="alert-box">
+        <div class="alert-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="alert-content">
+          <h4>Importante Lembrar</h4>
+          <p>Jogos de cassino envolvem risco financeiro. Nunca aposte mais do que você pode perder. O jogo não é uma solução para dificuldades financeiras.</p>
+        </div>
+      </div><div class="d"><i></i><i></i></div>
     </div>
     
-    <h2 style="margin-top: 3rem;">Recursos de Ajuda</h2>
-    <div class="content-grid">
+    <div class="content-block">
+      <h3>Sinais de Alerta</h3>
+      <p>Fique atento aos seguintes comportamentos que podem indicar um problema com o jogo:</p>
+      <ul>
+        <li>Gastar mais tempo e dinheiro do que planejado em jogos</li>
+        <li>Jogar para recuperar perdas anteriores</li>
+        <li>Emprestar dinheiro ou vender pertences para jogar</li>
+        <li>Negligenciar responsabilidades pessoais ou profissionais</li>
+        <li>Esconder dos familiares ou amigos o quanto você joga</li>
+        <li>Sentir ansiedade, irritação ou depressão relacionadas ao jogo</li>
+        <li>Jogar como fuga de problemas ou sentimentos negativos</li>
+      </ul>
+      <p>Se você identificar qualquer um desses sinais, procure ajuda imediatamente. Não espere o problema se agravar.</p>
+    </div>
+  </div><aside class="s"></aside>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Ferramentas de Autocontrole</h2>
+      <p>Recursos disponíveis para ajudá-lo a manter o jogo saudável</p>
+    </div>
+    
+    <div class="info-grid">
       <div class="info-card">
-        <h3>Jogadores Anônimos Brasil</h3>
-        <p>Organização de apoio para pessoas com problemas relacionados ao jogo.</p>
-        <p><strong>Site:</strong> www.jogadoresanonimos.com.br</p>
-      </div><figure class="f"><span></span></figure>
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
+        <h3>Limites de Depósito</h3>
+        <p>Defina limites diários, semanais ou mensais para seus depósitos. Uma vez atingido o limite, você não poderá depositar mais até o período se renovar.</p>
+      </div><aside class="s"></aside>
       
       <div class="info-card">
-        <h3>CVV - Centro de Valorização da Vida</h3>
-        <p>Apoio emocional e prevenção do suicídio por telefone, e-mail e chat.</p>
-        <p><strong>Telefone:</strong> 188 (24 horas)</p>
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+        </div>
+        <h3>Limites de Perda</h3>
+        <p>Estabeleça o valor máximo que está disposto a perder em um determinado período. Ao atingir esse limite, o acesso será automaticamente bloqueado.</p>
       </div>
       
       <div class="info-card">
-        <h3>CAPS - Centro de Atenção Psicossocial</h3>
-        <p>Atendimento público e gratuito em saúde mental pelo SUS.</p>
-        <p>Procure a unidade mais próxima da sua região.</p>
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div><figure class="f"><span></span></figure>
+        <h3>Limites de Tempo</h3>
+        <p>Configure lembretes ou bloqueios automáticos após um período específico de jogo. Controle quanto tempo você passa em nossa plataforma.</p>
       </div>
-    </div><aside class="s"></aside>
+      
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+          </svg>
+        </div>
+        <h3>Pausa Temporária</h3>
+        <p>Tire um tempo longe do jogo ativando uma pausa de 24 horas, 7 dias, 30 dias ou mais. Seu saldo permanece seguro durante esse período.</p>
+      </div><aside class="s"></aside>
+      
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+          </svg>
+        </div>
+        <h3>Autoexclusão</h3>
+        <p>Exclua-se permanentemente ou por um período mínimo de 6 meses. Esta é uma medida séria e definitiva para quem precisa de afastamento total.</p>
+      </div>
+      
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div><aside class="s"></aside>
+        <h3>Suporte Especializado</h3>
+        <p>Nossa equipe está disponível 24/7 para ajudá-lo a configurar qualquer ferramenta de controle ou conversar sobre suas preocupações com o jogo.</p>
+      </div>
+    </div>
+    
+    <div class="content-block">
+      <h3>Como Ativar Esses Recursos</h3>
+      <p>Todas essas ferramentas estão disponíveis gratuitamente na sua conta LuckyJet:</p>
+      <ul>
+        <li>Acesse a área "Minha Conta" após fazer login</li>
+        <li>Clique em "Jogo Responsável" no menu lateral</li>
+        <li>Escolha a ferramenta que deseja ativar</li>
+        <li>Defina os parâmetros (valores, períodos) e confirme</li>
+        <li>As configurações entram em vigor imediatamente</li>
+      </ul>
+      <p>Você também pode entrar em contato com nossa equipe de suporte a qualquer momento para assistência personalizada.</p>
+    </div><figure class="f"><span></span></figure>
   </div>
-</section><div class="x"><span></span></div>
+</section><aside class="s"></aside>
 
 <section class="section section-alt">
   <div class="container">
-    <h2>Sobre o LuckyJet</h2>
-    <div class="max-width-800">
-      <p>O LuckyJet é uma plataforma de cassino online líder no mercado brasileiro, oferecendo uma experiência de jogo segura, justa e emocionante. Desde nosso lançamento, temos o compromisso de proporcionar entretenimento de qualidade enquanto promovemos práticas de jogo responsável.</p>
+    <div class="section-header">
+      <h3>Ajuda e Recursos Externos</h2>
+      <p>Organizações especializadas prontas para apoiar você</p>
+    </div>
+    
+    <div class="content-block">
+      <h3>Busque Ajuda Profissional</h3>
+      <p>Se você ou alguém que conhece está enfrentando problemas com o jogo, saiba que não está sozinho. Existem organizações e profissionais capacitados para ajudar:</p>
       
-      <h3>Nossa Missão</h3>
-      <p>Proporcionar entretenimento de cassino online de classe mundial para jogadores brasileiros, mantendo os mais altos padrões de segurança, justiça e responsabilidade social.</p>
+      <div class="danger-box alert-box">
+        <div class="alert-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div><aside class="s"></aside>
+        <div class="alert-content">
+          <h4>Precisa de Ajuda Urgente?</h4>
+          <p>Jogadores Anônimos Brasil: 0800 771 1080 (ligação gratuita 24 horas). Atendimento profissional, sigiloso e gratuito para dependentes de jogos de azar.</p>
+        </div>
+      </div>
       
-      <h3>Nossos Valores</h3>
-      <ul style="list-style: none; margin: 1.5rem 0;">
-        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
-          <strong>Transparência:</strong> Operamos com total clareza em todas as nossas práticas e políticas.
-        </li>
-        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
-          <strong>Segurança:</strong> Protegemos seus dados e transações com tecnologia de ponta.
-        </li>
-        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
-          <strong>Responsabilidade:</strong> Promovemos o jogo consciente e oferecemos suporte quando necessário.
-        </li>
-        <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative;">
-          <strong>Inovação:</strong> Constantemente atualizamos nossa plataforma com os melhores jogos e recursos.
-        </li>
+      <h3 style="margin-top: 40px;">Organizações de Apoio no Brasil</h3>
+      <ul>
+        <li><strong>Jogadores Anônimos (JA):</strong> Grupo de apoio baseado no programa de 12 passos, com reuniões presenciais e online em todo o Brasil</li>
+        <li><strong>CAPS (Centro de Atenção Psicossocial):</strong> Serviço público gratuito do SUS especializado em saúde mental e dependências</li>
+        <li><strong>CVV (Centro de Valorização da Vida):</strong> 188 - Apoio emocional e prevenção do suicídio, 24 horas por dia, gratuito</li>
+        <li><strong>Ambulatório do Jogo Patológico (AMJO):</strong> Serviço especializado ligado ao Instituto de Psiquiatria do Hospital das Clínicas de São Paulo</li>
       </ul>
       
-      <h3>Por Que Escolher o LuckyJet?</h3>
-      <div class="content-grid" style="margin-top: 1.5rem;">
-        <div class="info-card">
-          <h4 style="color: var(--secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">Jogos Premium</h4>
-          <p>Acesso aos melhores títulos como Aviator, Fortune Tiger e Spaceman.</p>
-        </div><aside class="s"></aside>
-        <div class="info-card">
-          <h4 style="color: var(--secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">Bônus Generoso</h4>
-          <p>Bônus de boas-vindas de até R$ 5.000 para novos jogadores.</p>
-        </div>
-        <div class="info-card">
-          <h4 style="color: var(--secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">Pagamentos Rápidos</h4>
-          <p>Depósitos e saques instantâneos via Pix e Boleto.</p>
-        </div>
-      </div><figure class="f"><span></span></figure>
-    </div>
+      <p>Procurar ajuda é um sinal de força, não de fraqueza. Quanto mais cedo você buscar apoio, mais rápida e eficaz será a recuperação.</p>
+    </div><section class="g"></section>
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Sobre a LuckyJet Brasil</h2>
+      <p>Transparência, segurança e compromisso com os jogadores brasileiros</p>
+    </div>
+    
+    <div class="license-badges">
+      <div class="badge">
+        <div class="badge-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a237e" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <path d="M9 9h6v6H9z"/>
+          </svg>
+        </div><aside class="s"></aside>
+        <div class="badge-text">
+          <strong>Licença Internacional</strong>
+          <span>Regulamentado e auditado</span>
+        </div>
+      </div>
+      
+      <div class="badge">
+        <div class="badge-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a237e" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div><section class="g"></section>
+        <div class="badge-text">
+          <strong>SSL Criptografado</strong>
+          <span>Proteção máxima de dados</span>
+        </div>
+      </div>
+      
+      <div class="badge">
+        <div class="badge-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1a237e" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div><section class="g"></section>
+        <div class="badge-text">
+          <strong>Apenas +18</strong>
+          <span>Verificação rigorosa de idade</span>
+        </div>
+      </div>
+    </div><section class="g"></section>
+    
+    <div class="content-block">
+      <h3>Quem Somos</h3>
+      <p>A LuckyJet é uma plataforma de cassino online especializada no mercado brasileiro, oferecendo uma experiência de jogo segura, justa e emocionante para jogadores maiores de 18 anos em todo o Brasil.</p>
+      <p>Operamos com licenças internacionais válidas e seguimos rigorosamente todas as normas de jogo responsável, proteção de dados e segurança financeira. Nossa plataforma utiliza tecnologia de ponta com criptografia SSL de 256 bits, a mesma usada por bancos e instituições financeiras.</p>
+      
+      <h3>Nossos Valores</h3>
+      <ul>
+        <li><strong>Transparência:</strong> Todas as regras, odds e condições são claras e acessíveis</li>
+        <li><strong>Segurança:</strong> Proteção rigorosa de todos os dados pessoais e financeiros</li>
+        <li><strong>Responsabilidade:</strong> Comprometidos com o jogo consciente e saudável</li>
+        <li><strong>Suporte Local:</strong> Equipe brasileira disponível 24/7 em português</li>
+        <li><strong>Pagamentos Rápidos:</strong> Saques processados via Pix em minutos</li>
+        <li><strong>Jogos Certificados:</strong> Todos os jogos são auditados e certificados</li>
+      </ul>
+      
+      <h3>Jogos Populares na LuckyJet</h3>
+      <p>Oferecemos uma seleção curada dos jogos mais populares entre os jogadores brasileiros:</p>
+      <ul>
+        <li><strong>Aviator:</strong> O fenômeno dos crash games com multiplicadores emocionantes</li>
+        <li><strong>Fortune Tiger:</strong> Slots temático com jackpots progressivos</li>
+        <li><strong>Spaceman:</strong> Aventura espacial com ganhos instantâneos</li>
+      </ul>
+      <p>Todos os nossos jogos são fornecidos por desenvolvedores licenciados e passam por auditorias regulares de justiça e aleatoriedade.</p>
+      
+      <h3>Métodos de Pagamento Brasileiros</h3>
+      <p>Entendemos as necessidades dos jogadores brasileiros e oferecemos os métodos mais populares e convenientes:</p>
+      <ul>
+        <li><strong>Pix:</strong> Depósitos instantâneos e saques em minutos, 24/7</li>
+        <li><strong>Boleto Bancário:</strong> Opção tradicional aceita em todos os bancos</li>
+      </ul>
+      <p>Todos os pagamentos são processados com segurança máxima e criptografia de ponta a ponta.</p>
+    </div>
+  </div>
+</section><div class="x"><span></span></div><aside class="s"></aside>
+
 <section class="cta-section">
   <div class="container">
-    <h2>Precisa de Ajuda ou Suporte?</h2>
-    <p style="color: var(--text-light); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Nossa equipe de suporte está disponível 24/7 para ajudá-lo com qualquer questão relacionada a jogo responsável, limites de conta ou autoexclusão.</p>
-    <a href="/go/" class="btn">Fale com o Suporte</a>
-  </div><aside class="s"></aside>
-</section><figure class="f"><span></span></figure>
+    <h2>Jogue com Consciência</h2>
+    <p>Aproveite o melhor do entretenimento online com segurança e responsabilidade</p>
+    <a href="/go/" class="btn">Começar Agora - Bônus R$5.000</a>
+  </div>
+</section>
 
-<footer class="footer">
-  <div class="footer-content">
-    <nav class="footer-nav">
-      <a href="index.html">Home</a>
+<footer>
+  <div class="container">
+    <div class="footer-nav">
+      <a href="index.html">Início</a>
       <a href="bonuses.html">Bônus</a>
       <a href="games.html">Jogos</a>
       <a href="payments.html">Pagamentos</a>
       <a href="review.html">Análise</a>
       <a href="app.html">App</a>
-      <a href="responsible.html">18+ Segurança</a>
-    </nav>
-    <div class="footer-bottom">
-      <p>&copy; 2024 LuckyJet &middot; Maiores de 18 anos &middot; Jogue com Responsabilidade &middot; Brasil</p>
-      <p style="margin-top: 1rem; font-size: 0.85rem;">O jogo pode causar dependência. Jogue com responsabilidade e apenas com dinheiro que você pode perder. Se você ou alguém que conhece tem problemas com jogos de azar, procure ajuda profissional.</p>
+      <a href="responsible.html">Segurança +18</a>
     </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 LuckyJet Brasil · Apenas +18 · Jogue Responsavelmente · Todos os direitos reservados</p>
+      <p style="margin-top: 12px; font-size: 13px;">O jogo pode causar dependência. Jogue com responsabilidade. Se você ou alguém que conhece tem problemas com o jogo, procure ajuda: Jogadores Anônimos 0800 771 1080</p>
+    </div><section class="g"></section>
   </div>
 </footer>
+
+<div class="sticky-cta">
+  <a href="/go/">Reivindicar Bônus R$5.000</a>
+</div>
 
 </body>
 </html>
