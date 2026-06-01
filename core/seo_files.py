@@ -24,12 +24,13 @@ def sitemap_xml(domain, slugs, lastmod="2026-06-01"):
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "\n".join(urls) + "\n</urlset>\n")
 
-def llms_txt(brand, domain, geo, summary=""):
-    return (f"# {brand}\n\n"
-            f"> {brand} — online casino guide for {geo.upper()} players. {summary}\n\n"
-            f"## Pages\n"
-            f"- [Home](https://{domain}/): toplist, bonuses overview\n"
-            f"- [Bonuses](https://{domain}/bonuses.html): welcome bonus, free spins, wagering\n"
-            f"- [Games](https://{domain}/games.html): popular games, RTP\n"
-            f"- [Payments](https://{domain}/payments.html): deposits & withdrawals\n"
-            f"- [Review](https://{domain}/review.html): expert verdict\n")
+def llms_txt(brand, domain, geo, summary="", pages=None):
+    """llms.txt под РЕАЛЬНЫЕ страницы сайта (pages={slug:title} или список slug)."""
+    head = (f"# {brand}\n\n"
+            f"> {brand} — online casino guide for {geo.upper()} players in 2026. {summary}\n\n## Pages\n")
+    lines = []
+    items = pages.items() if isinstance(pages, dict) else [(s, s.replace("-", " ").title()) for s in (pages or ["index"])]
+    for slug, title in items:
+        loc = f"https://{domain}/" if slug == "index" else f"https://{domain}/{slug}.html"
+        lines.append(f"- [{title}]({loc})")
+    return head + "\n".join(lines) + "\n"

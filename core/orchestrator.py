@@ -70,7 +70,7 @@ def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None, mod
     files = {f"{sl}.html": h for sl, h in pages.items()}
     files["robots.txt"] = robots_txt(host)
     files["sitemap.xml"] = sitemap_xml(host, list(pages.keys()))
-    files["llms.txt"] = llms_txt(brand, host, geo)
+    files["llms.txt"] = llms_txt(brand, host, geo, pages=list(pages.keys()))
     kf_name, kf_content = keyfile(host); files[kf_name] = kf_content
     _log(job, "SEO+ANALYTICS", "ok", files=len(files), beacon=site_id, indexnow_key=kf_name)
 
