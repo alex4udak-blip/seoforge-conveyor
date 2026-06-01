@@ -23,11 +23,29 @@ PAGES = [
     {"slug": "responsible", "nav": "18+ Safety","role": "RESPONSIBLE GAMING & ABOUT — 18+, licensing, safety, self-exclusion, about us"},
 ]
 
+# БРЕНДОДЖЕК (перехват брендового трафика): сайт-обзор про конкретный бренд, НЕ официал.
+PAGES_BRANDJACK = [
+    {"slug": "index",       "nav": "Review",      "role": "BRAND REVIEW HUB — honest review of the brand: rating, hero verdict, key facts (bonus/license/payments/games), pros/cons, big CTA to play"},
+    {"slug": "is-it-legit", "nav": "Is It Legit", "role": "IS [BRAND] LEGIT & SAFE — licensing, safety, payout proof, scam-check, verdict; targets '[brand] legit/scam/safe' searches"},
+    {"slug": "bonus-code",  "nav": "Bonus Code",  "role": "[BRAND] BONUS CODE & PROMO — welcome bonus, promo code, how to claim step-by-step, wagering; targets '[brand] bonus/promo code'"},
+    {"slug": "sister-sites","nav": "Sister Sites","role": "[BRAND] SISTER SITES & ALTERNATIVES — similar casinos list with logos/bonuses (our offers); targets '[brand] sister sites/alternatives'"},
+    {"slug": "app",         "nav": "App / Login",  "role": "[BRAND] APP & LOGIN GUIDE — how to download app, register, login step-by-step; targets '[brand] app/login/download'"},
+    {"slug": "payments",    "nav": "Payments",    "role": "[BRAND] DEPOSITS & WITHDRAWALS — payment methods, min/max, withdrawal times; targets '[brand] withdrawal/deposit'"},
+    {"slug": "responsible", "nav": "18+ Safety",  "role": "RESPONSIBLE GAMING & ABOUT — 18+, how we review, disclosure (affiliate), contact"},
+]
+
 def _build_page(page, ctx):
     """Sonnet пишет ОДНУ страницу с общей навигацией + своей темой."""
     # nav: даём слаг + англ.подсказку темы, label Sonnet пишет на языке гео (анти-хардкор/анти-EN-течь)
     nav_links = " | ".join(f'{p["slug"]}.html (topic: {p["nav"]})' for p in PAGES)
-    prompt = f"""You are a world-class web designer+developer building ONE page of a multi-page online casino site.
+    mode_note = ""
+    if ctx.get("mode") == "brandjack":
+        mode_note = (f"\nSITE TYPE: This is an INDEPENDENT REVIEW / affiliate guide about the casino brand '{ctx['brand']}' "
+                     f"for {ctx['geo']} players — NOT the official site. Goal: intercept people googling '{ctx['brand']}' "
+                     f"(review, legit, bonus code, app, login, sister sites) and funnel them to the play CTA (/go/). "
+                     f"Sound like a trustworthy independent reviewer (rating, pros/cons, real details). Include a small "
+                     f"affiliate disclosure. Do NOT impersonate the official brand/site.\n")
+    prompt = f"""You are a world-class web designer+developer building ONE page of a multi-page online casino site.{mode_note}
 
 BRAND: {ctx['brand']} | MARKET: {ctx['geo']} | LANGUAGE: write ABSOLUTELY ALL visible text in {ctx['lang']} — this includes the menu/nav labels, every button (CTA), badges, section titles, table headers, footer, alt text. NOT a single English word unless {ctx['lang']} is English. Never Russian unless that is {ctx['lang']}.
 CURRENCY: {ctx['cur']} | MAX BONUS: {ctx['maxbonus']} | PAYMENTS: {ctx['pays']} | POPULAR GAMES: {ctx['hot']}
@@ -114,8 +132,8 @@ Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, n
         pass
     return mutate(html, ctx['domain'])
 
-def build_multisite(brand, keyword, geo, domain, plan, content, images=None):
-    """Возвращает {slug: html} для всех страниц. None по странице — пропускаем (caller решает)."""
+def build_multisite(brand, keyword, geo, domain, plan, content, images=None, mode="generic"):
+    """Возвращает {slug: html}. mode: 'generic' (гео-казино) | 'brandjack' (перехват брендового трафика)."""
     if not KEY:
         return None
     from core.agent_copywriter import GEO_LANG
@@ -123,15 +141,16 @@ def build_multisite(brand, keyword, geo, domain, plan, content, images=None):
     images = images or {}
     ctx = {
         "brand": brand, "keyword": keyword, "geo": geo.upper(), "geocode": geo,
-        "lang": GEO_LANG.get(geo, "English"),
+        "lang": GEO_LANG.get(geo, "English"), "mode": mode,
         "cur": fl.get("cur", "$"), "maxbonus": fl.get("bonus", "5,000"),
         "pays": ", ".join(fl.get("pay", ["Visa","Mastercard"])[:4]), "hot": ", ".join(fl.get("hot", ["Slots","Roulette"])[:4]),
         "hero": images.get("hero", ""), "games": images.get("games", {}),
         "pays_logos": images.get("pays", {}), "casinos": images.get("casinos", []),
         "domain": domain,
     }
+    pageset = PAGES_BRANDJACK if mode == "brandjack" else PAGES
     out = {}
-    for page in PAGES:
+    for page in pageset:
         try:
             html = _build_page(page, ctx)
         except Exception:

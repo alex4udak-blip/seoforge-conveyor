@@ -13,8 +13,8 @@ def _log(job, stage, status, **extra):
     job["stages"].append(rec)
     print(f"[{stage}] {status} " + " ".join(f"{k}={v}" for k, v in extra.items()), flush=True)
 
-def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None):
-    job = {"brand": brand, "keyword": keyword, "geo": geo, "host": host, "stages": []}
+def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None, mode="generic"):
+    job = {"brand": brand, "keyword": keyword, "geo": geo, "host": host, "mode": mode, "stages": []}
     site_id = hashlib.sha256(host.encode()).hexdigest()[:12]
     job["site_id"] = site_id
 
@@ -54,7 +54,7 @@ def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None):
 
     # 5. GENERATE (multipage)
     from core.site_multi import build_multisite
-    pages = build_multisite(brand, keyword, geo, host, plan, content, images)
+    pages = build_multisite(brand, keyword, geo, host, plan, content, images, mode=mode)
     if not pages or "index" not in pages or len(pages) < 5:
         _log(job, "GENERATE", "fail", got=len(pages or {}), have_index=bool(pages and "index" in pages),
              note="не деплою битый набор (нет index или <5 стр)")
