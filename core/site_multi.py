@@ -57,6 +57,9 @@ HARD REQUIREMENTS:
 - Rich but HARMONIOUS palette (primary + complementary accent, NO clashing teal-on-orange). NO emoji — inline SVG/CSS only.
 - MOBILE-FIRST (great at 390px AND desktop), body font-size>=15px line-height>=1.6, own CSS @keyframes micro-animations.
 - Real content for THIS page's topic (use the data above), good typography, sections that alternate background.
+- CONTENT DEPTH (SEO weight): write SUBSTANTIAL real copy — home/toplist ~1000-1500 words, other pages ~600-900 words of genuine useful text (not filler). Cover the topic thoroughly (this is how you outrank thin competitors).
+- CURRENT YEAR IS 2026. Any year reference = 2026 (never 2024/2025). Fresh dates signal freshness to Google/AI.
+- HUMAN TONE (anti AI-detection): write like a real local expert. BAN these AI-tells: "in conclusion", "moreover", "furthermore", "it's worth noting", "dive into", "when it comes to", "unlock", "elevate", "navigating the". Vary sentence length, be concrete and specific, no generic fluff.
 - LAYOUT DISCIPLINE: stack sections vertically in a logical reading order (header → hero → main content sections → footer). Every section is full-width with its inner content in ONE centered container (max-width ~1140px, consistent horizontal padding). NO overlapping blocks, NO floating/misaligned elements, NO orphaned half-width boxes — grids must have equal-height aligned cards. Consistent vertical rhythm (uniform section padding). It must look deliberately laid out, not scattered.
 - TEXT-LEGIBILITY OVER IMAGES (critical, recurring bug): hero text must NEVER sit directly on raw image pixels. Put ALL hero text+CTA inside a centered content box that has its OWN semi-opaque dark backdrop (e.g. background:rgba(10,12,20,.55); padding:32px; border-radius:16px; backdrop-filter:blur(2px)) OR use a strong bottom gradient scrim. White text must stay clearly readable over the busy background. Same rule anywhere text overlays an image.
 - RANK BADGES / NO OVERLAP (critical, recurring bug): in the toplist, the rank number (1/2/3) must be positioned so it NEVER overlaps the casino name — either inline BEFORE the name with a flex gap, or absolutely positioned in the card's top-left corner while the card content has enough padding-top to clear it. No element may overlap text anywhere.
@@ -85,6 +88,12 @@ Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, n
         gc = _geocheck(html, ctx['geocode'])
         if not gc["ok"]:
             return None  # caller получит неполный набор → перегенерит/fallback
+    except Exception:
+        pass
+    # ЧИСТКА: скрытые AI-символы (палево на детект) + актуальный год (LLM пишет 2024)
+    try:
+        from core.content_clean import clean
+        html, _rep = clean(html)
     except Exception:
         pass
     return mutate(html, ctx['domain'])
