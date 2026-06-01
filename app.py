@@ -133,8 +133,8 @@ a{{color:#22d3ee}}h1{{color:#00e5a0}}table{{width:100%;border-collapse:collapse;
 <div class="box" style="opacity:.6"><h3>Метрики (в работе)</h3>SERP-позиции · Keitaro депы/EPC · индексация GSC — подключаются</div>
 </body></html>"""
 
-@app.post("/generate")
-def generate(req: GenReq):
+def _build_job(req: "GenReq", slug: str):
+    """Фоновая сборка сайта (картинки Runware медленные → не держим HTTP-ответ, иначе CF 524)."""
     try:
         if not os.path.exists(f"output/assets/{req.geo}/hero.jpg"):
             try:
@@ -142,11 +142,22 @@ def generate(req: GenReq):
             except Exception as e: print("assets warn:", e)
         from site_builder import build_site
         outdir,n=build_site(req.domain, req.brand, req.geo, req.mode)
-        slug=os.path.basename(outdir)
-        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":n}; _save_net(net)
-        return {"ok":True,"pages":n,"slug":slug,"url":f"/site/{slug}/index.html"}
+        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":n,"build":"done"}; _save_net(net)
     except Exception as e:
-        return JSONResponse(status_code=500, content={"ok":False,"error":str(e)})
+        net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error: "+str(e)[:120]}; _save_net(net)
+
+@app.post("/generate")
+def generate(req: GenReq, sync: bool=False):
+    """sync=false (дефолт): мгновенный ответ + фоновая сборка (нет CF 524). sync=true: ждать (для локалки)."""
+    slug=req.domain.replace(".","_")
+    if sync:
+        _build_job(req, slug)
+        m=_load_net().get(slug,{})
+        return {"ok":True,"pages":m.get("pages"),"slug":slug,"build":m.get("build"),"url":f"/site/{slug}/index.html"}
+    import threading
+    net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"build":"building"}; _save_net(net)
+    threading.Thread(target=_build_job, args=(req, slug), daemon=True).start()
+    return {"ok":True,"slug":slug,"build":"building","url":f"/site/{slug}/index.html","note":"сборка в фоне, проверь через ~60-90с"}
 
 @app.post("/audit")
 def audit_site(req: AuditReq):
