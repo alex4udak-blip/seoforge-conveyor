@@ -65,7 +65,7 @@ def build_css(ds):
 html{{scroll-behavior:smooth}}
 body{{font-family:{fb};background:var(--bg);color:var(--tx);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}}
 /* MOBILE-FIRST база (375px) */
-.wrap{{width:100%;max-width:1100px;margin:0 auto;padding:{pad} 16px}}
+.wrap{{width:100%;max-width:1180px;margin:0 auto;padding:{pad} 20px}}
 h1{{font-family:{fh};font-size:28px;line-height:1.15;font-weight:800;letter-spacing:-.5px}}
 h2,.h2{{font-family:{fh};font-size:22px;font-weight:700;color:var(--acc);margin:6px 0}}
 h3{{font-family:{fh};font-size:18px;color:var(--acc)}}
@@ -74,7 +74,7 @@ a{{color:var(--acc2)}}
 /* HERO */
 .hero{{background:radial-gradient(120% 140% at 50% 0%,var(--acc)22,transparent 60%),linear-gradient(180deg,var(--surface),var(--bg));padding:36px 0 30px;position:relative;overflow:hidden}}
 .hero .wrap{{position:relative;z-index:2}}
-.hbg{{width:100%;border-radius:var(--rad);margin-top:16px;aspect-ratio:16/7;object-fit:cover;box-shadow:0 12px 40px #00000060}}
+.hbg{{width:100%;border-radius:var(--rad);margin-top:16px;aspect-ratio:21/9;object-fit:cover;box-shadow:0 12px 40px #00000060}}
 .hb,.bonus{{display:inline-block;background:var(--surface);border:1px solid var(--acc)44;border-radius:var(--rad);padding:12px 18px;margin:14px 0;font-weight:700;color:var(--acc)}}
 .hbamt{{font-size:20px;color:var(--acc)}}
 /* CTA — крупная тач-цель для моб */
@@ -104,9 +104,11 @@ a{{color:var(--acc2)}}
 footer{{padding:28px 16px;text-align:center;color:var(--mut);font-size:13px;border-top:1px solid #ffffff0d}}
 /* DESKTOP ≥760px */
 @media(min-width:760px){{
-  h1{{font-size:42px}}h2,.h2{{font-size:26px}}
-  .hero{{padding:60px 0 50px}}
-  .games{{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}}
+  h1{{font-size:46px;max-width:14ch}}h2,.h2{{font-size:28px}}
+  .hero{{padding:70px 0 56px}}
+  .hero .wrap{{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}}
+  .hero .wrap>*{{grid-column:1}}.hbg{{grid-column:2;grid-row:1/99;margin-top:0;aspect-ratio:4/3}}
+  .games{{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
   .cc .cb{{width:auto;flex:1}}
   .sticky{{left:auto;right:24px;bottom:24px;padding:14px 30px}}
 }}
