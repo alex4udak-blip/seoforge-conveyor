@@ -228,7 +228,7 @@ async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)
   const c=d.classified||{};
   const tcls=t=>t==='сеошник'?'t-aff':t&&t.indexOf('официал')>=0?'t-brand':'t-other';
   const rows=d.results.map(x=>{
-    const nb=x.is_new?'<span class="tag" style="background:#3ddc9722;color:var(--acc)">НОВЫЙ</span> ':'';
+    const nb=x.is_new?'<span class="tag" style="background:#3ddc9722;color:var(--acc)" title="Домена не было в прошлом скане — только что зашёл в топ. Сигнал зайти первым.">НОВЫЙ В ТОПЕ</span> ':'';
     const sig=(x.signals||[]).length?`<div class="sub" style="font-size:11px;color:var(--mut)">${x.signals.join(' · ')}</div>`:'';
     return `<tr><td><b>${x.pos}</b></td><td>${nb}<b>${x.domain}</b><div class="sub" style="font-size:12px">${x.title}</div>${sig}</td><td><span class="tag ${tcls(x.type)}">${x.type}</span></td><td><button class="pill" style="cursor:pointer;border:none" onclick="doBotview('${x.domain}',event)">вскрыть клоаку</button></td></tr>`;}).join('');
   const newBanner=(d.new_domains&&d.new_domains.length)?`<div class="verdict" style="border-color:#3ddc9355"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg><div><b>Новые домены в выдаче (поймать первым!):</b> ${d.new_domains.join(', ')}</div></div>`:'';
@@ -242,6 +242,7 @@ async function doRecon(){const kw=$('#r_kw').value,geo=$('#r_geo').value;if(!kw)
     <div class="verdict"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg><div><b>Куда бить:</b> ${c.verdict||''}</div></div>
     ${newBanner}${dynBanner}
     <h2><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Топ выдачи ${geo.toUpperCase()} · «${kw}»</h2>
+    <div class="sub" style="margin-bottom:6px">${d.first_scan?'Первый скан по этому ключу — собрана база. Запусти ещё раз позже, чтобы увидеть кто новый/выпал.':'«НОВЫЙ В ТОПЕ» = домена не было в прошлом скане. «сеошник» = конкурент за трафик (редиректит на оффер), «официал» = само казино.'}</div>
     <table><tr><th>#</th><th>Домен / сигналы</th><th>Тип</th><th></th></tr>${rows}</table>
     <div id="bv_body"></div>
     ${rel?`<h2><svg class="ic" viewBox="0 0 24 24"><path d="M4 11a9 9 0 019-9M4 4v7h7"/></svg>Связанные запросы / семантика (для генератора)</h2><div>${rel}</div>`:''}`;
