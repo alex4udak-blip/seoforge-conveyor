@@ -28,18 +28,13 @@ GAME_PHOTO_TAG = {
     "fortune tiger": "tiger", "slots": "slot-machine", "live": "casino-dealer",
     "book of dead": "egypt,pyramid", "starburst": "neon", "color game": "colorful",
 }
-def _photo(tags, domain, key, w=600, h=400):
-    """Реальное фото по теме (LoremFlickr Flickr). seed по домену+ключу — стабильно, но у каждого своё."""
-    seed = _h(domain, key) % 100000
-    return f"https://loremflickr.com/{w}/{h}/{tags}?lock={seed}"
-
 def _games_html(geo, domain):
-    """РЕАЛЬНЫЕ фото игр (LoremFlickr по теме игры) — настоящие фотографии, не ИИ/заглушки."""
+    """Фото игр из КУРИРУЕМОГО банка (проверенные фото казино, не рулетка)."""
+    from core.image_bank import game_img
     hot = GEO_FLAVOR.get(geo, {}).get("hot", ["Aviator", "Slots", "Live"])[:6]
     out = []
     for g in hot:
-        tag = GAME_PHOTO_TAG.get(g.lower(), "casino,gambling")
-        url = _photo(tag, domain, f"game_{g}", 400, 260)
+        url = game_img(g, domain, 400, 260)
         out.append(f'<figure class="gt"><img src="{url}" alt="{_html.escape(g)}" loading="lazy"><figcaption>{_html.escape(g)}</figcaption></figure>')
     return '<div class="games">' + "".join(out) + '</div>'
 
@@ -168,10 +163,9 @@ def build(brand, keyword, geo, domain, plan, content, assets=None):
     blocks_html = "".join(_block_html(domain, i, b, content.get(b, {}), geo, cur, maxbonus) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
     # hero зависит от layout — разный первый экран
-    # hero — РЕАЛЬНОЕ фото казино (LoremFlickr), тема варьируется по домену
-    _hero_tags = ["casino,luxury", "casino,neon", "las-vegas,casino", "poker,casino", "slot-machine,casino"]
-    _ht = _hero_tags[_h(domain, "herophoto") % len(_hero_tags)]
-    hero_img = f'<img class="hbg" src="{_photo(_ht, domain, "hero", 1000, 360)}" alt="{_html.escape(brand)}" loading="eager">'
+    # hero — фото казино из КУРИРУЕМОГО банка (проверенные, не рулетка с мерседесом)
+    from core.image_bank import hero_img as _hero_img_url
+    hero_img = f'<img class="hbg" src="{_hero_img_url(domain, 1000, 360)}" alt="{_html.escape(brand)}" loading="eager">'
     hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain, hero_img)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
