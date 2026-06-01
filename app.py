@@ -36,6 +36,20 @@ def serve_demo(fname: str):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/rank")
+def rank(host: str, keyword: str, geo: str="in"):
+    """Позиция нашего домена в выдаче (в топе или нет) + запись динамики."""
+    try:
+        from core.rank_tracker import check
+        return check(host, keyword, geo)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)[:200]})
+
+@app.get("/rank/history")
+def rank_history(host: str):
+    from core.rank_tracker import history
+    return {"host": host, "history": history(host)}
+
 # ---------- АНАЛИТИКА (коллектор + дашборд) ----------
 import sqlite3
 _ADB = "analytics.db"
