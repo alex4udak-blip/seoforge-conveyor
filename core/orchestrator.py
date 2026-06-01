@@ -109,6 +109,28 @@ def run_pipeline(brand, keyword, geo, host, do_deploy=False, server_ip=None, mod
     job["live_url"] = f"https://{host}/"
     return job
 
+def auto_brandjack(geo="in", n=3, zone="playerstatspro.net", do_deploy=True, patterns=None):
+    """АВТО-КОНВЕЙЕР: свежие бренды (brand-radar) → брендоджек-сайты автоматом. Машина денег."""
+    from core.brand_radar import fresh_brands
+    brands = fresh_brands(patterns=patterns, limit=n * 3)
+    log(f"brand-radar: {len(brands)} свежих кандидатов")
+    done = []
+    for b in brands[:n]:
+        slug = re.sub(r"[^a-z0-9]+", "-", b["brand"].lower()).strip("-")[:30] or "brand"
+        host = f"{slug}-review.{zone}"
+        try:
+            job = run_pipeline(b["brand"], f"{b['brand']} review {geo}", geo, host,
+                               do_deploy=do_deploy, mode="brandjack")
+            done.append({"brand": b["brand"], "src_domain": b["domain"],
+                         "host": host, "live": job.get("live_url"),
+                         "ok": sum(1 for s in job["stages"] if s["status"] == "ok")})
+        except Exception as e:
+            done.append({"brand": b["brand"], "err": str(e)[:80]})
+    return done
+
+def log(m):
+    print(f"[auto] {m}", flush=True)
+
 def _cf_subdomain(host, ip):
     """Добавляет A-запись поддомена в существующую CF-зону (zone = последние 2 лейбла)."""
     import core.provision as p
