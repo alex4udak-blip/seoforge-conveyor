@@ -4,9 +4,52 @@
 вариативно + мутатор. Каждый блок несёт lead+body (под AI-выдачу) + FAQPage/Article schema.
 Контракт: build(brand,keyword,geo,domain,plan,content,assets) -> html.
 """
-import json, hashlib, html as _html
+import json, hashlib, os, html as _html
 from core.keyword_taxonomy import GEO_FLAVOR
 from core.footprint import mutate
+from core.asset_fetcher import payment_logo_url, casino_logo, real_casino_brands
+
+def _payments_html(geo):
+    """Реальные лого платёжек (simpleicons CDN) + цветной бейдж если лого нет."""
+    pays = GEO_FLAVOR.get(geo, {}).get("pay", []) + ["Visa", "Mastercard", "Skrill", "Bitcoin"]
+    out = []
+    for p in list(dict.fromkeys(pays))[:8]:
+        url = payment_logo_url(p)
+        if url:
+            out.append(f'<span class="pay"><img src="{url}" alt="{_html.escape(p)}" loading="lazy" height="22">{_html.escape(p)}</span>')
+        else:
+            out.append(f'<span class="pay badge">{_html.escape(p)}</span>')
+    return '<div class="pays">' + "".join(out) + '</div>'
+
+def _games_html(geo, domain):
+    """Картинки игр из пула (если есть) + локальные хиты."""
+    hot = GEO_FLAVOR.get(geo, {}).get("hot", ["Aviator", "Slots", "Live"])[:6]
+    base = os.path.join(os.path.dirname(__file__), "..", "output", "assets", geo)
+    out = []
+    for g in hot:
+        slug = g.lower().replace(" ", "_")
+        img = f"/site/{domain}/assets/game_{slug}.jpg"
+        local = os.path.join(base, f"game_{slug}.jpg")
+        if os.path.exists(local):
+            out.append(f'<figure class="gt"><img src="assets/game_{slug}.jpg" alt="{_html.escape(g)}" loading="lazy"><figcaption>{_html.escape(g)}</figcaption></figure>')
+        else:
+            out.append(f'<figure class="gt no"><figcaption>{_html.escape(g)}</figcaption></figure>')
+    return '<div class="games">' + "".join(out) + '</div>'
+
+def _toplist_html(geo, cur, maxbonus):
+    """Toplist реальных казино-брендов с favicon-лого."""
+    brands = real_casino_brands(geo, 5)
+    bonuses = [maxbonus, f"{cur}15,000", "150% Match", "20% Cashback", f"{cur}5,000 Free"]
+    rates = ["9.8", "9.5", "9.3", "9.1", "8.9"]
+    rows = []
+    for i, b in enumerate(brands[:5]):
+        name, dom = b if isinstance(b, (list, tuple)) else (b, f"casino{i}.com")
+        logo = casino_logo(dom)
+        rows.append(f'<div class="cc"><span class="rk">{i+1}</span>'
+                    f'<img class="clogo" src="{logo}" alt="{_html.escape(name)}" loading="lazy" width="32" height="32">'
+                    f'<span class="cn">{_html.escape(name)}</span><span class="cb">{bonuses[i]}</span>'
+                    f'<span class="cr">★{rates[i]}</span><a class="cta sm" href="/go/">Claim</a></div>')
+    return '<div class="toplist">' + "".join(rows) + '</div>'
 
 def _h(seed, k): return int(hashlib.sha256(f"{seed}:{k}".encode()).hexdigest(), 16)
 
@@ -75,12 +118,20 @@ def _inner_render(domain, idx, block_id, lead, body):
     # v5: dl-список (definition)
     return f'<p class="lead">{lead}</p><dl><dt>Key facts</dt><dd>{body}</dd></dl>'
 
-def _block_html(domain, idx, block_id, c):
-    """Рендер блока: H2 + вариативный внутренний рендер + вариативная обёртка."""
+def _block_html(domain, idx, block_id, c, geo="in", cur="$", maxbonus="5,000"):
+    """Рендер блока: H2 + текст-пассаж + ВИЗУАЛ по типу блока (картинки/лого) + вариативная обёртка."""
     h2 = _html.escape(c.get("h2", block_id.replace("_", " ").title()))
     lead = _html.escape(c.get("lead", ""))
     body = _html.escape(c.get("body", ""))
     inner = _inner_render(domain, idx, block_id, lead, body)
+    # ВИЗУАЛ: по ключевым словам в имени блока (надёжнее — Claude может назвать блок не из пула)
+    bl = block_id.lower()
+    if any(w in bl for w in ("toplist", "comparison", "review", "rating", "best", "top", "rank", "vs")):
+        inner += _toplist_html(geo, cur, maxbonus)
+    elif any(w in bl for w in ("game", "slot", "live", "crash", "showcase")):
+        inner += _games_html(geo, domain)
+    elif any(w in bl for w in ("payment", "deposit", "withdraw", "banking")):
+        inner += _payments_html(geo)
     v = _h(domain, f"blk{idx}") % 4
     if v == 0:
         return f'<section class="b"><div class="wrap"><h2>{h2}</h2>{inner}</div></section>'
@@ -107,10 +158,14 @@ def build(brand, keyword, geo, domain, plan, content, assets=None):
     # H1 из первого блока или ключа
     first = list(content.values())[0] if content else {}
     h1 = _html.escape(first.get("h2", f"{keyword.title()} — {brand} {g}"))
-    blocks_html = "".join(_block_html(domain, i, b, content.get(b, {})) for i, b in enumerate(blocks))
+    blocks_html = "".join(_block_html(domain, i, b, content.get(b, {}), geo, cur, maxbonus) for i, b in enumerate(blocks))
     schema = _schema(brand, keyword, domain, geo, content)
     # hero зависит от layout — разный первый экран
-    hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain)
+    # hero-картинка из пула гео (если есть)
+    hero_img = ""
+    if os.path.exists(os.path.join(os.path.dirname(__file__), "..", "output", "assets", geo, "hero.jpg")):
+        hero_img = '<img class="hbg" src="assets/hero.jpg" alt="' + _html.escape(brand) + '" loading="eager">'
+    hero = _hero(layout, brand, h1, maxbonus, cur, pays, g, _html.escape(first.get("lead", "")), domain, hero_img)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{_html.escape(brand)} — {_html.escape(keyword.title())} {g}</title>
@@ -121,9 +176,21 @@ body{{margin:0;font-family:system-ui,Segoe UI,Roboto;background:var(--bg);color:
 h1{{font-size:30px}}h2,.h2{{color:var(--accent);font-size:21px;margin-top:8px}}h3{{color:var(--accent)}}
 .lead{{font-size:17px;font-weight:600}}.b{{border-bottom:1px solid #ffffff10}}
 .hero{{background:linear-gradient(135deg,var(--accent)33,var(--bg));padding:40px 0}}
-.cta{{display:inline-block;background:var(--accent);color:#04140d;padding:13px 26px;border-radius:10px;font-weight:700;text-decoration:none;margin-top:14px}}
-.sticky{{position:fixed;left:12px;right:12px;bottom:12px;background:var(--accent);color:#04140d;text-align:center;padding:15px;border-radius:12px;font-weight:800;text-decoration:none}}
-@media(min-width:760px){{.sticky{{left:auto;right:24px}}}}</style>
+.cta{{display:inline-block;background:var(--accent);color:#04140d;padding:13px 26px;border-radius:10px;font-weight:700;text-decoration:none;margin-top:14px}}.cta.sm{{padding:7px 14px;font-size:13px;margin:0}}
+.sticky{{position:fixed;left:12px;right:12px;bottom:12px;background:var(--accent);color:#04140d;text-align:center;padding:15px;border-radius:12px;font-weight:800;text-decoration:none;z-index:50}}
+@media(min-width:760px){{.sticky{{left:auto;right:24px}}}}
+.hero img.hbg{{width:100%;max-height:280px;object-fit:cover;border-radius:14px;margin-top:14px}}
+.pays{{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}}
+.pay{{display:inline-flex;align-items:center;gap:7px;background:#ffffff10;border:1px solid #ffffff18;border-radius:9px;padding:8px 13px;font-size:13px;font-weight:600}}
+.pay img{{display:block}}.pay.badge{{background:var(--accent)22;color:var(--accent)}}
+.games{{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px}}
+.gt{{margin:0;border-radius:12px;overflow:hidden;background:#ffffff08}}.gt img{{width:100%;height:100px;object-fit:cover;display:block}}
+.gt figcaption{{padding:8px;font-size:13px;font-weight:600}}.gt.no{{display:grid;place-items:center;min-height:120px;border:1px dashed #ffffff22}}
+.toplist{{margin-top:14px;display:flex;flex-direction:column;gap:8px}}
+.cc{{display:flex;align-items:center;gap:12px;background:#ffffff08;border:1px solid #ffffff14;border-radius:12px;padding:12px 14px}}
+.cc .rk{{font-weight:800;color:var(--accent);font-size:18px;width:22px}}.cc .clogo{{border-radius:7px;background:#fff}}
+.cc .cn{{font-weight:700;flex:1}}.cc .cb{{font-size:13px;opacity:.85}}.cc .cr{{color:var(--accent);font-weight:700}}
+@media(max-width:600px){{.cc .cb{{display:none}}}}</style>
 <script type="application/ld+json">{schema}</script></head><body>
 {hero}
 {blocks_html}
@@ -132,17 +199,17 @@ h1{{font-size:30px}}h2,.h2{{color:var(--accent);font-size:21px;margin-top:8px}}h
 </body></html>"""
     return mutate(html, domain)   # анти-footprint пост-процессор
 
-def _hero(layout, brand, h1, maxbonus, cur, pays, g, lead, domain=""):
+def _hero(layout, brand, h1, maxbonus, cur, pays, g, lead, domain="", hero_img=""):
     b = _html.escape(brand)
     bonus = f'<div class="hb">{phrase(domain or brand, "bonus", bonus=maxbonus)} · {pays}</div>'
     cta = '<a class="cta" href="/go/">Claim Bonus Now</a>'
     if layout == "review-first":
-        return f'<header class="hero"><div class="wrap"><span>Expert Review</span><h1>{h1}</h1><p class="lead">{lead}</p>{cta}{bonus}</div></header>'
+        return f'<header class="hero"><div class="wrap"><span>Expert Review</span><h1>{h1}</h1><p class="lead">{lead}</p>{cta}{bonus}{hero_img}</div></header>'
     if layout == "guide-first":
-        return f'<main class="hero"><div class="wrap"><h1>{h1}</h1><p class="lead">{lead}</p>{cta}</div></main>'
+        return f'<main class="hero"><div class="wrap"><h1>{h1}</h1>{hero_img}<p class="lead">{lead}</p>{cta}</div></main>'
     if layout == "comparison-first":
-        return f'<section class="hero"><div class="wrap"><h1>{h1}</h1>{bonus}<p class="lead">{lead}</p>{cta}</div></section>'
+        return f'<section class="hero"><div class="wrap"><h1>{h1}</h1>{bonus}<p class="lead">{lead}</p>{cta}{hero_img}</div></section>'
     if layout == "qa-first":
-        return f'<div class="hero"><div class="wrap"><h1>{h1}</h1><details open><summary>{lead}</summary></details>{cta}</div></div>'
+        return f'<div class="hero"><div class="wrap"><h1>{h1}</h1><details open><summary>{lead}</summary></details>{cta}{hero_img}</div></div>'
     # toplist-first / magazine
-    return f'<div class="hero"><div class="wrap"><h1>{h1}</h1>{bonus}{cta}<p class="lead">{lead}</p></div></div>'
+    return f'<div class="hero"><div class="wrap"><h1>{h1}</h1>{hero_img}{bonus}{cta}<p class="lead">{lead}</p></div></div>'
