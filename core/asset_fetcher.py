@@ -14,8 +14,18 @@ def payment_logo_url(name):
 def has_logo(name): return name.lower().replace(" ","") in SI
 
 def casino_logo(domain):
-    """Реальное лого казино через Google favicon API (любой домен)."""
-    return f"https://www.google.com/s2/favicons?domain={domain}&sz=128"
+    """Реальное лого казино: Clearbit (настоящий лого компании) → fallback Google favicon."""
+    d = (domain or "").strip().lower().replace("https://", "").replace("http://", "").split("/")[0]
+    if not d:
+        return None
+    try:
+        u = f"https://logo.clearbit.com/{d}?size=128"
+        req = urllib.request.Request(u, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
+        if urllib.request.urlopen(req, timeout=6).status == 200:
+            return u
+    except Exception:
+        pass
+    return f"https://www.google.com/s2/favicons?domain={d}&sz=128"
 
 import csv, os
 def real_casino_brands(geo=None, n=3):
