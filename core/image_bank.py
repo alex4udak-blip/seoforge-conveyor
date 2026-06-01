@@ -52,7 +52,7 @@ def _runware(prompt, w, h, key):
 def hero_img(domain, w=1000, h=440, brand="", vibe="casino"):
     key = os.environ.get("RUNWARE_API_KEY", "")
     if key:
-        prompt = f"{vibe} online casino hero banner, {brand}, cinematic premium, dark vibrant, no text, no watermark"
+        prompt = f"{vibe} online casino scene, slot machines roulette chips, cinematic premium lighting, dark vibrant background, photorealistic, no text, no letters, no words, no watermark"
         u = _runware(prompt, ((w+63)//64)*64, ((h+63)//64)*64, key)
         if u: return u
     return _url(_pick(HERO, domain, "hero"), w, h)
