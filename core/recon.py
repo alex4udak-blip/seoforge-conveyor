@@ -101,12 +101,24 @@ REF_MARKERS = ("/go/", "/redirect", "/out/", "/click", "clickid", "?ref=", "go.p
 SIGNUP_MARKERS = ("sign up", "register", "create account", "deposit now", "залог", "cadastrar", "registrar")
 TOPLIST_MARKERS = ("best casino", "top casino", "casino list", "rating", "vs ", "review", "compare", "toplist", "ranked")
 
+def _fetch_via_translate(url):
+    """Заход через translate.goog (Google IP) — обход Cloudflare для unreachable-сайтов."""
+    dom = urllib.parse.urlparse(url if "://" in url else "http://"+url).netloc.replace("www.","")
+    path = url.split(dom,1)[1] if dom in url else "/"
+    tg = dom.replace("-","--").replace(".","-") + ".translate.goog"
+    return _fetch(f"https://{tg}{path}?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en", timeout=18)
+
 def _classify_page(url):
-    """Заходим на сайт топа → ОФИЦИАЛ (1 бренд+регистрация) или СЕОШНИК (список+редирект наружу)."""
+    """Заходим на сайт топа → ОФИЦИАЛ (1 бренд+регистрация) или СЕОШНИК (список+редирект наружу).
+    Если Cloudflare блочит прямой заход — пробуем через translate.goog (Google IP)."""
+    via=""
     try:
         html = _fetch(url, timeout=12).lower()
     except Exception:
-        return _classify_fast(urllib.parse.urlparse(url).netloc, ""), ["unreachable"]
+        try:
+            html = _fetch_via_translate(url).lower(); via="via-translate"
+        except Exception:
+            return _classify_fast(urllib.parse.urlparse(url if "://" in url else "http://"+url).netloc, ""), ["unreachable"]
     sig = []
     # внешние реф-редиректы (маркер сеошника)
     ref_links = sum(html.count(m) for m in REF_MARKERS)
@@ -118,6 +130,7 @@ def _classify_page(url):
     if toplist: sig.append(f"toplist-words:{toplist}")
     signup = sum(1 for m in SIGNUP_MARKERS if m in html)
     # решение
+    if via: sig.append(via)
     is_seo = (ref_links >= 2) or (casino_mentions >= 3) or (toplist >= 3 and ref_links >= 1)
     if is_seo:
         return "сеошник", sig
