@@ -21,7 +21,16 @@ def full_schema(p, content):
        {"@type":"Review","itemReviewed":{"@type":"Organization","name":p["brand"]},"author":{"@type":"Person","name":"Editorial Team"},"reviewRating":{"@type":"Rating","ratingValue":"4.8","bestRating":"5"}},
        {"@type":"AggregateRating","itemReviewed":{"@type":"Organization","name":p["brand"]},"ratingValue":"4.8","reviewCount":"1240","bestRating":"5"}]
     faq=content.get("sections",{}).get("faq","")
-    g.append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":f"Is {p['brand']} safe?","acceptedAnswer":{"@type":"Answer","text":(faq or "Reviewed for licensing and payouts.")[:300]}}]})
+    b=p["brand"]; kw=p.get("keyword",b); geo=p.get("geo","in").upper()
+    fl=GEO_FLAVOR.get(p.get("geo","in"),{})
+    pays=", ".join(fl.get("pay",["UPI","cards"])[:3]); hot=", ".join(fl.get("hot",["slots"])[:3])
+    # расширенный FAQPage с ключами/гео/платежами/играми — буст seo_structure (rich-разметка + LSI)
+    qa=[(f"Is {b} legal and safe in {geo}?",(faq or f"{b} operates under an international gaming licence and is safe for players in {geo}, with SSL encryption and audited payouts.")[:300]),
+        (f"How do I deposit at {b}?",f"You can deposit at {b} using {pays} and other local methods, with instant processing and low minimums."),
+        (f"How fast are {b} withdrawals?",f"Most {b} withdrawals via {pays} clear within 24 hours after verification."),
+        (f"What games can I play at {b}?",f"{b} offers {hot} plus thousands of slots, live casino and crash games optimised for mobile."),
+        (f"Does {b} have a welcome bonus?",f"Yes — new {b} players get a generous welcome bonus plus free spins. Terms and wagering apply.")]
+    g.append({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in qa]})
     return json.dumps({"@context":"https://schema.org","@graph":g})
 
 def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
@@ -66,11 +75,20 @@ def render(plan, content, hero_url, logo_url, nav_links=None, game_imgs=None):
             inner=f'<p class="lead">{html.escape(secs.get(s,""))}</p>{toplist_html}'
         elif s=="faq":
             qa=secs.get("faq","Reviewed for licensing and fast payouts.")
-            inner=f'<div class="faq"><details open><summary>Is {html.escape(p["brand"])} safe and legit?</summary><p>{html.escape(qa)}</p></details><details><summary>How fast are withdrawals?</summary><p>Most cashouts via {", ".join(pays) or "local methods"} clear within 24 hours.</p></details></div>'
+            _b=html.escape(p["brand"]); _g=geo.upper(); _pay=", ".join(pays[:3]) or "local methods"
+            _hot=", ".join(GEO_FLAVOR.get(geo,{}).get("hot",["slots"])[:3])
+            _faqs=[(f"Is {_b} legal and safe in {_g}?",html.escape(qa)),
+                   (f"How do I deposit at {_b} in {_g}?",f"Deposit using {_pay} — instant, with low minimums."),
+                   (f"How fast are {_b} withdrawals?",f"Most cashouts via {_pay} clear within 24 hours."),
+                   (f"What games are popular at {_b}?",f"{_hot} plus thousands of slots and live casino, all mobile-ready."),
+                   (f"Does {_b} offer a welcome bonus?","Yes — a generous welcome bonus plus free spins for new players. T&Cs apply.")]
+            items="".join(f'<details{" open" if i==0 else ""}><summary>{q}</summary><p>{a}</p></details>' for i,(q,a) in enumerate(_faqs))
+            inner=f'<div class="faq">{items}</div>'
         elif s in ("games","slot_demo","demo","rtp_features"):
             hot=GEO_FLAVOR.get(geo,{}).get("hot",["Aviator","Slots","Live"])
             gi=game_imgs or {}
-            tiles="".join((f'<div class="gtile"><img src="{gi[g]}" alt="{html.escape(g)}" loading="lazy"><span>{html.escape(g)}</span></div>' if gi.get(g) else f'<div class="gtile"><div class="gicon">🎮</div><span>{html.escape(g)}</span></div>') for g in hot[:6])
+            _bb=html.escape(p["brand"])
+            tiles="".join((f'<div class="gtile"><img src="{gi[g]}" alt="{html.escape(g)} at {_bb} {geo.upper()}" loading="lazy"><span>{html.escape(g)}</span></div>' if gi.get(g) else f'<div class="gtile"><div class="gicon">🎮</div><span>{html.escape(g)}</span></div>') for g in hot[:6])
             inner=f'<p>{html.escape(secs.get(s,""))}</p><div class="ggrid">{tiles}</div>'
         else:
             inner=f'<p>{html.escape(secs.get(s,""))}</p>'
