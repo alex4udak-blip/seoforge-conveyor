@@ -56,12 +56,16 @@ def verdict(price, backlinks, first_year, cur_year=2026, dr=None):
     drtxt = f", DR {dr}" if dr is not None else ""
     # DR от OpenPageRank = НАСТОЯЩИЙ сигнал авторитета (если есть ключ)
     if dr is not None:
-        if dr >= 4 and age >= 3:
-            return "РЕАЛЬНЫЙ ТРАСТ", f"DR {dr}/10, {age}г — подтверждённый авторитет (OpenPageRank)"
-        if dr <= 1 and backlinks > 5000:
-            return "СПАМ-беки", f"{backlinks:,} беков, но DR {dr}/10 — авторитета НЕТ, накрутка"
-        if dr >= 3:
-            return "траст средний", f"DR {dr}/10, {age}г{drtxt} — рабочий авторитет"
+        # накрутка = много беков при низком авторитете (реальные беки подняли бы DR)
+        if backlinks > 10000 and dr < 3:
+            return "СПАМ-беки", f"{backlinks:,} беков, но DR всего {dr}/10 — будь беки реальными, DR был бы выше = накрутка"
+        if dr >= 4:
+            return "РЕАЛЬНЫЙ ТРАСТ", f"DR {dr}/10 — высокий авторитет (OpenPageRank), {backlinks} беков"
+        if dr >= 2.5:
+            return "траст рабочий", f"DR {dr}/10, {age}г — нормальный авторитет для гембла"
+        if dr < 1.5:
+            return "слабый/свежий", f"DR {dr}/10 — низкий авторитет, как расходник"
+        return "средний", f"DR {dr}/10, {backlinks} беков, {age}г"
     # fallback по возрасту (без OPR-ключа)
     plausible = max(age, 1) * 3000
     if backlinks > plausible * 3:
