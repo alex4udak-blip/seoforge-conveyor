@@ -157,9 +157,11 @@ def deploy_files(domain, local_dir, server_ip=None):
     ssh = ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no", f"root@{server_ip}"]
     try:
         subprocess.run(ssh + [f"mkdir -p /var/www/_sites/{domain}"], timeout=30, capture_output=True)
-        files = [os.path.join(local_dir, f) for f in os.listdir(local_dir) if f.endswith(".html")]
+        # льём ВСЕ файлы (html + robots.txt/sitemap.xml/llms.txt/indexnow-key) — не только .html
+        files = [os.path.join(local_dir, f) for f in os.listdir(local_dir)
+                 if os.path.isfile(os.path.join(local_dir, f))]
         if not files:
-            return {"ok": False, "err": "no html files"}
+            return {"ok": False, "err": "no files"}
         scp = ["scp", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no"] + files + \
               [f"root@{server_ip}:/var/www/_sites/{domain}/"]
         r = subprocess.run(scp, timeout=90, capture_output=True)
