@@ -39,10 +39,13 @@ Rate it as a real user would. Check:
 1. Looks professional (not amateur/empty)?
 2. Mobile layout OK (not broken, not desktop squeezed)?
 3. Hero image relevant (real casino, NOT random car/object, NO text-on-image artifacts like letters)?
-4. Visual hierarchy, spacing, modern feel?
-5. Clear CTA, marketing hooks visible?
+4. IMAGE QUALITY: are any images blurry, AI-garbled, or showing distorted playing cards / smudged suits /
+   melted symbols / warped objects? Flag every garbled or low-quality image you SEE.
+5. LANGUAGE: all visible text MUST be in the expected language for this market. Flag ANY text in the WRONG
+   language (e.g. Russian/Cyrillic on an English/Portuguese site) as a CRITICAL issue.
+6. Visual hierarchy, spacing, modern feel? Clear CTA, marketing hooks visible?
 Return STRICT JSON: {{"score":0-100,"pass":true/false,"issues":["concrete problems you SEE"],"fixes":["what to change"]}}
-pass=true only if it looks like a real professional casino site (score>=70)."""
+pass=true only if it looks like a real professional casino site (score>=70) AND has no wrong-language text and no garbled images."""
     content = [{"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": img}},
                {"type": "text", "text": prompt}]
     try:

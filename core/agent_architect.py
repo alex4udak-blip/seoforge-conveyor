@@ -62,12 +62,16 @@ def plan_structure(keyword, geo, recon=None, seed=None):
         types = [r.get("type", "?") for r in recon["results"][:6]]
         comp = f"Конкуренты в топе (типы): {', '.join(types)}. Сделай ИНАЧЕ/лучше."
     rel = ", ".join((recon or {}).get("related", [])[:8])
-    prompt = f"""Ты архитектор гембл-SEO сайта. Ключ: {keyword}, гео: {geo.upper()}. {comp}
-Семантика-куст (под query fan-out): {rel}
-Спланируй УНИКАЛЬНУЮ структуру (не шаблон). Выбери layout-архетип и 6-10 блоков из:
+    from core.agent_copywriter import GEO_LANG
+    lang = GEO_LANG.get(geo, "English")
+    prompt = f"""You are a gambling-SEO site architect. Keyword: {keyword}, geo: {geo.upper()}. {comp}
+Semantic cluster (query fan-out): {rel}
+Plan a UNIQUE structure (not a template). Pick a layout archetype and 6-10 blocks from:
 {', '.join(BLOCK_POOL)}
-Каждый H2 = под-запрос из семантики (AI-выдача любит fan-out). Верни СТРОГО JSON:
-{{"layout":"<один из {LAYOUTS}>","blocks":["..."],"h2_plan":["H2 под каждый блок, по под-запросам"]}}"""
+Each H2 = a sub-query from the semantics (AI search loves fan-out).
+CRITICAL: write every h2_plan title in {lang} (the language local users of {geo.upper()} actually read). Never Russian unless {lang} is Russian.
+Return STRICT JSON only:
+{{"layout":"<one of {LAYOUTS}>","blocks":["..."],"h2_plan":["one H2 per block, in {lang}"]}}"""
     try:
         body = json.dumps({"model": MODEL, "max_tokens": 800,
                            "messages": [{"role": "user", "content": prompt}]}).encode()

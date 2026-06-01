@@ -56,14 +56,14 @@ THEME_SCENE = {
     "jetx": "a sleek jet rocket launching upward leaving a bright trail over a rising chart",
     "spaceman": "an astronaut floating in vibrant cosmic space with a rising rocket trail",
     "crash": "a rocket climbing steeply on a glowing financial-style chart, explosive energy",
-    "teen patti": "three glowing playing cards fanned out on a luxurious green felt table with golden chips",
-    "andar bahar": "playing cards split left and right on an ornate Indian-style gaming table, golden accents",
+    "teen patti": "a luxurious green felt casino table with tall stacks of golden chips and warm dramatic lighting, opulent Indian gold accents, deep focus on the chips (no close-up readable card faces)",
+    "andar bahar": "an ornate Indian-style gaming table with glowing golden chips and rich red velvet, atmospheric casino lighting (no readable card faces or suits)",
     "roulette": "a spinning roulette wheel close-up with the ball in motion, golden and red, bokeh lights",
     "crazy time": "a colorful spinning money wheel game show set, bright stage lights, festive",
     "fortune tiger": "a majestic golden tiger with Chinese fortune symbols and gold coins, vibrant red and gold",
-    "slots": "a row of bright slot machine reels showing 777 and gold coins spilling out, vivid neon",
-    "poker": "poker chips stacked high and cards on green felt, dramatic spotlight, premium",
-    "blackjack": "blackjack cards and chips on a felt table, ace and king, elegant casino lighting",
+    "slots": "a row of bright slot machine reels showing glowing fruit and gold coins spilling out, vivid neon",
+    "poker": "tall stacks of poker chips on green felt under a dramatic spotlight, premium casino atmosphere (no close-up card faces)",
+    "blackjack": "a green felt blackjack table with golden chips and elegant casino lighting, atmospheric (no readable card faces or suits)",
 }
 
 def _scene_for(vibe):
@@ -93,7 +93,7 @@ def game_img(game, domain, w=400, h=260, key=None):
     if key:
         scene = _scene_for(game)
         prompt = (f"{scene}. Sharp vibrant mobile game thumbnail, bright colorful, crisp clear, "
-                  f"high quality, no text, no letters, no watermark")
+                  f"high quality, no text, no letters, no numbers, no playing-card suits or pips, no watermark")
         u = _runware(prompt, 512, 384, key)
         if u: return u
     pool = GAME_CAT.get(game.lower(), SLOTS)

@@ -91,6 +91,11 @@ Output ONLY the full HTML from <!doctype html> to </html>. No explanation, no ma
                 html = retry
         if not html:
             return None
+        # СТРАЖ ЯЗЫКА: для не-русских гео кириллица в видимом тексте = брак (ловил русские H2)
+        if geo not in ("ru",) and re.search(r"[А-Яа-яЁё]", html):
+            cyr = len(re.findall(r"[А-Яа-яЁё]", html))
+            if cyr > 5:  # не случайный символ — реально русский текст
+                return None  # → caller fallback (там контент уже на языке гео)
         return mutate(html, domain)   # анти-footprint
     except Exception:
         return None
