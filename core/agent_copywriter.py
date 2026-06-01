@@ -9,8 +9,12 @@
 Возвращает {block_id: {"h2":..., "lead":<40-60сл прямой ответ>, "body":<пассаж>}}.
 Без ключа — структурный fallback (всё равно по блокам, с гео-данными).
 """
-import os, json, urllib.request
+import os, json, re, urllib.request
 from core.keyword_taxonomy import GEO_FLAVOR
+
+# язык контента под гео (сайт на языке аудитории, не русском!)
+GEO_LANG = {"in": "English", "bd": "English", "ng": "English", "ke": "English",
+            "ph": "English", "uk": "English", "br": "Brazilian Portuguese", "pk": "English"}
 
 KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 MODEL = "claude-haiku-4-5"
@@ -23,23 +27,27 @@ def write_content(brand, keyword, geo, plan):
     if not KEY:
         return _fallback(brand, keyword, geo, blocks, h2s, cur, pays, hot)
     h2map = "\n".join(f"- {b}: {h2s[i] if i < len(h2s) else b}" for i, b in enumerate(blocks))
-    prompt = f"""Ты эксперт-копирайтер гембл-сайта {brand}, гео {geo.upper()}. Ключ: {keyword}.
-Локаль: валюта {cur}, платежи {pays}, популярные игры {hot}.
-Напиши контент для блоков (H2 уже заданы — это под-запросы для AI-выдачи):
+    lang = GEO_LANG.get(geo, "English")
+    prompt = f"""You write gambling-site content in {lang} (target audience language!). Brand {brand}, geo {geo.upper()}. Keyword: {keyword}.
+Locale: currency {cur}, payments {pays}, popular games {hot}.
+Write content for these blocks (H2 already set — they are sub-queries for AI search):
 {h2map}
 
-ПРАВИЛА (под цитирование в AI Overviews/ChatGPT/Perplexity):
-- Для КАЖДОГО блока: "lead" = прямой ответ 40-60 слов (его процитирует AI), "body" = пассаж 130-160 слов с конкретикой.
-- Главное первым (inverted pyramid). Факты/числа, не вода. Естественный тон (human).
-- Гео-релевантность: упоминай {cur}, {pays}, локальные игры.
-Верни СТРОГО JSON: {{"<block_id>":{{"h2":"...","lead":"40-60 слов","body":"130-160 слов"}}, ...}} для всех блоков."""
+RULES (to get cited in AI Overviews/ChatGPT/Perplexity):
+- For EACH block: "lead" = direct answer 40-60 words (AI will cite this), "body" = passage 130-160 words with concrete facts.
+- Most important first (inverted pyramid). Facts/numbers, no fluff. Natural human tone, UNIQUE wording per block.
+- Geo-relevant: mention {cur}, {pays}, local games. Write ALL text in {lang}.
+- Vary sentence structure — do NOT start every block the same way.
+Return STRICT JSON only: {{"<block_id>":{{"h2":"...","lead":"40-60 words","body":"130-160 words"}}, ...}} for ALL {len(blocks)} blocks. No markdown."""
     try:
-        body = json.dumps({"model": MODEL, "max_tokens": 4000,
+        body = json.dumps({"model": MODEL, "max_tokens": 8000,
                            "messages": [{"role": "user", "content": prompt}]}).encode()
         req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
             headers={"x-api-key": KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-        r = json.loads(urllib.request.urlopen(req, timeout=120).read())
+        r = json.loads(urllib.request.urlopen(req, timeout=150).read())
         txt = r["content"][0]["text"]
+        # убрать markdown-обёртку ```json ... ```
+        txt = re.sub(r"^```(?:json)?\s*|\s*```$", "", txt.strip())
         s = txt.find("{"); e = txt.rfind("}") + 1
         data = json.loads(txt[s:e])
         # гарантируем что все блоки покрыты
