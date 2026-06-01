@@ -52,10 +52,10 @@ def _runware(prompt, w, h, key, model="runware:101@1"):
 
 # тема ключа → СЦЕНА для hero (vision ловил: aviator показывали слотами — несовпадение темы)
 THEME_SCENE = {
-    "aviator": "a red aviator biplane soaring upward over a glowing graph curve with rising multiplier, blue sky and clouds",
-    "jetx": "a sleek jet rocket launching upward leaving a bright trail over a rising chart",
-    "spaceman": "an astronaut floating in vibrant cosmic space with a rising rocket trail",
-    "crash": "a rocket climbing steeply on a glowing financial-style chart, explosive energy",
+    "aviator": "a vibrant premium online casino scene, glowing neon and gold, casino chips and coins, with a bright upward-rising glowing multiplier curve of light streaking across — energetic gambling atmosphere, clearly a casino (NOT a real airplane, NOT aviation)",
+    "jetx": "a vibrant premium casino scene with neon and gold chips and a bright streaking upward light trail and rising glowing multiplier, energetic gambling atmosphere (NOT a real rocket or aircraft)",
+    "spaceman": "a vibrant premium casino scene with cosmic neon glow, gold chips and coins, and a bright rising multiplier curve of light, energetic gambling atmosphere",
+    "crash": "a vibrant premium casino scene, neon and gold, chips and coins, with a glowing upward-streaking multiplier curve of light, explosive energetic gambling atmosphere",
     "teen patti": "a luxurious green felt casino table with tall stacks of golden chips and warm dramatic lighting, opulent Indian gold accents, deep focus on the chips (no close-up readable card faces)",
     "andar bahar": "an ornate Indian-style gaming table with glowing golden chips and rich red velvet, atmospheric casino lighting (no readable card faces or suits)",
     "roulette": "a spinning roulette wheel close-up with the ball in motion, golden and red, bokeh lights",

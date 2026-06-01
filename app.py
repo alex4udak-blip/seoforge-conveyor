@@ -291,16 +291,22 @@ def _build_job(req: "GenReq", slug: str):
                          "logo": casino_logo(t.get("domain","")), "bonus": fl.get("bonus","Bonus")}
                         for t in (recon.get("top") or [])[:5] if t.get("domain")],
         }
-        _set_stage(slug,"Дизайнер пишет вёрстку (Sonnet)",88,brand=req.brand,geo=req.geo,domain=req.domain)
-        # СНАЧАЛА Sonnet пишет ВСЮ страницу; если битая/короткая → fallback на каркас
-        from core.agent_fullsite import build_fullsite
-        html = build_fullsite(req.brand, kw, req.geo, req.domain, plan, content, images)
-        engine = "sonnet-fullsite"
-        if not html:
-            html = agent_build(req.brand, kw, req.geo, slug, plan, content)
-            engine = "agent-builder"
+        _set_stage(slug,"Дизайнер пишет страницы сайта (Sonnet)",88,brand=req.brand,geo=req.geo,domain=req.domain)
         os.makedirs(f"output/{slug}", exist_ok=True)
-        open(f"output/{slug}/index.html","w",encoding="utf-8").write(html)
+        # МНОГОСТРАНИЧНЫЙ расходник (6-9 стр, рабочая навигация, CTA->/go/)
+        from core.site_multi import build_multisite
+        pages = build_multisite(req.brand, kw, req.geo, req.domain, plan, content, images)
+        if pages and pages.get("index"):
+            for sl, h in pages.items():
+                open(f"output/{slug}/{sl}.html","w",encoding="utf-8").write(h)
+            engine = "sonnet-multisite"; npages = len(pages)
+        else:
+            # fallback: одностраничник
+            from core.agent_fullsite import build_fullsite
+            html = build_fullsite(req.brand, kw, req.geo, req.domain, plan, content, images) \
+                   or agent_build(req.brand, kw, req.geo, slug, plan, content)
+            open(f"output/{slug}/index.html","w",encoding="utf-8").write(html)
+            engine = "sonnet-fullsite"; npages = 1
         # копируем ассеты гео в сайт (для относительных путей картинок)
         import shutil
         sa=f"output/{slug}/assets"; ap=f"output/assets/{req.geo}"
@@ -309,7 +315,7 @@ def _build_job(req: "GenReq", slug: str):
             for f in os.listdir(ap):
                 try: shutil.copy(f"{ap}/{f}", f"{sa}/{f}")
                 except: pass
-        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":1,"build":"done","stage":"Готово","progress":100,"layout":plan.get("layout"),"engine":engine}; _save_net(net)
+        net=_load_net(); net[slug]={**net.get(slug,{}),"brand":req.brand,"geo":req.geo,"domain":req.domain,"pages":npages,"build":"done","stage":"Готово","progress":100,"layout":plan.get("layout"),"engine":engine}; _save_net(net)
     except Exception as e:
         net=_load_net(); net[slug]={**net.get(slug,{}),"build":"error","stage":"Ошибка: "+str(e)[:100],"progress":0}; _save_net(net)
 
