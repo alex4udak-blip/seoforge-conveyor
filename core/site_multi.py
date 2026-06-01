@@ -60,6 +60,11 @@ HARD REQUIREMENTS:
 - CONTENT DEPTH (SEO weight): write SUBSTANTIAL real copy — home/toplist ~1000-1500 words, other pages ~600-900 words of genuine useful text (not filler). Cover the topic thoroughly (this is how you outrank thin competitors).
 - CURRENT YEAR IS 2026. Any year reference = 2026 (never 2024/2025). Fresh dates signal freshness to Google/AI.
 - HUMAN TONE (anti AI-detection): write like a real local expert. BAN these AI-tells: "in conclusion", "moreover", "furthermore", "it's worth noting", "dive into", "when it comes to", "unlock", "elevate", "navigating the". Vary sentence length, be concrete and specific, no generic fluff.
+- AI-SEARCH OPTIMIZATION (this is our edge — gets cited by ChatGPT/Perplexity/Google AI, 4.4x conversion):
+  * Start the main content with a "Quick Answer" / TL;DR box: a self-contained 40-60 word direct answer to the page's core question (inverted pyramid — answer first, evidence after). Each major H2 also opens with a 1-2 sentence direct answer.
+  * Include a FAQ section (4-6 real Q&A pairs) near the bottom — concrete questions a {ctx['geo']} player asks.
+  * Add a JSON-LD <script type="application/ld+json"> in <head> with @graph: Organization + WebSite + WebPage + BreadcrumbList + (FAQPage matching the visible FAQ). Use https://{ctx['domain']} URLs, author "Editorial Team" (Person), datePublished/dateModified in 2026.
+  * State the brand entity consistently (name, what it is, geo) so AI engines build a clear entity.
 - LAYOUT DISCIPLINE: stack sections vertically in a logical reading order (header → hero → main content sections → footer). Every section is full-width with its inner content in ONE centered container (max-width ~1140px, consistent horizontal padding). NO overlapping blocks, NO floating/misaligned elements, NO orphaned half-width boxes — grids must have equal-height aligned cards. Consistent vertical rhythm (uniform section padding). It must look deliberately laid out, not scattered.
 - TEXT-LEGIBILITY OVER IMAGES (critical, recurring bug): hero text must NEVER sit directly on raw image pixels. Put ALL hero text+CTA inside a centered content box that has its OWN semi-opaque dark backdrop (e.g. background:rgba(10,12,20,.55); padding:32px; border-radius:16px; backdrop-filter:blur(2px)) OR use a strong bottom gradient scrim. White text must stay clearly readable over the busy background. Same rule anywhere text overlays an image.
 - RANK BADGES / NO OVERLAP (critical, recurring bug): in the toplist, the rank number (1/2/3) must be positioned so it NEVER overlaps the casino name — either inline BEFORE the name with a flex gap, or absolutely positioned in the card's top-left corner while the card content has enough padding-top to clear it. No element may overlap text anywhere.
@@ -94,6 +99,12 @@ Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, n
     try:
         from core.content_clean import clean
         html, _rep = clean(html)
+    except Exception:
+        pass
+    # AI-выдача: гарант JSON-LD schema если Sonnet не вставил
+    try:
+        from core.ai_seo import ensure_schema
+        html = ensure_schema(html, ctx['brand'], ctx['domain'], ctx['geocode'], page['slug'])
     except Exception:
         pass
     return mutate(html, ctx['domain'])
