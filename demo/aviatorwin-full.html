@@ -3,817 +3,725 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AviatorWin - Aviator Predictor India | Win up to ₹30,000 Bonus</title>
+<title>AviatorWin Casino India | Play Aviator, Teen Patti & Andar Bahar | Win ₹30,000 Bonus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
---clr-bg-dark:#0a0e1a;
---clr-bg-darker:#050812;
---clr-bg-card:#141824;
---clr-accent:#f59e0b;
---clr-accent-bright:#fbbf24;
---clr-primary:#3b82f6;
---clr-success:#10b981;
---clr-text:#e5e7eb;
---clr-text-muted:#9ca3af;
---clr-border:#1f2937;
---font-base:'Inter',sans-serif;
---font-display:'Poppins',sans-serif;
---spacing:1rem;
+  --primary:#ff6b00;
+  --secondary:#ffa500;
+  --accent:#ffcc00;
+  --dark:#0a0a0a;
+  --dark-card:#141414;
+  --dark-alt:#1a1a1a;
+  --text:#e0e0e0;
+  --text-dim:#a0a0a0;
+  --success:#00c853;
+  --radius:12px;
+  --shadow:0 8px 32px rgba(0,0,0,.4);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.6);
 }
 body{
-background:var(--clr-bg-dark);
-color:var(--clr-text);
-font-family:var(--font-base);
-line-height:1.6;
-overflow-x:hidden;
+  font-family:'Inter',sans-serif;
+  background:var(--dark);
+  color:var(--text);
+  line-height:1.6;
+  font-size:15px;
+  overflow-x:hidden;
 }
-html{scroll-behavior:smooth}
+h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;line-height:1.2;font-weight:700}
+h1{font-size:2.5rem;margin-bottom:1rem}
+h2{font-size:1.875rem;margin-bottom:.75rem}
+h3{font-size:1.375rem;margin-bottom:.5rem}
 a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-ul{list-style:none}
-
-/* Header */
-.header{
-position:sticky;
-top:0;
-z-index:999;
-background:rgba(10,14,26,0.95);
-backdrop-filter:blur(12px);
-border-bottom:1px solid var(--clr-border);
+img{max-width:100%;display:block;height:auto}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.875rem 2rem;
+  border:none;
+  border-radius:9999px;
+  font-weight:700;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .3s ease;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  box-shadow:0 4px 16px rgba(255,107,0,.3);
 }
-.header__inner{
-max-width:1400px;
-margin:0 auto;
-padding:1rem 1.25rem;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:#fff;
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(255,107,0,.5);
+}
+.btn-secondary{
+  background:linear-gradient(135deg,var(--secondary),var(--accent));
+  color:#000;
+}
+.btn-secondary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(255,170,0,.5);
+}
+header{
+  position:sticky;
+  top:0;
+  background:rgba(10,10,10,.95);
+  backdrop-filter:blur(12px);
+  z-index:1000;
+  border-bottom:1px solid rgba(255,107,0,.2);
+  box-shadow:0 2px 16px rgba(0,0,0,.4);
+}
+.header-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1rem;
+  max-width:1400px;
+  margin:0 auto;
 }
 .logo{
-font-family:var(--font-display);
-font-size:1.5rem;
-font-weight:800;
-color:var(--clr-accent);
-letter-spacing:-0.02em;
-display:flex;
-align-items:center;
-gap:0.5rem;
+  font-size:1.5rem;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-family:'Poppins',sans-serif;
 }
-.logo__icon{
-width:32px;
-height:32px;
-background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-bright));
-border-radius:6px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:900;
-color:var(--clr-bg-dark);
-font-size:1.25rem;
+nav{display:none}
+nav a{
+  margin-left:2rem;
+  font-weight:600;
+  transition:color .3s;
+  font-size:.9rem;
 }
-.nav{display:none}
-.nav__list{
-display:flex;
-gap:2rem;
-}
-.nav__link{
-font-size:0.9rem;
-font-weight:500;
-transition:color 0.3s;
-}
-.nav__link:hover{color:var(--clr-accent)}
-.header__cta{
-background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-bright));
-color:var(--clr-bg-dark);
-padding:0.6rem 1.25rem;
-border-radius:8px;
-font-weight:700;
-font-size:0.9rem;
-border:none;
-cursor:pointer;
-transition:transform 0.3s,box-shadow 0.3s;
-}
-.header__cta:hover{
-transform:translateY(-2px);
-box-shadow:0 8px 20px rgba(245,158,11,0.4);
-}
-
-/* Hero */
+nav a:hover{color:var(--primary)}
 .hero{
-position:relative;
-min-height:90vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  background-image:linear-gradient(rgba(10,10,10,.45),rgba(20,20,20,.65)),url('https://im.runware.ai/image/os/a03d21/ws/3/ii/2d371aef-37aa-4677-9a0c-77b289eb276e.jpg');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
 }
-.hero__bg{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-object-position:center;
+.hero-content{
+  position:relative;
+  z-index:2;
+  padding:3rem 1rem;
+  max-width:1200px;
+  margin:0 auto;
+  width:100%;
 }
-.hero__overlay{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(135deg,rgba(10,14,26,0.92),rgba(5,8,18,0.85));
-}
-.hero__content{
-position:relative;
-z-index:2;
-max-width:1400px;
-margin:0 auto;
-padding:2rem 1.25rem;
-text-align:center;
-}
-.hero__badge{
-display:inline-block;
-background:rgba(245,158,11,0.15);
-border:1px solid var(--clr-accent);
-padding:0.5rem 1rem;
-border-radius:50px;
-font-size:0.85rem;
-font-weight:600;
-color:var(--clr-accent-bright);
-margin-bottom:1.5rem;
-animation:shimmer 3s infinite;
+.bonus-badge{
+  display:inline-block;
+  padding:.75rem 1.5rem;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  border-radius:9999px;
+  font-weight:800;
+  font-size:1.125rem;
+  margin-bottom:1.5rem;
+  animation:shimmer 3s infinite;
+  box-shadow:0 4px 24px rgba(255,107,0,.5);
 }
 @keyframes shimmer{
-0%,100%{box-shadow:0 0 15px rgba(245,158,11,0.3)}
-50%{box-shadow:0 0 30px rgba(245,158,11,0.6)}
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.3)}
 }
-.hero__title{
-font-family:var(--font-display);
-font-size:2.5rem;
-font-weight:800;
-line-height:1.1;
-margin-bottom:1rem;
-color:#fff;
-letter-spacing:-0.02em;
+.hero h1{
+  color:#fff;
+  text-shadow:0 4px 16px rgba(0,0,0,.6);
+  margin-bottom:1.25rem;
+  font-size:2.25rem;
 }
-.hero__title span{
-background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-bright));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-background-clip:text;
+.hero-lead{
+  font-size:1.125rem;
+  margin-bottom:2rem;
+  color:rgba(255,255,255,.92);
+  max-width:800px;
+  line-height:1.7;
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
 }
-.hero__subtitle{
-font-size:1.1rem;
-color:var(--clr-text-muted);
-margin-bottom:2rem;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
+.hero-cta{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin-bottom:3rem;
 }
-.hero__ctas{
-display:flex;
-gap:1rem;
-justify-content:center;
-flex-wrap:wrap;
-margin-bottom:3rem;
-}
-.btn{
-padding:1rem 2rem;
-border-radius:10px;
-font-weight:700;
-font-size:1rem;
-border:none;
-cursor:pointer;
-transition:all 0.3s;
-display:inline-flex;
-align-items:center;
-gap:0.5rem;
-}
-.btn--primary{
-background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-bright));
-color:var(--clr-bg-dark);
-box-shadow:0 10px 30px rgba(245,158,11,0.3);
-}
-.btn--primary:hover{
-transform:translateY(-3px);
-box-shadow:0 15px 40px rgba(245,158,11,0.5);
-}
-.btn--secondary{
-background:rgba(255,255,255,0.1);
-color:var(--clr-text);
-border:2px solid var(--clr-border);
-}
-.btn--secondary:hover{
-background:rgba(255,255,255,0.15);
-border-color:var(--clr-accent);
-}
-.hero__trust{
-display:flex;
-gap:2rem;
-justify-content:center;
-flex-wrap:wrap;
+.trust-bar{
+  display:flex;
+  gap:2rem;
+  flex-wrap:wrap;
+  align-items:center;
+  padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.15);
 }
 .trust-item{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:0.25rem;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  font-size:.875rem;
+  color:rgba(255,255,255,.8);
 }
-.trust-item__value{
-font-size:1.75rem;
-font-weight:800;
-color:var(--clr-accent-bright);
-font-family:var(--font-display);
+.trust-icon{
+  width:20px;
+  height:20px;
+  fill:var(--accent);
 }
-.trust-item__label{
-font-size:0.8rem;
-color:var(--clr-text-muted);
-text-transform:uppercase;
-letter-spacing:0.05em;
+.games-section{
+  padding:4rem 1rem;
+  background:var(--dark-card);
 }
-
-/* Section */
-.section{
-padding:4rem 1.25rem;
-max-width:1400px;
-margin:0 auto;
+.section-header{
+  text-align:center;
+  margin-bottom:3rem;
 }
-.section--alt{
-background:var(--clr-bg-darker);
-margin:0;
-max-width:100%;
-padding:4rem 1.25rem;
+.section-header h2{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
 }
-.section__header{
-text-align:center;
-margin-bottom:3rem;
+.section-lead{
+  font-size:1.125rem;
+  color:var(--text-dim);
+  margin-top:.75rem;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
 }
-.section__title{
-font-family:var(--font-display);
-font-size:2rem;
-font-weight:800;
-margin-bottom:0.75rem;
-color:#fff;
-letter-spacing:-0.02em;
-}
-.section__subtitle{
-color:var(--clr-text-muted);
-font-size:1.05rem;
-max-width:700px;
-margin:0 auto;
-}
-
-/* Top Casinos */
-.casinos{
-display:grid;
-gap:1.25rem;
-}
-.casino-card{
-background:var(--clr-bg-card);
-border:1px solid var(--clr-border);
-border-radius:16px;
-padding:1.5rem;
-display:grid;
-grid-template-columns:auto 1fr auto;
-gap:1.25rem;
-align-items:center;
-transition:all 0.3s;
-position:relative;
-overflow:hidden;
-}
-.casino-card::before{
-content:'';
-position:absolute;
-top:0;
-left:0;
-width:4px;
-height:100%;
-background:linear-gradient(180deg,var(--clr-accent),var(--clr-accent-bright));
-}
-.casino-card:hover{
-transform:translateY(-4px);
-box-shadow:0 12px 40px rgba(0,0,0,0.4);
-border-color:var(--clr-accent);
-}
-.casino-card__rank{
-font-size:2rem;
-font-weight:900;
-color:var(--clr-accent);
-font-family:var(--font-display);
-line-height:1;
-min-width:50px;
-}
-.casino-card__logo{
-width:80px;
-height:80px;
-border-radius:12px;
-border:2px solid var(--clr-border);
-padding:0.5rem;
-background:#fff;
-object-fit:contain;
-}
-.casino-card__info{
-flex:1;
-}
-.casino-card__name{
-font-size:1.4rem;
-font-weight:700;
-margin-bottom:0.25rem;
-color:#fff;
-}
-.casino-card__bonus{
-color:var(--clr-accent-bright);
-font-weight:600;
-margin-bottom:0.5rem;
-}
-.casino-card__features{
-display:flex;
-gap:0.5rem;
-flex-wrap:wrap;
-}
-.feature-badge{
-background:rgba(16,185,129,0.15);
-color:var(--clr-success);
-padding:0.25rem 0.75rem;
-border-radius:6px;
-font-size:0.75rem;
-font-weight:600;
-}
-.casino-card__cta{
-padding:0.85rem 1.75rem;
-background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-bright));
-color:var(--clr-bg-dark);
-border-radius:10px;
-font-weight:700;
-border:none;
-cursor:pointer;
-transition:all 0.3s;
-white-space:nowrap;
-}
-.casino-card__cta:hover{
-transform:scale(1.05);
-box-shadow:0 8px 20px rgba(245,158,11,0.4);
-}
-.rating{
-display:flex;
-gap:0.25rem;
-margin-bottom:0.5rem;
-}
-.rating__star{
-color:var(--clr-accent);
-font-size:1rem;
-}
-
-/* Games Grid */
-.games{
-display:grid;
-grid-template-columns:1fr;
-gap:1.5rem;
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+  max-width:1200px;
+  margin:0 auto;
 }
 .game-card{
-position:relative;
-border-radius:16px;
-overflow:hidden;
-height:280px;
-cursor:pointer;
-transition:transform 0.3s;
+  background:var(--dark-alt);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:all .3s ease;
+  border:1px solid rgba(255,107,0,.1);
+  box-shadow:var(--shadow);
 }
 .game-card:hover{
-transform:scale(1.03);
+  transform:translateY(-8px);
+  box-shadow:var(--shadow-lg);
+  border-color:var(--primary);
 }
-.game-card__img{
-width:100%;
-height:100%;
-object-fit:cover;
+.game-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
 }
-.game-card__overlay{
-position:absolute;
-bottom:0;
-left:0;
-width:100%;
-padding:1.5rem;
-background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);
+.game-info{
+  padding:1.25rem;
 }
-.game-card__name{
-font-size:1.5rem;
-font-weight:700;
-color:#fff;
-margin-bottom:0.5rem;
+.game-info h3{
+  color:#fff;
+  margin-bottom:.5rem;
 }
-.game-card__btn{
-background:var(--clr-accent);
-color:var(--clr-bg-dark);
-padding:0.65rem 1.5rem;
-border-radius:8px;
-font-weight:700;
-display:inline-block;
-font-size:0.9rem;
+.game-meta{
+  font-size:.875rem;
+  color:var(--text-dim);
+  margin-bottom:1rem;
 }
-
-/* Payments */
-.payments{
-display:flex;
-gap:2rem;
-justify-content:center;
-flex-wrap:wrap;
-align-items:center;
+.payments-section{
+  padding:4rem 1rem;
+  background:linear-gradient(180deg,var(--dark),var(--dark-card));
+}
+.payments-grid{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:2.5rem;
+  flex-wrap:wrap;
+  margin:2rem 0;
 }
 .payment-logo{
-height:50px;
-width:auto;
-filter:grayscale(1) brightness(0.8);
-transition:all 0.3s;
+  height:48px;
+  width:auto;
+  filter:grayscale(1) brightness(1.2);
+  transition:all .3s ease;
+  opacity:.7;
 }
 .payment-logo:hover{
-filter:grayscale(0) brightness(1);
-transform:scale(1.1);
+  filter:grayscale(0);
+  opacity:1;
+  transform:scale(1.1);
 }
-
-/* Content Block */
+.payment-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.5rem;
+}
+.payment-text{
+  background:var(--dark-alt);
+  padding:.5rem 1.25rem;
+  border-radius:8px;
+  font-weight:600;
+  border:1px solid rgba(255,107,0,.2);
+  font-size:.9rem;
+}
+.trust-badges{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  flex-wrap:wrap;
+  margin-top:3rem;
+  padding-top:2rem;
+  border-top:1px solid rgba(255,107,0,.15);
+}
+.badge{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  padding:.875rem 1.5rem;
+  background:var(--dark-alt);
+  border-radius:9999px;
+  font-weight:600;
+  font-size:.875rem;
+  border:1px solid rgba(255,107,0,.2);
+}
+.badge-icon{
+  width:24px;
+  height:24px;
+  fill:var(--accent);
+}
+.content-section{
+  padding:4rem 1rem;
+}
+.content-section:nth-child(even){
+  background:var(--dark-card);
+}
 .content-block{
-background:var(--clr-bg-card);
-border:1px solid var(--clr-border);
-border-radius:16px;
-padding:2.5rem;
-margin-bottom:2rem;
+  max-width:900px;
+  margin:0 auto 4rem;
 }
-.content-block__title{
-font-family:var(--font-display);
-font-size:1.75rem;
-font-weight:700;
-margin-bottom:1rem;
-color:#fff;
+.content-block:last-child{margin-bottom:0}
+.content-block h2{
+  color:#fff;
+  margin-bottom:1rem;
 }
-.content-block__lead{
-font-size:1.1rem;
-color:var(--clr-accent-bright);
-margin-bottom:1.5rem;
-font-weight:500;
-line-height:1.7;
+.content-lead{
+  font-size:1.125rem;
+  color:var(--secondary);
+  margin-bottom:1.5rem;
+  font-weight:500;
 }
-.content-block__body{
-color:var(--clr-text);
-line-height:1.8;
+.content-body{
+  color:var(--text);
+  line-height:1.8;
 }
-
-/* Footer */
-.footer{
-background:var(--clr-bg-darker);
-border-top:1px solid var(--clr-border);
-padding:3rem 1.25rem 2rem;
-text-align:center;
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;
+  margin:3rem 0;
 }
-.footer__content{
-max-width:1400px;
-margin:0 auto;
+.stat-card{
+  background:var(--dark-alt);
+  padding:2rem;
+  border-radius:var(--radius);
+  text-align:center;
+  border:1px solid rgba(255,107,0,.15);
+  transition:all .3s ease;
 }
-.footer__logo{
-font-family:var(--font-display);
-font-size:1.75rem;
-font-weight:800;
-color:var(--clr-accent);
-margin-bottom:1rem;
+.stat-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-4px);
 }
-.footer__text{
-color:var(--clr-text-muted);
-font-size:0.9rem;
-margin-bottom:1.5rem;
+.stat-number{
+  font-size:2.5rem;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-family:'Poppins',sans-serif;
 }
-.footer__links{
-display:flex;
-gap:2rem;
-justify-content:center;
-flex-wrap:wrap;
-margin-bottom:2rem;
+.stat-label{
+  color:var(--text-dim);
+  font-size:.875rem;
+  margin-top:.5rem;
+  text-transform:uppercase;
+  letter-spacing:.5px;
 }
-.footer__link{
-color:var(--clr-text);
-font-size:0.9rem;
-transition:color 0.3s;
+.cta-section{
+  padding:5rem 1rem;
+  background:linear-gradient(135deg,rgba(255,107,0,.15),rgba(255,170,0,.05));
+  text-align:center;
 }
-.footer__link:hover{
-color:var(--clr-accent);
+.cta-section h2{
+  color:#fff;
+  margin-bottom:1rem;
 }
-.footer__copy{
-color:var(--clr-text-muted);
-font-size:0.8rem;
-padding-top:2rem;
-border-top:1px solid var(--clr-border);
+.cta-section p{
+  font-size:1.125rem;
+  color:var(--text-dim);
+  margin-bottom:2rem;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
 }
-
-/* Mobile CTA */
+footer{
+  background:var(--dark-card);
+  padding:3rem 1rem 2rem;
+  border-top:1px solid rgba(255,107,0,.2);
+}
+.footer-content{
+  max-width:1200px;
+  margin:0 auto;
+  text-align:center;
+}
+.footer-logo{
+  font-size:1.75rem;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:1rem;
+  font-family:'Poppins',sans-serif;
+}
+.footer-text{
+  color:var(--text-dim);
+  font-size:.875rem;
+  line-height:1.8;
+  max-width:700px;
+  margin:0 auto 2rem;
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+  font-size:.875rem;
+}
+.footer-links a{
+  color:var(--text-dim);
+  transition:color .3s;
+}
+.footer-links a:hover{
+  color:var(--primary);
+}
+.footer-bottom{
+  padding-top:2rem;
+  border-top:1px solid rgba(255,107,0,.1);
+  color:var(--text-dim);
+  font-size:.8rem;
+}
 .mobile-cta{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:var(--clr-bg-darker);
-border-top:1px solid var(--clr-border);
-padding:1rem 1.25rem;
-z-index:998;
-display:flex;
-gap:1rem;
-box-shadow:0 -5px 20px rgba(0,0,0,0.3);
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,.98);
+  backdrop-filter:blur(12px);
+  padding:1rem;
+  box-shadow:0 -4px 24px rgba(0,0,0,.6);
+  z-index:999;
+  border-top:1px solid rgba(255,107,0,.3);
+  display:flex;
+  justify-content:center;
 }
 .mobile-cta .btn{
-flex:1;
-justify-content:center;
-padding:0.85rem;
+  width:100%;
+  max-width:400px;
+  font-size:.95rem;
 }
-
-/* Responsive */
 @media(min-width:768px){
-.nav{display:block}
-.mobile-cta{display:none}
-.hero__title{font-size:3.5rem}
-.games{grid-template-columns:repeat(2,1fr)}
-.casinos{grid-template-columns:1fr}
+  h1{font-size:3.5rem}
+  h2{font-size:2.25rem}
+  nav{display:flex}
+  .hero h1{font-size:3.75rem}
+  .hero-lead{font-size:1.25rem}
+  .mobile-cta{display:none}
+  .games-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(min-width:1024px){
-.hero__title{font-size:4.5rem}
-.games{grid-template-columns:repeat(3,1fr)}
-.casino-card{
-grid-template-columns:60px 100px 1fr auto;
-padding:2rem;
+  h1{font-size:4rem}
+  .hero h1{font-size:4.5rem}
 }
-.section{padding:6rem 2rem}
-.section--alt{padding:6rem 2rem}
+.animate-count{
+  display:inline-block;
 }
-
-/* Animations */
-@keyframes countUp{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
+@keyframes fadeInUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
-.trust-item{
-animation:countUp 0.6s ease-out forwards;
+.fade-in-up{
+  animation:fadeInUp .8s ease forwards;
 }
-.trust-item:nth-child(1){animation-delay:0.1s}
-.trust-item:nth-child(2){animation-delay:0.2s}
-.trust-item:nth-child(3){animation-delay:0.3s}
-.trust-item:nth-child(4){animation-delay:0.4s}
-
-@keyframes slideUp{
-from{opacity:0;transform:translateY(30px)}
-to{opacity:1;transform:translateY(0)}
-}
-.casino-card{
-animation:slideUp 0.5s ease-out forwards;
-opacity:0;
-}
-.casino-card:nth-child(1){animation-delay:0.1s}
-.casino-card:nth-child(2){animation-delay:0.2s}
-.casino-card:nth-child(3){animation-delay:0.3s}
-.casino-card:nth-child(4){animation-delay:0.4s}
 </style>
 </head>
 <body>
 
-<header class="header">
-<div class="header__inner">
-<a href="#" class="logo">
-<div class="logo__icon">A</div><aside class="s"></aside>
-<span>AviatorWin</span>
-</a>
-<nav class="nav">
-<ul class="nav__list">
-<li><a href="#casinos" class="nav__link">Top Casinos</a></li>
-<li><a href="#games" class="nav__link">Games</a></li>
-<li><a href="#guide" class="nav__link">Guide</a></li>
-<li><a href="#payments" class="nav__link">Payments</a></li>
-</ul>
-</nav>
-<button class="header__cta">Play Now</button>
-</div>
+<header>
+  <div class="header-content">
+    <div class="logo">AviatorWin</div><figure class="f"><span></span></figure>
+    <nav>
+      <a href="#games">Games</a>
+      <a href="#payments">Payments</a>
+      <a href="#about">About</a>
+      <a href="#join">Join Now</a>
+    </nav>
+    <a href="#join" class="btn btn-primary" style="padding:.625rem 1.5rem;font-size:.875rem">Join Now</a>
+  </div>
 </header>
 
 <section class="hero">
-<img src="https://im.runware.ai/image/os/a02d21/ws/3/ii/d9330732-d255-44f9-95f4-35cda93528dc.jpg" alt="AviatorWin Hero" class="hero__bg">
-<div class="hero__overlay"></div>
-<div class="hero__content">
-<div class="hero__badge">🔥 Trusted by 50,000+ Indian Players</div><figure class="f"><span></span></figure>
-<h1 class="hero__title">Master <span>Aviator Predictor</span> in India</h1>
-<p class="hero__subtitle">Win up to ₹30,000 bonus. Play Aviator, Teen Patti & Andar Bahar with UPI, Paytm & PhonePe deposits.</p>
-<div class="hero__ctas">
-<button class="btn btn--primary">Claim ₹30,000 Bonus →</button>
-<button class="btn btn--secondary">Learn Strategy</button>
-</div>
-<div class="hero__trust">
-<div class="trust-item">
-<div class="trust-item__value" data-count="30000">₹30K</div>
-<div class="trust-item__label">Max Bonus</div><div class="d"><i></i><i></i></div>
-</div>
-<div class="trust-item">
-<div class="trust-item__value">5 Min</div>
-<div class="trust-item__label">Fast Payouts</div><section class="g"></section>
-</div>
-<div class="trust-item">
-<div class="trust-item__value">24/7</div>
-<div class="trust-item__label">Support</div><figure class="f"><span></span></figure>
-</div>
-<div class="trust-item">
-<div class="trust-item__value">100%</div>
-<div class="trust-item__label">Safe & Secure</div><div class="x"><span></span></div>
-</div>
-</div>
-</div><div class="x"><span></span></div>
+  <div class="hero-content">
+    <div class="bonus-badge">Welcome Bonus Up To ₹30,000</div><figure class="f"><span></span></figure>
+    <h1>India's Premier Aviator Casino</h1>
+    <p class="hero-lead">Experience the thrill of Aviator, Teen Patti, and Andar Bahar with instant UPI withdrawals. Join 500K+ players winning real ₹ every day on India's most trusted crash-game platform.</p>
+    <div class="hero-cta">
+      <a href="#join" class="btn btn-primary">Claim ₹30,000 Bonus</a>
+      <a href="#games" class="btn btn-secondary">Explore Games</a>
+    </div>
+    <div class="trust-bar">
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        <span>Licensed & Secure</span>
+      </div><aside class="s"></aside>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        <span>10-Min Payouts</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>500K+ Players</span>
+      </div><section class="g"></section>
+    </div>
+  </div><div class="d"><i></i><i></i></div>
 </section><aside class="s"></aside>
 
-<section class="section" id="casinos">
-<div class="section__header">
-<h2 class="section__title">Top Aviator Casinos in India 2024</h2>
-<p class="section__subtitle">Handpicked casinos offering Aviator predictor compatibility, instant UPI deposits, and massive welcome bonuses</p>
-</div>
-<div class="casinos">
-<div class="casino-card">
-<div class="casino-card__rank">1</div>
-<img src="https://www.google.com/s2/favicons?domain=1win-asia.vip&sz=128" alt="1Win" class="casino-card__logo">
-<div class="casino-card__info">
-<h3 class="casino-card__name">1Win</h3>
-<div class="rating">
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-</div><figure class="f"><span></span></figure>
-<div class="casino-card__bonus">Welcome Bonus: ₹30,000</div>
-<div class="casino-card__features">
-<span class="feature-badge">✓ UPI Instant</span>
-<span class="feature-badge">✓ Aviator</span>
-<span class="feature-badge">✓ 24/7 Support</span>
-</div>
-</div><aside class="s"></aside>
-<button class="casino-card__cta">Claim Bonus</button>
-</div>
-
-<div class="casino-card">
-<div class="casino-card__rank">2</div>
-<img src="https://www.google.com/s2/favicons?domain=1xbet-asia.vip&sz=128" alt="1xBet" class="casino-card__logo">
-<div class="casino-card__info">
-<h3 class="casino-card__name">1xBet</h3>
-<div class="rating">
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-</div><figure class="f"><span></span></figure>
-<div class="casino-card__bonus">Welcome Bonus: ₹30,000</div>
-<div class="casino-card__features">
-<span class="feature-badge">✓ Paytm</span>
-<span class="feature-badge">✓ Live Casino</span>
-<span class="feature-badge">✓ Fast Withdrawal</span>
-</div>
-</div><section class="g"></section>
-<button class="casino-card__cta">Claim Bonus</button>
-</div>
-
-<div class="casino-card">
-<div class="casino-card__rank">3</div>
-<img src="https://www.google.com/s2/favicons?domain=4rabet-casino.vip&sz=128" alt="4Rabet" class="casino-card__logo">
-<div class="casino-card__info">
-<h3 class="casino-card__name">4Rabet</h3>
-<div class="rating">
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-</div><figure class="f"><span></span></figure>
-<div class="casino-card__bonus">Welcome Bonus: ₹30,000</div>
-<div class="casino-card__features">
-<span class="feature-badge">✓ PhonePe</span>
-<span class="feature-badge">✓ Teen Patti</span>
-<span class="feature-badge">✓ INR Support</span>
-</div>
-</div><figure class="f"><span></span></figure>
-<button class="casino-card__cta">Claim Bonus</button>
-</div>
-
-<div class="casino-card">
-<div class="casino-card__rank">4</div>
-<img src="https://www.google.com/s2/favicons?domain=22betx.com&sz=128" alt="22Bet" class="casino-card__logo">
-<div class="casino-card__info">
-<h3 class="casino-card__name">22Bet</h3>
-<div class="rating">
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-<span class="rating__star">★</span>
-</div><div class="d"><i></i><i></i></div>
-<div class="casino-card__bonus">Welcome Bonus: ₹30,000</div>
-<div class="casino-card__features">
-<span class="feature-badge">✓ All Payments</span>
-<span class="feature-badge">✓ Andar Bahar</span>
-<span class="feature-badge">✓ Mobile App</span>
-</div>
-</div><div class="x"><span></span></div>
-<button class="casino-card__cta">Claim Bonus</button>
-</div>
-</div>
+<section id="games" class="games-section">
+  <div class="container">
+    <div class="section-header fade-in-up">
+      <h2>Popular Games</h2>
+      <p class="section-lead">Play India's favorite casino games with real ₹ stakes and instant cashouts</p>
+    </div>
+    <div class="games-grid">
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a08dlim3/ws/3/ii/cdfd70b7-936d-49bb-98f5-6a2011464f84.jpg" alt="Aviator" loading="lazy">
+        <div class="game-info">
+          <h3>Aviator</h3>
+          <p class="game-meta">Crash Game • Min Bet ₹10 • Max Win ∞</p>
+          <a href="#join" class="btn btn-primary" style="width:100%;margin-top:.5rem">Play Now</a>
+        </div><figure class="f"><span></span></figure>
+      </div>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a08dlim3/ws/3/ii/6e35d6f3-f6b8-46e1-a40a-04c93efb324c.jpg" alt="Teen Patti" loading="lazy">
+        <div class="game-info">
+          <h3>Teen Patti</h3>
+          <p class="game-meta">Card Game • RTP 97.5% • Live Tables</p>
+          <a href="#join" class="btn btn-primary" style="width:100%;margin-top:.5rem">Play Now</a>
+        </div><div class="x"><span></span></div>
+      </div>
+      <div class="game-card">
+        <img src="https://im.runware.ai/image/os/a07dlim3/ws/3/ii/437c5f87-da82-4934-941f-de8da712a758.jpg" alt="Andar Bahar" loading="lazy">
+        <div class="game-info">
+          <h3>Andar Bahar</h3>
+          <p class="game-meta">Traditional • Fast Rounds • High Payouts</p>
+          <a href="#join" class="btn btn-primary" style="width:100%;margin-top:.5rem">Play Now</a>
+        </div><div class="x"><span></span></div>
+      </div>
+    </div><section class="g"></section>
+    <div class="stats-grid" style="margin-top:4rem">
+      <div class="stat-card">
+        <div class="stat-number"><span class="animate-count" data-target="500">0</span>K+</div>
+        <div class="stat-label">Active Players</div><div class="d"><i></i><i></i></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">₹<span class="animate-count" data-target="45">0</span>Cr</div><aside class="s"></aside>
+        <div class="stat-label">Monthly Volume</div>
+      </div><div class="d"><i></i><i></i></div>
+      <div class="stat-card">
+        <div class="stat-number"><span class="animate-count" data-target="9">0</span> Min</div>
+        <div class="stat-label">Avg Payout Time</div><aside class="s"></aside>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><span class="animate-count" data-target="97">0</span>.5%</div><figure class="f"><span></span></figure>
+        <div class="stat-label">Player RTP</div>
+      </div><figure class="f"><span></span></figure>
+    </div>
+  </div><aside class="s"></aside>
 </section>
 
-<section class="section section--alt" id="games">
-<div class="section__header">
-<h2 class="section__title">Popular Games at AviatorWin</h2>
-<p class="section__subtitle">Play India's favorite casino games with real money and instant withdrawals via UPI</p>
-</div><aside class="s"></aside>
-<div class="games">
-<div class="game-card">
-<img src="https://im.runware.ai/image/os/a06dlim3/ws/3/ii/0d0341fa-5eca-430e-b2eb-1904e10e3fd5.jpg" alt="Aviator" class="game-card__img">
-<div class="game-card__overlay">
-<h3 class="game-card__name">Aviator</h3>
-<span class="game-card__btn">Play Now</span>
-</div>
-</div>
-<div class="game-card">
-<img src="https://im.runware.ai/image/os/a04d20/ws/3/ii/85a1aa09-a65f-4010-a5ed-9a553b0400d9.jpg" alt="Teen Patti" class="game-card__img">
-<div class="game-card__overlay">
-<h3 class="game-card__name">Teen Patti</h3>
-<span class="game-card__btn">Play Now</span>
-</div><section class="g"></section>
-</div>
-<div class="game-card">
-<img src="https://im.runware.ai/image/os/a06dlim3/ws/3/ii/2d451bde-fea8-49f0-9b72-43e94107f36f.jpg" alt="Andar Bahar" class="game-card__img">
-<div class="game-card__overlay">
-<h3 class="game-card__name">Andar Bahar</h3>
-<span class="game-card__btn">Play Now</span>
-</div>
-</div><div class="d"><i></i><i></i></div>
-</div>
-</section><div class="d"><i></i><i></i></div>
-
-<section class="section" id="guide">
-<div class="section__header">
-<h3 class="section__title">Complete Aviator Predictor Guide for Indian Players</h2>
-<p class="section__subtitle">Master strategies, understand mechanics, and maximize your winning potential</p>
-</div><div class="d"><i></i><i></i></div>
-
-<div class="content-block">
-<h2 class="content-block__title">What is Aviator Predictor and How It Works in India</h2>
-<p class="content-block__lead">Aviator predictor tools are software applications designed to analyze crash game patterns and predict potential multiplier outcomes in Aviator games. These predictors use historical data algorithms to suggest optimal betting windows, helping Indian players make informed decisions on platforms accepting ₹ deposits.</p>
-<p class="content-block__body">Aviator predictor systems function by tracking previous game rounds and identifying mathematical patterns within the crash mechanics. The multiplier starts at 1.00x and climbs continuously until the round crashes unpredictably. Predictors analyze hundreds of past rounds to estimate crash points, though no tool guarantees accuracy since crashes are pseudo-random. Indian players use these tools alongside manual observation strategies. AviatorWin and similar platforms integrate predictor-compatible APIs. The technology doesn't manipulate game outcomes—it interprets data to suggest timing. Players combining predictors with bankroll management see improved consistency. Most predictors cost ₹50–₹500 monthly or offer free limited versions. Success depends on discipline and understanding that prediction remains probabilistic, not deterministic.</p>
-</div>
-
-<div class="content-block">
-<h2 class="content-block__title">Step-by-Step Registration Guide for Indian Players</h2>
-<p class="content-block__lead">Create an AviatorWin account in under 5 minutes: provide mobile number, verify OTP, set password, complete KYC with Aadhaar details, add UPI/Paytm address, deposit minimum ₹100, claim welcome bonus, and start playing Aviator immediately.</p>
-<p class="content-block__body">Registration begins with visiting the AviatorWin homepage and clicking 'Sign Up.' Enter your 10-digit Indian mobile number and wait for OTP verification via SMS or WhatsApp. Create a secure password combining uppercase, numbers, and symbols. Next, upload KYC documents—Aadhaar card front/back and a recent selfie—required under Indian gaming regulations. Fill your profile with correct name and date of birth matching your ID. Connect your payment method: select UPI, Paytm, or PhonePe from the dropdown. Fund your account with minimum ₹100 to unlock play. AviatorWin credits a 100% welcome bonus up to ₹10,000 on first deposit. Enable two-factor authentication for security. Verify email confirmation link sent to your registered address. Your account status changes to 'Active' within 10 minutes. Download the mobile app from the player dashboard for seamless gameplay.</p>
-</div>
-
-<div class="content-block">
-<h2 class="content-block__title">Aviator Game Strategies: Predicting Patterns and Winning Tips</h2>
-<p class="content-block__lead">Winning Aviator strategies include: betting low multipliers (1.2x–1.5x) frequently for consistent wins, using dual-bet system alternating risk levels, analyzing 20+ previous rounds before betting, and cashing out before 2.0x multiplier when uncertain.</p>
-<p class="content-block__body">Pattern recognition forms the foundation of Aviator strategy in India. Experienced players document crash points across 50–100 rounds, noting clusters around 1.8x–2.3x multipliers that reappear cyclically. The dual-bet method allocates 60% bankroll to conservative 1.1x–1.3x bets and 40% to aggressive 3.0x+ attempts, balancing losses with occasional high-value wins. Money management dictates betting 1–2% of bankroll per round; ₹1,000 bankroll means ₹10–₹20 bets. Timing matters: crashes occur more frequently during early-morning hours (4–7 AM) and late evening (10 PM–1 AM) based on player data. Teen Patti and Andar Bahar rounds between Aviator sessions reduce fatigue-induced errors. Never chase losses—preset daily loss limits of ₹2,000–₹5,000. Top Indian players use predictor tools for pattern confirmation, not blind reliance. Bankroll discipline beats any prediction algorithm.</p>
-</div><aside class="s"></aside>
-
-<div class="content-block">
-<h2 class="content-block__title">Crash Game Mechanics: Understanding Aviator Multipliers</h2>
-<p class="content-block__lead">Aviator multipliers start at 1.00x and increase by 0.01x every millisecond until a random crash event terminates the round. Players must cash out before crash to win their stake multiplied by current multiplier; cashing out after crash results in complete loss.</p>
-<p class="content-block__body">The Aviator game runs on provably fair cryptography, ensuring multiplier crashes are genuinely random and unmanipulated. Each round's crash point is predetermined by blockchain hash before betting closes, preventing manipulation. Multipliers accelerate exponentially: reaching 1.5x takes ~3 seconds, 5.0x takes ~40 seconds, 10.0x requires ~90 seconds. Indian players see multiplier history in a graph below the betting area, displaying previous 20 rounds. The 'Cashout' button becomes active immediately after bet placement; clicking freezes your payout at current multiplier. Crashes under 1.05x occur roughly 40% of rounds, between 1.5x–3.0x around 35%, and above 5.0x less than 10%. Understanding these probabilities helps Indian players set realistic expectations and avoid emotional betting. AviatorWin displays live statistics including average crash point, highest multiplier of the session, and player cashout percentages to aid informed decision-making.</p>
-</div>
+<section id="payments" class="payments-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Safe & Instant Payments</h2>
+      <p class="section-lead">Deposit and withdraw in ₹ using your favorite Indian payment methods</p>
+    </div>
+    <div class="payments-grid">
+      <div class="payment-item">
+        <div class="payment-text">UPI</div><div class="x"><span></span></div>
+      </div>
+      <div class="payment-item">
+        <img src="https://cdn.simpleicons.org/paytm" alt="Paytm" class="payment-logo">
+      </div><section class="g"></section>
+      <div class="payment-item">
+        <img src="https://cdn.simpleicons.org/phonepe" alt="PhonePe" class="payment-logo">
+      </div>
+    </div><aside class="s"></aside>
+    <div class="trust-badges">
+      <div class="badge">
+        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        <span>256-bit SSL</span>
+      </div>
+      <div class="badge">
+        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        <span>Curacao Licensed</span>
+      </div><div class="x"><span></span></div>
+      <div class="badge">
+        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+        <span>18+ Only</span>
+      </div>
+      <div class="badge">
+        <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+        <span>24/7 Support</span>
+      </div><section class="g"></section>
+    </div>
+  </div><aside class="s"></aside>
 </section>
 
-<section class="section section--alt" id="payments">
-<div class="section__header">
-<h2 class="section__title">Trusted Payment Methods for Indian Players</h2>
-<p class="section__subtitle">Deposit and withdraw securely with India's most popular payment platforms</p>
-</div>
-<div class="payments">
-<img src="https://cdn.simpleicons.org/paytm" alt="Paytm" class="payment-logo">
-<img src="https://cdn.simpleicons.org/visa" alt="Visa" class="payment-logo">
-<div style="width:120px;height:50px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--clr-accent);">UPI</div><aside class="s"></aside>
-<div style="width:120px;height:50px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--clr-success);">PhonePe</div>
-</div>
+<section class="content-section">
+  <div class="container">
+    <div class="content-block">
+      <h2>AviatorWin Casino India: Обзор авиаторов и тактика взлета</h2>
+      <p class="content-lead">AviatorWin is India's premier crash-game platform offering Aviator with real-time multipliers, instant UPI/Paytm withdrawals in ₹, and a user base exceeding 500K players. The game mechanic features unpredictable flight paths with cash-out flexibility before the plane crashes, enabling strategic betting from ₹10 minimum stakes.</p>
+      <div class="content-body">
+        <p>AviatorWin dominates India's online gaming landscape by combining the explosive Aviator crash game with localized payment infrastructure. Players deposit via UPI, Paytm, and PhonePe directly into ₹-denominated accounts, eliminating currency conversion friction. The platform processes withdrawal requests within 10 minutes on average. Beyond Aviator, AviatorWin hosts Teen Patti and Andar Bahar—games deeply rooted in Indian gaming culture. The Aviator interface displays live multiplier progression in real-time, allowing players to cash out instantly at any coefficient. Average daily active users reach 80K, with monthly transaction volume surpassing ₹45 crores. Security certifications include SSL encryption and RNG audits by certified third-party auditors, ensuring game fairness.</p>
+      </div>
+    </div><aside class="s"></aside>
+
+    <div class="content-block">
+      <h2>Почему AviatorWin лучший краш-гейм в Индии — мнение экспертов</h2>
+      <p class="content-lead">Gaming analysts rank AviatorWin first among Indian crash platforms due to transparent RNG mechanisms, sub-10-second payout processing, and lowest house edge (2.5%) in Teen Patti variants. Expert consensus highlights AviatorWin's superior mobile optimization and localized customer support in Hindi/English.</p>
+      <div class="content-body">
+        <p>Industry experts consistently validate AviatorWin's competitive positioning through measurable benchmarks. The platform's Aviator implementation features mathematically certified random algorithms reviewed monthly by independent auditors. Compared to competitors, AviatorWin maintains a 2.5% house edge versus industry average of 4-6%, directly benefiting player RTP (Return to Player). Customer support response time averages 45 seconds via live chat, available 24/7 in English and Hindi. The platform processed ₹12 crores in verifiable player winnings during Q3 2024 alone. Expert panels note AviatorWin's friction-free onboarding—account creation and first ₹100 deposit completed in under 3 minutes. Teen Patti tournaments on AviatorWin feature weekly guaranteed prize pools of ₹5 lakhs, attracting semi-professional players across Delhi, Mumbai, and Bangalore metros.</p>
+      </div>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
 </section><section class="g"></section>
 
-<footer class="footer">
-<div class="footer__content">
-<div class="footer__logo">AviatorWin</div><aside class="s"></aside>
-<p class="footer__text">India's #1 Aviator predictor platform. Play responsibly. 18+ only.</p>
-<nav class="footer__links">
-<a href="#" class="footer__link">About Us</a>
-<a href="#" class="footer__link">Responsible Gaming</a>
-<a href="#" class="footer__link">Terms & Conditions</a>
-<a href="#" class="footer__link">Privacy Policy</a>
-<a href="#" class="footer__link">Contact</a>
-</nav>
-<div class="footer__copy">
-© 2024 AviatorWin. All rights reserved. Gambling can be addictive. Please play responsibly.
-</div>
-</div>
+<section class="content-section">
+  <div class="container">
+    <div class="content-block">
+      <h2>Лицензия и безопасность: почему доверять AviatorWin</h2>
+      <p class="content-lead">AviatorWin holds gaming authority licensing from Curacao (License #GLH-OCCHK1628) with ISO/IEC 27001 certification. All transactions employ bank-grade 256-bit AES encryption; player funds segregate in trust accounts audited quarterly by Deloitte India.</p>
+      <div class="content-body">
+        <p>Trust mechanisms at AviatorWin operate across multiple verification layers. The platform's Curacao license requires annual compliance audits with submission of complete transaction records to regulatory bodies. Funds held in dedicated escrow accounts—players cannot access operator reserves—ensure withdrawal guarantees even during operational disruption. KYC verification mandates Aadhaar/PAN cross-checking against NSDL databases, preventing money laundering and fraud. RNG (Random Number Generator) certifications from GLI (Gaming Laboratories International) confirm Aviator multipliers are mathematically unpredictable. Cold wallet storage secures 95% of player deposits offline, protecting against cyber attacks. AviatorWin publishes monthly transparency reports detailing payout percentages, dispute resolution statistics, and responsible gaming metrics. Insurance policies cover player accounts up to ₹10 lakhs against system failures. The platform's bug bounty program pays ₹50K-₹5L for security vulnerability disclosures, attracting ethical hackers.</p>
+      </div><aside class="s"></aside>
+    </div>
+
+    <div class="content-block">
+      <h2>Топ казино Индии с Aviator: сравнение площадок</h2>
+      <p class="content-lead">AviatorWin ranks #1 for Aviator in India, outperforming Parimatch and 1Win on withdrawal speed (9-minute average), payment method variety (12+ options), and ₹ liquidity. Competitors average 18-minute payouts and 6 payment gateways.</p>
+      <div class="content-body">
+        <p>Comparative analysis of India's top crash-game platforms reveals AviatorWin's operational advantages. AviatorWin processes ₹ withdrawals in 9 minutes via UPI/Paytm; Parimatch averages 18 minutes and requires international transfers. Regarding game selection, AviatorWin exclusively features Aviator, Teen Patti, and Andar Bahar, optimizing for Indian player preferences; competitors dilute focus across 50+ sports betting markets. Deposit minimums: AviatorWin ₹10, 1Win ₹50, Betway ₹100. Welcome bonuses differ—AviatorWin offers 150% up to ₹15,000 on first deposit; competitors cap at 100% or ₹10,000. Customer support response times favor AviatorWin (45 seconds average) versus 2-3 hours for Parimatch. RTP transparency: AviatorWin publishes daily, competitors quarterly. Transaction volume shows AviatorWin processes ₹450 crores monthly versus ₹280 crores (1Win) and ₹200 crores (Parimatch), indicating player confidence.</p>
+      </div><figure class="f"><span></span></figure>
+    </div>
+  </div><section class="g"></section>
+</section>
+
+<section id="join" class="cta-section">
+  <div class="container">
+    <h2>Ready to Win Big?</h2>
+    <p>Join 500,000+ players and claim your ₹30,000 welcome bonus today. Start playing Aviator, Teen Patti, and Andar Bahar with instant payouts.</p>
+    <a href="#join" class="btn btn-primary" style="font-size:1.125rem;padding:1rem 3rem">Claim Your Bonus Now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-logo">AviatorWin</div><section class="g"></section>
+    <p class="footer-text">AviatorWin is India's leading online casino platform specializing in Aviator crash game, Teen Patti, and Andar Bahar. We provide secure, instant ₹ transactions via UPI, Paytm, and PhonePe with 24/7 customer support in Hindi and English. Licensed by Curacao Gaming Authority.</p>
+    <div class="footer-links">
+      <a href="#about">About Us</a>
+      <a href="#games">Games</a>
+      <a href="#payments">Payments</a>
+      <a href="#terms">Terms & Conditions</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#responsible">Responsible Gaming</a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AviatorWin Casino. All rights reserved. | License #GLH-OCCHK1628 | 18+ Only | Play Responsibly</p>
+      <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">Gambling can be addictive. Please play responsibly. This site is operated under Curacao gaming license.</p>
+    </div><div class="d"><i></i><i></i></div>
+  </div>
 </footer>
 
 <div class="mobile-cta">
-<button class="btn btn--primary">Claim ₹30,000 Bonus</button>
-</div><div class="d"><i></i><i></i></div>
+  <a href="#join" class="btn btn-primary">Join Now</a>
+</div><aside class="s"></aside>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const counters=document.querySelectorAll('.animate-count');
+const observerOptions={threshold:.5,rootMargin:'0px'};
+const observer=new IntersectionObserver(function(entries){
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+const counter=entry.target;
+const target=+counter.getAttribute('data-target');
+const duration=2000;
+const increment=target/(duration/16);
+let current=0;
+const updateCounter=()=>{
+current+=increment;
+if(current<target){
+counter.textContent=Math.floor(current);
+requestAnimationFrame(updateCounter);
+}else{
+counter.textContent=target;
+}
+};
+updateCounter();
+observer.unobserve(counter);
+}
+});
+},observerOptions);
+counters.forEach(counter=>observer.observe(counter));
+const links=document.querySelectorAll('a[href^="#"]');
+links.forEach(link=>{
+link.addEventListener('click',function(e){
+e.preventDefault();
+const targetId=this.getAttribute('href');
+if(targetId==='#join'){
+window.scrollTo({top:0,behavior:'smooth'});
+}else{
+const targetElement=document.querySelector(targetId);
+if(targetElement){
+const headerOffset=80;
+const elementPosition=targetElement.getBoundingClientRect().top;
+const offsetPosition=elementPosition+window.pageYOffset-headerOffset;
+window.scrollTo({top:offsetPosition,behavior:'smooth'});
+}
+}
+});
+});
+});
+</script>
 
 </body>
 </html>
