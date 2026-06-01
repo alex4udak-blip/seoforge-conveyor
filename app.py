@@ -36,6 +36,48 @@ def serve_demo(fname: str):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+# ---------- АНАЛИТИКА (коллектор + дашборд) ----------
+import sqlite3
+_ADB = "analytics.db"
+def _adb():
+    c = sqlite3.connect(_ADB)
+    c.execute("CREATE TABLE IF NOT EXISTS hits(site TEXT,event TEXT,extra TEXT,ref TEXT,path TEXT,ip TEXT,ts INTEGER)")
+    return c
+
+from fastapi import Request
+@app.post("/track")
+async def track(req: Request):
+    """First-party beacon с сайтов (через nginx /px). Пишет pageview/cta в БД."""
+    try:
+        b = await req.body()
+        d = json.loads(b or "{}")
+        ip = req.headers.get("x-real-ip") or (req.client.host if req.client else "")
+        c = _adb()
+        c.execute("INSERT INTO hits VALUES(?,?,?,?,?,?,?)",
+                  (d.get("s",""), d.get("e",""), str(d.get("x",""))[:80], str(d.get("r",""))[:200],
+                   str(d.get("p",""))[:120], ip, int(time.time())))
+        c.commit(); c.close()
+    except Exception:
+        pass
+    return PlainTextResponse("", status_code=204)
+
+@app.get("/analytics")
+def analytics(site: str=None):
+    """Сводка: заходы/CTA/источники/гео по сайтам. Глаза системы."""
+    try:
+        c = _adb(); q = "SELECT site,event,COUNT(*) FROM hits"
+        args = ()
+        if site: q += " WHERE site=?"; args = (site,)
+        q += " GROUP BY site,event"
+        rows = c.execute(q, args).fetchall()
+        top_ref = c.execute("SELECT ref,COUNT(*) c FROM hits WHERE ref!='' GROUP BY ref ORDER BY c DESC LIMIT 10").fetchall()
+        c.close()
+        agg = {}
+        for s, e, n in rows: agg.setdefault(s, {})[e] = n
+        return {"sites": agg, "top_referrers": top_ref}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)[:200]})
+
 @app.get("/domains")
 def domains_list(sort: str="backlinks", max_price: float=None, min_backlinks: int=0, only_trust: bool=False):
     """База гембл-доменов (Dynadot harvest) + верификация траста Wayback. Доменщик конвейера."""
