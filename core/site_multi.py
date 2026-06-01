@@ -71,19 +71,24 @@ HARD REQUIREMENTS:
 - IMAGE CARDS: each game/casino image is a fixed-aspect block (e.g. height:170px; width:100%; object-fit:cover; border-radius on top corners). The game/casino NAME and button go in a separate area BELOW the image — never text on top of the image. Images never distort or overflow their card.
 
 Output ONLY the full HTML from <!doctype html> to </html>. No markdown fences, no explanation."""
-    body = json.dumps({"model": MODEL, "max_tokens": 16000,
+    body = json.dumps({"model": MODEL, "max_tokens": 32000,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
         headers={"x-api-key": KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-    r = json.loads(urllib.request.urlopen(req, timeout=180).read())
+    r = json.loads(urllib.request.urlopen(req, timeout=240).read())
+    stop = r.get("stop_reason")
     txt = r["content"][0]["text"]
     txt = re.sub(r"^```(?:html)?\s*|\s*```$", "", txt.strip())
     i = txt.lower().find("<!doctype")
     if i == -1: i = txt.lower().find("<html")
-    if i == -1: return None
+    if i == -1:
+        print(f"[multisite] {page['slug']}: no doctype/html (stop={stop})", flush=True); return None
     html = txt[i:]
+    # спасение обрезки: если упёрлось в лимит и нет </html> но контент большой — дописываем закрытие
+    if "</html>" not in html.lower() and len(html) > 4000:
+        html = html + "\n</main></body></html>"
     if len(html) < 2500 or "</html>" not in html.lower():
-        return None
+        print(f"[multisite] {page['slug']}: short/no-close len={len(html)} stop={stop}", flush=True); return None
     # страж языка: не-RU гео + кириллица = брак
     if ctx['geocode'] not in ("ru",) and len(re.findall(r"[А-Яа-яЁё]", html)) > 5:
         return None
