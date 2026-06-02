@@ -14,7 +14,9 @@ from core.keyword_taxonomy import GEO_FLAVOR
 
 # язык контента под гео (сайт на языке аудитории, не русском!)
 GEO_LANG = {"in": "English", "bd": "English", "ng": "English", "ke": "English",
-            "ph": "English", "uk": "English", "br": "Brazilian Portuguese", "pk": "English"}
+            "ph": "English", "uk": "English", "br": "Brazilian Portuguese", "pk": "English",
+            "de": "German", "fr": "French", "it": "Italian", "es": "Spanish", "pl": "Polish",
+            "pt": "European Portuguese", "nl": "Dutch", "se": "Swedish", "ro": "Romanian", "gr": "Greek"}
 
 KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 MODEL = "claude-haiku-4-5"
