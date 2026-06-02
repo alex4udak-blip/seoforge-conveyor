@@ -83,6 +83,11 @@ HARD REQUIREMENTS:
   * Include a FAQ section (4-6 real Q&A pairs) near the bottom — concrete questions a {ctx['geo']} player asks.
   * Add a JSON-LD <script type="application/ld+json"> in <head> with @graph: Organization + WebSite + WebPage + BreadcrumbList + (FAQPage matching the visible FAQ). Use https://{ctx['domain']} URLs, author "Editorial Team" (Person), datePublished/dateModified in 2026.
   * State the brand entity consistently (name, what it is, geo) so AI engines build a clear entity.
+- TECHNICAL SEO:
+  * hreflang in <head>: <link rel="alternate" hreflang="{ctx['lang_code']}" href="https://{ctx['domain']}/"> + hreflang="x-default".
+  * INTERNAL LINKING (hub-and-spoke): link naturally between pages in body content (home↔review↔bonuses↔payments↔games) — 5+ contextual internal links per page, not just nav.
+  * ANTI-PESSIMIZATION: every external /go/ CTA link gets rel="nofollow sponsored". Keep genuine internal links normal (followed).
+  * Mobile speed: images loading="lazy" (except hero), no render-blocking, minimal inline JS.
 - LAYOUT DISCIPLINE: stack sections vertically in a logical reading order (header → hero → main content sections → footer). Every section is full-width with its inner content in ONE centered container (max-width ~1140px, consistent horizontal padding). NO overlapping blocks, NO floating/misaligned elements, NO orphaned half-width boxes — grids must have equal-height aligned cards. Consistent vertical rhythm (uniform section padding). It must look deliberately laid out, not scattered.
 - TEXT-LEGIBILITY OVER IMAGES (critical, recurring bug): hero text must NEVER sit directly on raw image pixels. Put ALL hero text+CTA inside a centered content box that has its OWN semi-opaque dark backdrop (e.g. background:rgba(10,12,20,.55); padding:32px; border-radius:16px; backdrop-filter:blur(2px)) OR use a strong bottom gradient scrim. White text must stay clearly readable over the busy background. Same rule anywhere text overlays an image.
 - RANK BADGES / NO OVERLAP (critical, recurring bug): in the toplist, the rank number (1/2/3) must be positioned so it NEVER overlaps the casino name — either inline BEFORE the name with a flex gap, or absolutely positioned in the card's top-left corner while the card content has enough padding-top to clear it. No element may overlap text anywhere.
@@ -142,6 +147,9 @@ def build_multisite(brand, keyword, geo, domain, plan, content, images=None, mod
     ctx = {
         "brand": brand, "keyword": keyword, "geo": geo.upper(), "geocode": geo,
         "lang": GEO_LANG.get(geo, "English"), "mode": mode,
+        "lang_code": {"in":"en-IN","bd":"en-BD","ng":"en-NG","ke":"en-KE","ph":"en-PH","uk":"en-GB",
+                      "br":"pt-BR","pk":"en-PK","de":"de","fr":"fr","it":"it","es":"es","pl":"pl",
+                      "pt":"pt-PT","nl":"nl","se":"sv","ro":"ro","gr":"el"}.get(geo, "en"),
         "cur": fl.get("cur", "$"), "maxbonus": fl.get("bonus", "5,000"),
         "pays": ", ".join(fl.get("pay", ["Visa","Mastercard"])[:4]), "hot": ", ".join(fl.get("hot", ["Slots","Roulette"])[:4]),
         "hero": images.get("hero", ""), "games": images.get("games", {}),
