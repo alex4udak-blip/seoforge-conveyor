@@ -36,6 +36,11 @@ def serve_demo(fname: str):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/monitor")
+def monitor(host: str, domain: str=None):
+    from core.monitor import check_site
+    return check_site(host, domain)
+
 @app.get("/economics")
 def economics(target: float=20000, deps_per_site: float=1.0):
     from core.cost_tracker import site_cost, june_target
