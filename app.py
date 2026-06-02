@@ -36,6 +36,55 @@ def serve_demo(fname: str):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/economics")
+def economics(target: float=20000, deps_per_site: float=1.0):
+    from core.cost_tracker import site_cost, june_target
+    return {"site_cost": site_cost(), "june": june_target(target, deps_per_site)}
+
+@app.get("/footprint-self")
+def footprint_self():
+    try:
+        from core.footprint_self import audit
+        return audit()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)[:200]})
+
+@app.get("/dash", response_class=HTMLResponse)
+def dash():
+    """Лёгкий дашборд (глаза системы): сайты + аналитика + экономика. Тянет /status,/analytics,/economics."""
+    return """<!doctype html><html lang=ru><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>SEOForge — Дашборд</title><style>
+body{font-family:system-ui,sans-serif;background:#0b0d12;color:#e7eaf0;margin:0;padding:20px}
+h1{font-size:20px}h2{font-size:15px;color:#9aa4b2;margin:24px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.c{background:#151a23;border:1px solid #232a36;border-radius:12px;padding:14px}
+.c b{font-size:24px;display:block}.c span{color:#9aa4b2;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+td,th{padding:6px 8px;border-bottom:1px solid #232a36;text-align:left}
+.ok{color:#3fb950}.warn{color:#f0a936}
+</style></head><body>
+<h1>SEOForge — Дашборд</h1>
+<div class=cards id=kpi></div>
+<h2>Сайты</h2><table id=sites><thead><tr><th>Сайт</th><th>Гео</th><th>Стадия</th><th>Балл</th></tr></thead><tbody></tbody></table>
+<h2>Аналитика (заходы / CTA)</h2><table id=an><thead><tr><th>Сайт</th><th>Просмотры</th><th>CTA-клики</th></tr></thead><tbody></tbody></table>
+<script>
+async function j(u){try{return await (await fetch(u)).json()}catch(e){return null}}
+(async()=>{
+ const st=await j('/status')||{}, an=await j('/analytics')||{}, ec=await j('/economics')||{};
+ const k=document.getElementById('kpi');
+ const sites=(st.sites||[]);
+ k.innerHTML=[
+  ['Сайтов',sites.length],
+  ['Ср. балл',st.avg||'—'],
+  ['Себестоимость/сайт','$'+((ec.site_cost)||'—')],
+  ['Сайтов под $20k',(ec.june&&ec.june.sites_needed)||'—'],
+ ].map(x=>`<div class=c><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+ document.querySelector('#sites tbody').innerHTML=sites.map(s=>`<tr><td>${s.slug||''}</td><td>${s.geo||''}</td><td>${s.stage||s.build||''}</td><td>${s.audit_score||'—'}</td></tr>`).join('');
+ const ag=(an.sites)||{};
+ document.querySelector('#an tbody').innerHTML=Object.keys(ag).map(s=>`<tr><td>${s}</td><td>${ag[s].view||0}</td><td>${ag[s].cta||0}</td></tr>`).join('')||'<tr><td colspan=3>пока нет данных</td></tr>';
+})();
+</script></body></html>"""
+
 @app.get("/rank")
 def rank(host: str, keyword: str, geo: str="in"):
     """Позиция нашего домена в выдаче (в топе или нет) + запись динамики."""
