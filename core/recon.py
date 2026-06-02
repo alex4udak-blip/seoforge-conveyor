@@ -53,6 +53,21 @@ def serp(keyword, geo="in", n=10, classify_deep=True):
     return {"keyword": keyword, "geo": geo, "count": len(out),
             "results": out, "related": rel[:12], "classified": _footprint(out)}
 
+def bing_position(host, keyword, n=20):
+    """Позиция host в Bing по keyword (None если не в топ-n). Bing критичен для ChatGPT-цитирования."""
+    try:
+        h = _fetch(f"https://www.bing.com/search?q={keyword.replace(' ','+')}&count={n}")
+        if not h:
+            return None
+        links = re.findall(r'<h2><a[^>]+href="https?://([^/\"]+)', h)
+        sld = host.split(".")[0]
+        for i, d in enumerate(links, 1):
+            if sld in d or host in d:
+                return i
+        return None
+    except Exception:
+        return None
+
 def ai_visibility(keyword, geo="in", our_domain=None):
     """Есть ли мы в AI-выдаче. Замер: какие домены/бренды доминируют в источниках по запросу.
     Прокси без браузера: топ органики = база источников AI (ChatGPT 87% берёт топ Bing, AIO берёт топ Google).

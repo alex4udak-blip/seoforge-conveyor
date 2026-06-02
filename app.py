@@ -36,6 +36,12 @@ def serve_demo(fname: str):
 @app.get("/health")
 def health(): return {"status":"ok","service":"SEOForge"}
 
+@app.get("/intel")
+def intel(host: str, keyword: str=None, geo: str="in"):
+    """Единая карточка сайта: Google+Bing позиция, AI-видимость, индекс, http, клики/просмотры."""
+    from core.site_intel import intel as _i
+    return _i(host, keyword, geo)
+
 @app.get("/monitor")
 def monitor(host: str, domain: str=None):
     from core.monitor import check_site
